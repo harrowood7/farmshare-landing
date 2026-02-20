@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://farmshare.co/sitemap.xml
+
+# Block access to admin areas (if any exist in future)
+Disallow: /admin/
+Disallow: /api/

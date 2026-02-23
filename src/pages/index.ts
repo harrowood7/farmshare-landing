@@ -1,0 +1,10 @@
+export { default as Home } from './Home';
+export { default as Mission } from './Mission';
+export { default as Processors } from './Processors';
+export { default as FindProcessor } from './FindProcessor';
+export { default as Privacy } from './Privacy';
+export { default as Terms } from './Terms';
+export { default as ReleaseNotes } from './ReleaseNotes';
+export { default as ReleaseNoteDetail } from './ReleaseNoteDetail';
+export { default as Admin } from './Admin';
+export { default as ServiceAgreement } from './ServiceAgreement';

@@ -50,7 +50,7 @@ const processors = [
     location: "Hesperus, CO",
     state: "CO",
     species: ["Beef"],
-    logo: null,
+    logo: "/logos/rocky-mountain-meats.png",
     slug: "rocky-mountain-meats-hesperus-co",
   },
   {
@@ -83,7 +83,7 @@ const processors = [
     location: "Calhoun, KY",
     state: "KY",
     species: ["Beef", "Hog"],
-    logo: null,
+    logo: "/logos/beef-and-bacon.jpg",
     slug: "beef-bacon-calhoun-ky",
   },
   {
@@ -91,7 +91,7 @@ const processors = [
     location: "Andersonville, GA",
     state: "GA",
     species: ["Beef", "Hog"],
-    logo: null,
+    logo: "/logos/flint-packers.webp",
     slug: "flint-packers-andersonville-ga",
   },
   {
@@ -115,7 +115,7 @@ const processors = [
     location: "Braintree, VT",
     state: "VT",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: null,
+    logo: "/logos/royal-butcher.png",
     slug: "royal-butcher-braintree-vt",
   },
   {
@@ -131,7 +131,7 @@ const processors = [
     location: "Crivitz, WI",
     state: "WI",
     species: ["Beef", "Hog", "Bison", "Lamb", "Goat"],
-    logo: null,
+    logo: "/logos/pelkins.webp",
     slug: "pelkins-smokey-meat-market-crivitz-wi",
   },
   {
@@ -139,7 +139,7 @@ const processors = [
     location: "Wartrace, TN",
     state: "TN",
     species: ["Beef", "Hog"],
-    logo: null,
+    logo: "/logos/potts.png",
     slug: "potts-meats-wartrace-tn",
   },
   {
@@ -155,7 +155,7 @@ const processors = [
     location: "White Sulphur Springs, MT",
     state: "MT",
     species: ["Beef", "Hog", "Bison", "Lamb"],
-    logo: null,
+    logo: "/logos/rawhide.jpg",
     slug: "rawhide-meats-white-sulphur-springs-mt",
   },
   {
@@ -171,7 +171,7 @@ const processors = [
     location: "New Alexandria, PA",
     state: "PA",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: null,
+    logo: "/logos/weimer.jpg",
     slug: "weimer-meats-custom-new-alexandria-pa",
   },
   {
@@ -187,7 +187,7 @@ const processors = [
     location: "Rushville, IN",
     state: "IN",
     species: ["Beef"],
-    logo: null,
+    logo: "/logos/butcher-bros.jpg",
     slug: "butcher-bros-rushville-in",
   },
   {
@@ -203,7 +203,7 @@ const processors = [
     location: "New Alexandria, PA",
     state: "PA",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: null,
+    logo: "/logos/weimer.jpg",
     slug: "weimer-meats-usda-new-alexandria-pa",
   },
 ];

@@ -18,7 +18,7 @@ const processors = [
     location: "Graceville, FL",
     state: "FL",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: null,
+    logo: "/logos/chipola.avif",
     slug: "chipola-meats-graceville-fl",
   },
   {

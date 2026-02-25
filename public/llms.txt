@@ -1,0 +1,61 @@
+# Farmshare
+
+> Farmshare is a vertical SaaS platform for custom meat processors. We provide online scheduling, digital cut sheets, and customer communication tools for independent USDA-inspected and state-inspected meat processing facilities across the United States.
+
+## What Farmshare Does
+
+Farmshare helps independent custom meat processors modernize their operations. Farmers, ranchers, and hunters use Farmshare to:
+
+- Find a local meat processor near them
+- Book harvest slots online instead of calling
+- Submit digital cut sheets from their phone
+- Track order status with text and email updates
+
+Processors use Farmshare to:
+
+- Manage their scheduling calendar and capacity
+- Collect cut sheet instructions digitally
+- Communicate with customers automatically
+- Reduce phone calls and paperwork
+
+## Find a Processor
+
+Farmshare maintains a directory of independent meat processors across the United States. Each processor on the Farmshare network offers online scheduling and digital cut sheets. Browse the directory at https://farmshare.co/find-a-processor
+
+### Processors by State
+
+- Arizona: Heartquist Hollow Farm (Winkelman)
+- Colorado: Rocky Mountain Meats (Hesperus), Sunnyside Meats (Durango), Westcliffe Meats (Westcliffe), Simla Foods (Simla)
+- Florida: Chipola Meats (Graceville)
+- Georgia: Flint Packers (Andersonville)
+- Idaho: Mountain View Custom Meats (Coeur D'Alene)
+- Indiana: Butcher Bros (Rushville)
+- Iowa: Dayton Meat Products (Malcom)
+- Kentucky: Beef & Bacon (Calhoun)
+- Massachusetts: Adams Farm Slaughterhouse (Athol)
+- Mississippi: Homeplace Pastures (Como)
+- Missouri: CuttinUp Meat Processing (Leeton)
+- Montana: Rawhide Meats (White Sulphur Springs), Beaverhead Meats (Dillon)
+- North Dakota: 6 in 1 Meats (New Salem)
+- Oregon: Follett's Meat Co. (Hermiston)
+- Pennsylvania: Weimer Meats (New Alexandria)
+- Tennessee: D&D Meats (Celina), Potts Meats (Wartrace)
+- Vermont: Royal Butcher (Braintree)
+- Virginia: The Butcher's Block (Dry Fork)
+- Wisconsin: Pelkin's Smokey Meat Market (Crivitz)
+
+### Species Processed
+
+Processors on the Farmshare network handle: Beef, Hog, Lamb, Goat, Bison, Venison, Veal, and Yak.
+
+## Scheduling
+
+To schedule a harvest appointment, visit https://partners.farmshare.co/scheduling and select a processor. You can view available dates, select your species and inspection level, and book directly online.
+
+## About Farmshare
+
+Farmshare was founded to support independent meat processors and the farming communities they serve. We believe small processors are essential infrastructure for local food systems and direct-to-consumer agriculture.
+
+Website: https://farmshare.co
+Processor Directory: https://farmshare.co/find-a-processor
+Scheduling Portal: https://partners.farmshare.co/scheduling

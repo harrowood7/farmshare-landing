@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Header, Footer } from './components/layout';
 import ScrollToTop from './components/ScrollToTop';
 import {
@@ -7,6 +7,8 @@ import {
   Mission,
   Processors,
   FindProcessor,
+  ProcessorDetail,
+  StatePage,
   Privacy,
   Terms,
   ServiceAgreement,
@@ -14,6 +16,17 @@ import {
   ReleaseNoteDetail,
   Admin
 } from './pages';
+import { stateSlugToAbbr } from './data/processors';
+
+// Resolver: state slugs (e.g. "colorado") render StatePage,
+// processor slugs (e.g. "d-d-meats-celina-tn") render ProcessorDetail.
+function ProcessorOrStatePage() {
+  const { slug } = useParams<{ slug: string }>();
+  if (slug && stateSlugToAbbr[slug]) {
+    return <StatePage />;
+  }
+  return <ProcessorDetail />;
+}
 
 function App() {
   return (
@@ -26,6 +39,7 @@ function App() {
           <Route path="/mission" element={<Mission />} />
           <Route path="/processors" element={<Processors />} />
           <Route path="/find-a-processor" element={<FindProcessor />} />
+          <Route path="/find-a-processor/:slug" element={<ProcessorOrStatePage />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/service-agreement" element={<ServiceAgreement />} />

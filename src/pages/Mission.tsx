@@ -51,7 +51,7 @@ export default function Mission() {
           ref={parallaxRef}
           className="parallax-bg"
           style={{ 
-            backgroundImage: 'url(https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content//ChatGPT%20Image%20Jun%209,%202025,%2010_16_18%20AM.png)'
+            backgroundImage: 'url(/hero-mission.png)'
           }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-white/70 to-brand-cream/70"></div>

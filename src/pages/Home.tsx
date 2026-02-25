@@ -78,7 +78,7 @@ export default function Home() {
           ref={parallaxRef}
           className="parallax-bg"
           style={{ 
-            backgroundImage: 'url(https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content//cattle.webp)'
+            backgroundImage: 'url(/hero-processor.png)'
           }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-white/70 to-brand-cream/70"></div>

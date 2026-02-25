@@ -137,7 +137,7 @@ export default function Processors() {
           ref={parallaxRef}
           className="parallax-bg"
           style={{ 
-            backgroundImage: 'url("https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content//ChatGPT%20Image%20Jun%204,%202025,%2009_24_21%20PM.png")',
+            backgroundImage: 'url("/hero-facility.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat'

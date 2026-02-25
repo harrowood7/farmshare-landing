@@ -226,18 +226,6 @@ export default function FindProcessor() {
 
   }, []);
 
-  // Re-observe fade-up elements whenever filtered results change
-  useEffect(() => {
-    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, observerOptions);
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, [filtered]);
-
   const allSpecies = ["All Species", ...Array.from(new Set(processors.flatMap(p => p.species))).sort()];
 
   const filtered = processors.filter(p => {
@@ -327,7 +315,7 @@ export default function FindProcessor() {
                   href={`https://partners.farmshare.co/scheduling/${processor.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden fade-up block"
+                  className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden block"
                 >
                   <div className="p-6">
                     <div className="flex items-start gap-4 mb-4">

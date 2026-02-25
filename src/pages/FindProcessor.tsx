@@ -224,6 +224,10 @@ export default function FindProcessor() {
       metaDescription.setAttribute('content', 'Find a trusted, independent custom meat processor near you. Browse Farmshare\'s nationwide directory of processors offering online scheduling, digital cut sheets, and more.');
     }
 
+  }, []);
+
+  // Re-observe fade-up elements whenever filtered results change
+  useEffect(() => {
     const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -232,7 +236,7 @@ export default function FindProcessor() {
     }, observerOptions);
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [filtered]);
 
   const allSpecies = ["All Species", ...Array.from(new Set(processors.flatMap(p => p.species))).sort()];
 

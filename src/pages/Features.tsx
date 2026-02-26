@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Factory, Clock, BarChart, Calendar, CalendarClock, FileText, MessageSquare, Briefcase, Settings, Calculator, Smartphone, TrendingUp, Quote } from 'lucide-react';
-import LogoBanner from '../components/LogoBanner';
 
 export default function Features() {
   const parallaxRef = useRef<HTMLDivElement>(null);
@@ -164,8 +163,6 @@ export default function Features() {
           </div>
         </div>
       </section>
-
-      <LogoBanner />
 
       {/* Smart Features — tabbed breakdown right after hero */}
       <section className="py-20 bg-white">

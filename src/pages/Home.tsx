@@ -274,7 +274,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-roca text-brand-green text-center mb-12 fade-up">What Processors Are Saying</h2>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="bg-white p-8 rounded-lg shadow-lg fade-up">
                 <Quote className="h-8 w-8 text-brand-orange mb-4" />
                 <p className="text-lg text-stone-700 mb-6 leading-relaxed">
@@ -329,6 +329,27 @@ export default function Home() {
                   <div>
                     <p className="font-bold text-brand-green">Prairie Valley Meats</p>
                     <p className="text-stone-600">Hoven, SD</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-8 rounded-lg shadow-lg fade-up">
+                <Quote className="h-8 w-8 text-brand-orange mb-4" />
+                <p className="text-lg text-stone-700 mb-6 leading-relaxed">
+                  "We picked up four new customers in our first month on Farmshare."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
+                    <img
+                      src="https://assets.partners.farmshare.co/tenant-689b8a950ff9f81e4e3bef98/images/1769017018196-adams_farm_logo.jpg"
+                      alt="Adams Farm"
+                      className="max-w-full max-h-full object-contain"
+                      loading="lazy" decoding="async"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-bold text-brand-green">Chelsea White</p>
+                    <p className="text-stone-600">Adams Farm</p>
                   </div>
                 </div>
               </div>

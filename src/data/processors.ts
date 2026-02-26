@@ -152,7 +152,7 @@ export const processors: Processor[] = [
     location: "New Salem, ND",
     state: "ND",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: "https://6in1meats.com/wp-content/uploads/2020/12/FINAL-LOGOS-6-in-1-meats_mai-logo-white-300x146.webp",
+    logo: "/logos/6-in-1-meats.jpg",
     slug: "6-in-1-meats-new-salem-nd",
   },
   {

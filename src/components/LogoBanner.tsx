@@ -1,78 +1,22 @@
 import React from 'react';
+import { processors } from '../data/processors';
 
-const logos = [
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/bringhurst%20logo.png",
-    alt: "Bringhurst"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/Gores_Meat_Logo.svg",
-    alt: "Gore's Meat"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/heartquist%20hollow%20logo.png",
-    alt: "Heartquist Hollow"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/d&d%20logo.png",
-    alt: "D&D"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/HPP%20logo.avif",
-    alt: "HPP"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/hurdwell-logo.png",
-    alt: "Hurdwell"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/johnson's%20logo.webp",
-    alt: "Johnson's"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/lone%20crow%20logo%20(1).jpg",
-    alt: "Lone Crow"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/Nadler's%20logo.avif",
-    alt: "Nadler's"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/renick%20logo%20(1).jpg",
-    alt: "Renick"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/rocky%20mountain%20logo%20(1).jpg",
-    alt: "Rocky Mountain"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/sunnyside-meats-logo.svg",
-    alt: "Sunnyside Meats"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/the%20butchers%20block%20logo%20(1).jpg",
-    alt: "The Butcher's Block"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/westcliffe%20logo.avif",
-    alt: "Westcliffe"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/willie%20joe's%20logo.webp",
-    alt: "Willie Joe's"
-  },
-  {
-    src: "https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/customer_logos/zk%20logo.avif",
-    alt: "ZK"
+// Build logos from processors data (source of truth), skipping nulls and deduplicating by URL
+const seen = new Set<string>();
+const logos = processors.reduce<{ src: string; alt: string }[]>((acc, p) => {
+  if (p.logo && !seen.has(p.logo)) {
+    seen.add(p.logo);
+    acc.push({ src: p.logo, alt: p.name });
   }
-];
+  return acc;
+}, []);
 
 export default function LogoBanner() {
   return (
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <p className="text-lg text-stone-600 font-medium">Trusted by 30+ Independent Processors</p>
+          <p className="text-lg text-stone-600 font-medium">Trusted by Independent Processors Nationwide</p>
         </div>
         <div className="relative w-full overflow-hidden">
           <div className="flex logo-slide">

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Factory, Clock, BarChart, Calendar, CalendarClock, FileText, MessageSquare, Briefcase, Settings, Calculator, Smartphone, TrendingUp, Quote } from 'lucide-react';
+import { Clock, Calendar, CalendarClock, FileText, MessageSquare, Briefcase, Settings, Smartphone, TrendingUp, Bell, Users, ClipboardList, Receipt, UserCircle, BarChart3 } from 'lucide-react';
 
 export default function Features() {
   const parallaxRef = useRef<HTMLDivElement>(null);
@@ -51,62 +51,98 @@ export default function Features() {
 
   const features = {
     scheduling: {
-      title: 'Scheduling & Capacity',
+      title: 'Smart Scheduling',
       icon: CalendarClock,
-      description: 'Save time and increase throughput with Farmshare\'s smart calendar system. Automate bookings, reduce no-shows, and eliminate scheduling conflicts with real-time updates and capacity-aware slot management.',
+      description: 'Save time and increase throughput with Farmshare\'s smart calendar system. Customers book their own harvest slots online, capacity limits prevent overbooking, and waitlist automation fills cancellations instantly.',
       bullets: [
-        'Self-Serve Scheduling: Customers request bookings directly through your online portal',
-        'Capacity-Aware Calendar: Prevent overbooking with automated daily limits by species or inspection level',
-        'Dynamic Rescheduling: Easily drag-and-drop jobs to balance workloads across your week',
-        'Waitlist Automation: Automatically fill cancellations by notifying interested customers instantly'
+        'Self-Serve Booking: Customers request slots directly through your online scheduling portal',
+        'Capacity-Aware Calendar: Set daily limits by species or inspection level to prevent overbooking',
+        'Drag-and-Drop Rescheduling: Balance your weekly workload by moving jobs with a click',
+        'Waitlist Backfill: Automatically notify waitlisted customers when a slot opens up'
       ],
       video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/scheduling%20and%20capacity%20v2.mp4'
     },
     cutsheets: {
-      title: 'Smart Cut Sheets',
+      title: 'Digital Cut Sheets',
       icon: FileText,
-      description: 'Ditch the paper. Farmshare digitizes your cut sheets so customers can submit their selections online, while giving your team reliable, legible instructions at the point of cut—every time.',
+      description: 'Ditch the paper. Customers submit their cut selections online from reusable templates. Your team gets clean, reliable instructions at the point of cut\u2014every time.',
       bullets: [
-        'Reusable Templates: Customers can reuse or duplicate past cut sheets with one click',
+        'Reusable Templates: Customers duplicate past cut sheets with one click',
         'Processor-Defined Logic: Enforce business rules to prevent impossible or conflicting selections',
-        'Custom Configuration: Tailor cut sheet layout, categories, extras, and trim to match your workflow',
-        'Instant Access: View and print cut sheets anywhere—from the office or the cut room'
+        'Custom Configuration: Tailor layout, categories, extras, and trim to match your workflow',
+        'Print Anywhere: View and print cut sheets from the office or the cut room'
       ],
       video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/cutsheets%20and%20capabilities.mp4'
     },
-    communication: {
-      title: 'Customer Messaging',
-      icon: MessageSquare,
-      description: 'Reach every customer with ease. Farmshare centralizes messaging and automates key touchpoints, ensuring no one misses an update—and your team spends less time on the phone.',
+    notifications: {
+      title: 'Automated Notifications',
+      icon: Bell,
+      description: 'Stop chasing customers by phone. Farmshare sends automatic text and email updates at every stage\u2014so your team stays focused on processing, not communicating.',
       bullets: [
-        'Text & Email Notifications: Automatically remind customers of drop-offs, pickups, and missing info',
-        'Shared Inbox: View and reply to customer texts in a centralized messaging hub',
-        'Smart Alerts: Flag missing cut sheets, unpaid invoices, and no-show risks in real time',
-        'Custom Message Templates: Save time with reusable message formats for common touchpoints'
+        'Drop-off & Pickup Reminders: Customers get notified automatically with dates and instructions',
+        'Missing Info Alerts: Flag missing cut sheets or incomplete orders before they become problems',
+        'Status Updates: Customers know when their animal is harvested, hanging, cut, and ready',
+        'Custom Templates: Save time with reusable message formats for common touchpoints'
       ],
       video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/customer%20communication.mp4'
     },
-    management: {
-      title: 'Workflow & Job Tracking',
-      icon: Briefcase,
-      description: 'Track every animal from drop-off to pickup. Farmshare keeps your data organized, your team aligned, and your customer records complete—with less manual input.',
+    portal: {
+      title: 'Customer Portal',
+      icon: Users,
+      description: 'Your customers get their own portal to book, submit cut sheets, and track order status\u2014all from their phone. Free for every producer and end customer on your plant.',
       bullets: [
-        'Full Job Visibility: Track harvest, cut, yield, and invoice details from a single dashboard',
-        'Customer Profiles: View complete job history, cuts, weights, and payments for every customer',
-        'Invoice Generation: Automatically calculate charges by carcass weight, extras, and trim',
-        'Accounting Sync: Export billing and payment data to reduce double entry'
+        'Self-Service Booking: Producers pick available dates and submit requests without calling',
+        'Digital Cut Sheet Submission: Customers fill out selections online instead of faxing or handwriting',
+        'Order Status Tracking: Real-time visibility into where their animal is in the process',
+        'No Cost to Customers: The portal is free for every producer when their processor is on Farmshare'
+      ],
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/scheduling%20and%20capacity%20v2.mp4'
+    },
+    tracking: {
+      title: 'Job Tracking',
+      icon: ClipboardList,
+      description: 'Track every animal from drop-off to pickup. Farmshare keeps your team aligned with clear status stages and full visibility from a single dashboard.',
+      bullets: [
+        'Status Stages: Every job moves through Scheduled \u2192 Dropped Off \u2192 Harvested \u2192 Hanging \u2192 Cut \u2192 Packaged \u2192 Ready for Pickup \u2192 Complete',
+        'Single Dashboard: See all active jobs, their status, and what needs attention today',
+        'Tracking Numbers: Every animal gets a unique ID from arrival to pickup',
+        'Team Alignment: Everyone from the kill floor to the front office sees the same data'
       ],
       video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/job%20workflow%20and%20agenda%20.mp4'
     },
-    other: {
-      title: 'Insights & Automation',
-      icon: Settings,
-      description: 'Farmshare is more than just scheduling. From carcass tags to custom invoicing rules, the platform flexes to match the unique needs of your plant.',
+    invoicing: {
+      title: 'Invoicing',
+      icon: Receipt,
+      description: 'Invoices are generated automatically from hanging weights and cut sheet selections. No manual math, no transcription errors, no double entry.',
       bullets: [
-        'Carcass Tagging: Auto-generate and print tags with tracking numbers and weights',
-        'Flexible Pricing Rules: Configure slaughter fees, refunds, and deposits per species',
-        'Inventory Tracking: Enter final cut weights by category or total yield',
-        'Analytics Dashboard: Monitor weekly throughput, species mix, and customer trends'
+        'Auto-Calculated: Charges computed from actual carcass weight, slaughter fee, and processing fee',
+        'Line Item Detail: Every charge tied to real weights and customer selections',
+        'Finalize & Send: Review, approve, and send invoices to customers in one click',
+        'Accounting Export: Export billing and payment data to QuickBooks or your accounting system'
+      ],
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/insights%20and%20automation.mp4'
+    },
+    profiles: {
+      title: 'Customer Profiles',
+      icon: UserCircle,
+      description: 'Every customer gets a complete profile with their full history\u2014jobs, cut preferences, weights, and payments. Your office team never has to dig through files again.',
+      bullets: [
+        'Full Job History: See every past and current job for any customer at a glance',
+        'Cut Preferences: Know what each customer typically orders before they even submit',
+        'Weight & Yield Records: Historical hanging weights, yield percentages, and trends',
+        'Payment History: Track invoices, balances, and payment status per customer'
+      ],
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/job%20workflow%20and%20agenda%20.mp4'
+    },
+    reporting: {
+      title: 'Reporting',
+      icon: BarChart3,
+      description: 'See how your plant is performing at a glance. Farmshare tracks throughput, species mix, and customer trends so you can make smarter decisions about your operation.',
+      bullets: [
+        'Weekly Throughput: Monitor how many head you\'re processing week over week',
+        'Species Breakdown: See your mix of beef, hog, lamb, and other species over time',
+        'Customer Trends: Identify your most active customers and seasonal patterns',
+        'Yield Tracking: Compare hanging weights and cut yields across jobs'
       ],
       video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/insights%20and%20automation.mp4'
     }

@@ -38,8 +38,8 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/processors" className={getLinkClass('/processors')}>
-              Processors
+            <Link to="/features" className={getLinkClass('/features')}>
+              Features
             </Link>
             <Link to="/find-a-processor" className={getLinkClass('/find-a-processor')}>
               Find a Processor
@@ -81,11 +81,11 @@ export default function Header() {
         <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
           <nav className="mt-4 space-y-4 pb-4">
             <Link 
-              to="/processors" 
-              className={`block ${getLinkClass('/processors')}`}
+              to="/features"
+              className={`block ${getLinkClass('/features')}`}
               onClick={() => setIsMenuOpen(false)}
             >
-              Processors
+              Features
             </Link>
             <Link 
               to="/find-a-processor" 

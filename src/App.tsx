@@ -5,7 +5,7 @@ import ScrollToTop from './components/ScrollToTop';
 import {
   Home,
   Mission,
-  Processors,
+  Features,
   FindProcessor,
   ProcessorDetail,
   StatePage,
@@ -37,7 +37,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mission" element={<Mission />} />
-          <Route path="/processors" element={<Processors />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/processors" element={<Navigate to="/features" replace />} />
           <Route path="/find-a-processor" element={<FindProcessor />} />
           <Route path="/find-a-processor/:stateSlug" element={<ProcessorOrStatePage />} />
           <Route path="/privacy" element={<Privacy />} />

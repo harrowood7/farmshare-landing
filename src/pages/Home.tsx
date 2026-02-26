@@ -255,7 +255,7 @@ export default function Home() {
 
           <div className="text-center mt-12 fade-up">
             <Link 
-              to="/processors"
+              to="/features"
               className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
             >
               See All Features
@@ -274,7 +274,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-roca text-brand-green text-center mb-12 fade-up">What Processors Are Saying</h2>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-white p-8 rounded-lg shadow-lg fade-up">
                 <Quote className="h-8 w-8 text-brand-orange mb-4" />
                 <p className="text-lg text-stone-700 mb-6 leading-relaxed">
@@ -299,10 +299,26 @@ export default function Home() {
               <div className="bg-white p-8 rounded-lg shadow-lg fade-up">
                 <Quote className="h-8 w-8 text-brand-orange mb-4" />
                 <p className="text-lg text-stone-700 mb-6 leading-relaxed">
+                  "Farmshare has been a game-changer for our processing operation. Their software's scheduling feature allows our customers to schedule their own appointments with ease, and we can manage our calendar and customer information without the usual hassle. This capability alone has saved us countless hours that we can use for other tasks."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-12 h-12 rounded-lg bg-brand-green flex items-center justify-center mr-4">
+                    <span className="text-white font-bold text-lg">ZK</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-brand-green">Zac Knowles</p>
+                    <p className="text-stone-600">ZK Ranches</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-8 rounded-lg shadow-lg fade-up">
+                <Quote className="h-8 w-8 text-brand-orange mb-4" />
+                <p className="text-lg text-stone-700 mb-6 leading-relaxed">
                   "The platform is intuitive and built with both the producer and processor in mind. It has also streamlined the information transfer between the different departments within our company."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-brand-green flex items-center justify-center mr-4">
+                  <div className="w-12 h-12 rounded-lg bg-brand-green flex items-center justify-center mr-4">
                     <span className="text-white font-bold text-lg">PV</span>
                   </div>
                   <div>

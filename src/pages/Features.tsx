@@ -2,17 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Factory, Clock, BarChart, Calendar, CalendarClock, FileText, MessageSquare, Briefcase, Settings, Calculator, Smartphone, TrendingUp, Quote } from 'lucide-react';
 import LogoBanner from '../components/LogoBanner';
 
-export default function Processors() {
+export default function Features() {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const [showStickyButton, setShowStickyButton] = useState(false);
   const [activeTab, setActiveTab] = useState('scheduling');
 
   useEffect(() => {
     // Set page title and meta description for SEO
-    document.title = 'Meat Processing Software - Streamline Operations | Farmshare';
+    document.title = 'Meat Processing Software Features — Scheduling, Cut Sheets & More | Farmshare';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Boost efficiency with Farmshare\'s meat processing software. Auto-scheduling, digital cut sheets, customer messaging, and job tracking for independent processors.');
+      metaDescription.setAttribute('content', 'See how Farmshare streamlines every step of your operation — from auto-scheduling and digital cut sheets to customer messaging, job tracking, and invoicing.');
     }
 
     const observerOptions = {
@@ -38,7 +38,7 @@ export default function Processors() {
         const scrolled = window.scrollY;
         parallaxRef.current.style.transform = `translate3d(0, ${scrolled * 0.5}px, 0)`;
       }
-      
+
       setShowStickyButton(window.scrollY > window.innerHeight);
     };
 
@@ -116,12 +116,12 @@ export default function Processors() {
   return (
     <div className="min-h-screen bg-brand-cream">
       {/* Sticky Demo Button */}
-      <div 
+      <div
         className={`fixed bottom-6 right-6 z-50 transform transition-all duration-300 ${
           showStickyButton ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
         }`}
       >
-        <a 
+        <a
           href="https://meetings.hubspot.com/henry-arrowood/quad-p-demo"
           target="_blank"
           rel="noopener noreferrer"
@@ -133,10 +133,10 @@ export default function Processors() {
       </div>
 
       <section className="relative py-12 md:py-20 lg:py-32 overflow-hidden">
-        <div 
+        <div
           ref={parallaxRef}
           className="parallax-bg"
-          style={{ 
+          style={{
             backgroundImage: 'url("/hero-facility.png")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -147,16 +147,12 @@ export default function Processors() {
         <div className="container mx-auto px-4 relative">
           <div className="max-w-3xl mx-auto text-center fade-up">
             <h1 className="text-4xl md:text-5xl lg:text-7xl mb-4 md:mb-6 lg:mb-8 leading-tight text-brand-green font-roca tracking-tight stagger-child">
-              Slash Admin Time.
-              <br />
-              Fill Your Calendar.
-              <br />
-              Move More Meat.
+              Everything You Need to Run a Tighter Plant
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-stone-600 mb-6 lg:mb-8 font-medium stagger-child">
-              Farmshare helps you run a tighter plant with auto-scheduling, live tracking, and simplified communications—all from one dashboard. Trusted by 30+ processors nationwide.
+              From scheduling to invoicing, see how Farmshare streamlines every step of your operation.
             </p>
-            <a 
+            <a
               href="https://meetings.hubspot.com/henry-arrowood/quad-p-demo"
               target="_blank"
               rel="noopener noreferrer"
@@ -170,6 +166,85 @@ export default function Processors() {
       </section>
 
       <LogoBanner />
+
+      {/* Smart Features — tabbed breakdown right after hero */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-4xl font-roca text-brand-green text-center mb-12">Smart Features</h2>
+
+            {/* Feature Tabs */}
+            <div className="flex flex-wrap justify-center gap-2 mb-8">
+              {Object.entries(features).map(([key, feature]) => {
+                const Icon = feature.icon;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setActiveTab(key)}
+                    className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+                      activeTab === key
+                        ? 'bg-brand-orange text-white'
+                        : 'bg-brand-cream text-stone-700 hover:bg-brand-orange/10'
+                    }`}
+                  >
+                    <Icon className="h-5 w-5 mr-2" />
+                    <span className="font-medium">{feature.title}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Feature Content */}
+            {Object.entries(features).map(([key, feature]) => (
+              <div
+                key={key}
+                className={`transition-all duration-300 ${
+                  activeTab === key ? 'opacity-100' : 'hidden opacity-0'
+                }`}
+              >
+                <div className="bg-brand-cream rounded-lg overflow-hidden shadow-lg p-8">
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-bold text-brand-green mb-4 flex items-center">
+                      <feature.icon className="h-6 w-6 mr-2 text-brand-orange" />
+                      {feature.title}
+                    </h3>
+                    <p className="text-stone-700">{feature.description}</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="relative h-[300px] rounded-lg overflow-hidden">
+                      <video
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        poster=""
+                      >
+                        <source src={feature.video} type="video/mp4" />
+                      </video>
+                    </div>
+
+                    <ul className="space-y-4">
+                      {feature.bullets.map((bullet, index) => {
+                        const [title, description] = bullet.split(': ');
+                        return (
+                          <li key={index} className="flex flex-col">
+
+                            <span className="font-bold text-brand-green">{title}</span>
+                            <span className="text-stone-700">{description}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Value Props */}
       <section className="py-20 bg-white">
@@ -214,148 +289,6 @@ export default function Processors() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-12 fade-up">
-            <h2 className="text-4xl font-roca text-brand-green mb-6">What Our Customers Say</h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            <div className="bg-brand-cream p-6 rounded-lg shadow-lg fade-up">
-              <Quote className="h-8 w-8 text-brand-orange mb-4" />
-              <p className="text-lg text-stone-700 mb-6">
-                "Scheduling has never been easier! We can manage our appointments in the office or on the go, which for our small business is a BIG deal! What really sets Farmshare apart is their team — energetic, forward-thinking, and genuinely committed to helping businesses like ours run more efficiently."
-              </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
-                  <img
-                    src="https://www.butchersblockva.com/mt-content/uploads/2020/11/thumbnails/butchers-block-black-grunge_m_264x300.png"
-                    alt="The Butcher's Block"
-                    className="max-w-full max-h-full object-contain"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <div>
-                  <p className="font-bold text-brand-green">Samantha Stallings</p>
-                  <p className="text-stone-600">The Butcher's Block</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-brand-cream p-6 rounded-lg shadow-lg fade-up">
-              <Quote className="h-8 w-8 text-brand-orange mb-4" />
-              <p className="text-lg text-stone-700 mb-6">
-                "Farmshare has been a game-changer for our processing operation. Their software's scheduling feature allows our customers to schedule their own appointments with ease, and we can manage our calendar and customer information without the usual hassle. This capability alone has saved us countless hours that we can use for other tasks."
-              </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 rounded-lg bg-brand-green flex items-center justify-center mr-4">
-                  <span className="text-white font-bold text-lg">ZK</span>
-                </div>
-                <div>
-                  <p className="font-bold text-brand-green">Zac Knowles</p>
-                  <p className="text-stone-600">ZK Ranches</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-brand-cream p-6 rounded-lg shadow-lg fade-up">
-              <Quote className="h-8 w-8 text-brand-orange mb-4" />
-              <p className="text-lg text-stone-700 mb-6">
-                "The platform is intuitive and built with both the producer and processor in mind. It has also streamlined the information transfer between the different departments within our company."
-              </p>
-              <div className="flex items-center">
-                <div className="w-12 h-12 rounded-full bg-brand-green flex items-center justify-center mr-4">
-                  <span className="text-white font-bold text-lg">PV</span>
-                </div>
-                <div>
-                  <p className="font-bold text-brand-green">Prairie Valley Meats</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Smart Features */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-roca text-brand-green text-center mb-12">Smart Features</h2>
-            
-            {/* Feature Tabs */}
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
-              {Object.entries(features).map(([key, feature]) => {
-                const Icon = feature.icon;
-                return (
-                  <button
-                    key={key}
-                    onClick={() => setActiveTab(key)}
-                    className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
-                      activeTab === key
-                        ? 'bg-brand-orange text-white'
-                        : 'bg-brand-cream text-stone-700 hover:bg-brand-orange/10'
-                    }`}
-                  >
-                    <Icon className="h-5 w-5 mr-2" />
-                    <span className="font-medium">{feature.title}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Feature Content */}
-            {Object.entries(features).map(([key, feature]) => (
-              <div
-                key={key}
-                className={`transition-all duration-300 ${
-                  activeTab === key ? 'opacity-100' : 'hidden opacity-0'
-                }`}
-              >
-                <div className="bg-brand-cream rounded-lg overflow-hidden shadow-lg p-8">
-                  <div className="mb-8">
-                    <h3 className="text-2xl font-bold text-brand-green mb-4 flex items-center">
-                      <feature.icon className="h-6 w-6 mr-2 text-brand-orange" />
-                      {feature.title}
-                    </h3>
-                    <p className="text-stone-700">{feature.description}</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="relative h-[300px] rounded-lg overflow-hidden">
-                      <video 
-                        className="w-full h-full object-cover"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                        poster=""
-                      >
-                        <source src={feature.video} type="video/mp4" />
-                      </video>
-                    </div>
-                    
-                    <ul className="space-y-4">
-                      {feature.bullets.map((bullet, index) => {
-                        const [title, description] = bullet.split(': ');
-                        return (
-                          <li key={index} className="flex flex-col">
-                            
-                            <span className="font-bold text-brand-green">{title}</span>
-                            <span className="text-stone-700">{description}</span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Your Customers Will Love It Too */}
       <section className="py-20 bg-brand-cream">
         <div className="container mx-auto px-4">
@@ -388,9 +321,9 @@ export default function Processors() {
         <div className="max-w-3xl mx-auto text-center fade-up">
           <h2 className="text-2xl md:text-3xl font-roca text-brand-orange mb-4 md:mb-6 stagger-child">Ready to Run a Tighter Plant?</h2>
           <p className="text-base md:text-xl text-stone-700 mb-6 md:mb-8 stagger-child">
-            Join 30+ processors already saving hours every day with Farmshare. Most plants are up and running in under two weeks.
+            Most plants are up and running in under two weeks. See how Farmshare can work for yours.
           </p>
-          <a 
+          <a
             href="https://meetings.hubspot.com/henry-arrowood/quad-p-demo"
             target="_blank"
             rel="noopener noreferrer"

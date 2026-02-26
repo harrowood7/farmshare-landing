@@ -4,8 +4,8 @@ import { MapPin, Calendar, ArrowLeft, ExternalLink } from 'lucide-react';
 import { processors, stateNames, stateSlugToAbbr } from '../data/processors';
 
 export default function StatePage() {
-  const { slug } = useParams<{ slug: string }>();
-  const stateAbbr = slug ? stateSlugToAbbr[slug] : undefined;
+  const { stateSlug } = useParams<{ stateSlug: string }>();
+  const stateAbbr = stateSlug ? stateSlugToAbbr[stateSlug] : undefined;
   const stateFull = stateAbbr ? stateNames[stateAbbr] : undefined;
   const stateProcessors = stateAbbr ? processors.filter(p => p.state === stateAbbr) : [];
 

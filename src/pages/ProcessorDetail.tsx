@@ -4,7 +4,7 @@ import { MapPin, Calendar, ArrowLeft, ExternalLink } from 'lucide-react';
 import { processors, stateNames } from '../data/processors';
 
 export default function ProcessorDetail() {
-  const { slug } = useParams<{ slug: string }>();
+  const { stateSlug: slug } = useParams<{ stateSlug: string }>();
   const processor = processors.find(p => p.slug === slug);
 
   useEffect(() => {

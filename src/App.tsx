@@ -21,8 +21,8 @@ import { stateSlugToAbbr } from './data/processors';
 // Resolver: state slugs (e.g. "colorado") render StatePage,
 // processor slugs (e.g. "d-d-meats-celina-tn") render ProcessorDetail.
 function ProcessorOrStatePage() {
-  const { slug } = useParams<{ slug: string }>();
-  if (slug && stateSlugToAbbr[slug]) {
+  const { stateSlug } = useParams<{ stateSlug: string }>();
+  if (stateSlug && stateSlugToAbbr[stateSlug]) {
     return <StatePage />;
   }
   return <ProcessorDetail />;
@@ -39,7 +39,7 @@ function App() {
           <Route path="/mission" element={<Mission />} />
           <Route path="/processors" element={<Processors />} />
           <Route path="/find-a-processor" element={<FindProcessor />} />
-          <Route path="/find-a-processor/:slug" element={<ProcessorOrStatePage />} />
+          <Route path="/find-a-processor/:stateSlug" element={<ProcessorOrStatePage />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/service-agreement" element={<ServiceAgreement />} />

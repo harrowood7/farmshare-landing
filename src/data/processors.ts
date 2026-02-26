@@ -24,7 +24,7 @@ export const processors: Processor[] = [
     location: "Graceville, FL",
     state: "FL",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: "/logos/chipola.avif",
+    logo: null,
     slug: "chipola-meats-graceville-fl",
   },
   {
@@ -56,7 +56,7 @@ export const processors: Processor[] = [
     location: "Hesperus, CO",
     state: "CO",
     species: ["Beef"],
-    logo: "/logos/rocky-mountain-meats.png",
+    logo: null,
     slug: "rocky-mountain-meats-hesperus-co",
   },
   {
@@ -88,7 +88,7 @@ export const processors: Processor[] = [
     location: "Calhoun, KY",
     state: "KY",
     species: ["Beef", "Hog"],
-    logo: "/logos/beef-and-bacon.jpg",
+    logo: null,
     slug: "beef-bacon-calhoun-ky",
   },
   {
@@ -96,7 +96,7 @@ export const processors: Processor[] = [
     location: "Andersonville, GA",
     state: "GA",
     species: ["Beef", "Hog"],
-    logo: "/logos/flint-packers.webp",
+    logo: null,
     slug: "flint-packers-andersonville-ga",
   },
   {
@@ -120,7 +120,7 @@ export const processors: Processor[] = [
     location: "Braintree, VT",
     state: "VT",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: "/logos/royal-butcher.png",
+    logo: null,
     slug: "royal-butcher-braintree-vt",
   },
   {
@@ -136,7 +136,7 @@ export const processors: Processor[] = [
     location: "Crivitz, WI",
     state: "WI",
     species: ["Beef", "Hog", "Bison", "Lamb", "Goat"],
-    logo: "/logos/pelkins.webp",
+    logo: null,
     slug: "pelkins-smokey-meat-market-crivitz-wi",
   },
   {
@@ -144,7 +144,7 @@ export const processors: Processor[] = [
     location: "Wartrace, TN",
     state: "TN",
     species: ["Beef", "Hog"],
-    logo: "/logos/potts.png",
+    logo: null,
     slug: "potts-meats-wartrace-tn",
   },
   {
@@ -160,7 +160,7 @@ export const processors: Processor[] = [
     location: "White Sulphur Springs, MT",
     state: "MT",
     species: ["Beef", "Hog", "Bison", "Lamb"],
-    logo: "/logos/rawhide.jpg",
+    logo: null,
     slug: "rawhide-meats-white-sulphur-springs-mt",
   },
   {
@@ -176,7 +176,7 @@ export const processors: Processor[] = [
     location: "New Alexandria, PA",
     state: "PA",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: "/logos/weimer.jpg",
+    logo: null,
     slug: "weimer-meats-custom-new-alexandria-pa",
   },
   {
@@ -192,7 +192,7 @@ export const processors: Processor[] = [
     location: "Rushville, IN",
     state: "IN",
     species: ["Beef"],
-    logo: "/logos/butcher-bros.jpg",
+    logo: null,
     slug: "butcher-bros-rushville-in",
   },
   {
@@ -208,7 +208,7 @@ export const processors: Processor[] = [
     location: "New Alexandria, PA",
     state: "PA",
     species: ["Beef", "Hog", "Lamb", "Goat"],
-    logo: "/logos/weimer.jpg",
+    logo: null,
     slug: "weimer-meats-usda-new-alexandria-pa",
   },
 ];

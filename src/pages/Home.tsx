@@ -302,8 +302,13 @@ export default function Home() {
                   "Farmshare has been a game-changer for our processing operation. Their software's scheduling feature allows our customers to schedule their own appointments with ease, and we can manage our calendar and customer information without the usual hassle. This capability alone has saved us countless hours that we can use for other tasks."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-lg bg-brand-green flex items-center justify-center mr-4">
-                    <span className="text-white font-bold text-lg">ZK</span>
+                  <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
+                    <img
+                      src="/logos/zk-ranches.png"
+                      alt="ZK Ranches"
+                      className="max-w-full max-h-full object-contain"
+                      loading="lazy" decoding="async"
+                    />
                   </div>
                   <div>
                     <p className="font-bold text-brand-green">Zac Knowles</p>

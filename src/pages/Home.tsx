@@ -235,10 +235,10 @@ export default function Home() {
             <div className="fade-up">
               <div className="flex items-center space-x-4 mb-6 stagger-child">
                 <Factory className="h-8 w-8 text-brand-green" />
-                <h3 className="text-3xl font-roca text-brand-orange">Messaging & Invoicing</h3>
+                <h3 className="text-3xl font-roca text-brand-orange">Automated Notifications</h3>
               </div>
               <p className="text-xl text-stone-700 leading-relaxed mb-6 stagger-child">
-                Automated text and email reminders for drop-offs, pickups, and missing info. A shared inbox keeps every conversation in one place. Invoices are generated from carcass weights automatically—no double entry.
+                Automated text and email reminders for drop-offs, pickups, and missing cut sheets. Customers stay informed without your team picking up the phone. No-shows drop. Cancellations get filled from the waitlist.
               </p>
             </div>
             <div className="rounded-lg shadow-[0_20px_50px_rgba(0,111,53,0.2)] overflow-hidden fade-up">

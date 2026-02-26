@@ -281,13 +281,14 @@ export default function Home() {
                   "Scheduling has never been easier! We can manage our appointments in the office or on the go, which for our small business is a BIG deal! What really sets Farmshare apart is their team — energetic, forward-thinking, and genuinely committed to helping businesses like ours run more efficiently."
                 </p>
                 <div className="flex items-center">
-                  <img 
-                    src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop&crop=face" 
-                    alt="Samantha Stallings" 
-                    className="w-12 h-12 rounded-full object-cover mr-4 bg-brand-cream"
-                    loading="lazy" decoding="async"
-                    onError={(e) => { const target = e.target as HTMLImageElement; target.style.display = 'none'; }}
-                  />
+                  <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
+                    <img
+                      src="https://www.butchersblockva.com/mt-content/uploads/2020/11/thumbnails/butchers-block-black-grunge_m_264x300.png"
+                      alt="The Butcher's Block"
+                      className="max-w-full max-h-full object-contain"
+                      loading="lazy" decoding="async"
+                    />
+                  </div>
                   <div>
                     <p className="font-bold text-brand-green">Samantha Stallings</p>
                     <p className="text-stone-600">The Butcher's Block</p>

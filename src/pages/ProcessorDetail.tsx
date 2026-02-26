@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { MapPin, Calendar, ArrowLeft, ExternalLink } from 'lucide-react';
+import { MapPin, Calendar, ArrowLeft, ExternalLink, Globe, CheckCircle2 } from 'lucide-react';
 import { processors, stateNames } from '../data/processors';
+import { processorAboutContent } from '../data/processorAboutContent';
 
 export default function ProcessorDetail() {
   const { stateSlug: slug } = useParams<{ stateSlug: string }>();
@@ -79,6 +80,8 @@ export default function ProcessorDetail() {
 
   const city = processor.location.split(',')[0].trim();
   const stateFull = stateNames[processor.state] || processor.state;
+  const content = processorAboutContent[processor.slug];
+  const hasRichContent = content && content.about.length >= 100;
 
   return (
     <div className="min-h-screen bg-brand-cream">
@@ -104,6 +107,9 @@ export default function ProcessorDetail() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl mb-4 leading-tight text-white font-roca tracking-tight">
               {processor.name}
             </h1>
+            {content?.established && (
+              <p className="text-brand-cream/60 text-sm font-medium mb-2">Est. {content.established}</p>
+            )}
             <div className="flex items-center justify-center text-brand-cream/80 text-xl mb-6">
               <MapPin className="h-5 w-5 mr-2" />
               {processor.location}
@@ -145,9 +151,55 @@ export default function ProcessorDetail() {
               <h2 className="text-2xl font-roca text-brand-green mb-4">
                 About {processor.name}
               </h2>
-              <p className="text-stone-700 mb-6">
-                {processor.name} is an independent custom meat processor located in {city}, {stateFull}. They process {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1')} and offer online scheduling and digital cut sheets through Farmshare.
-              </p>
+
+              {hasRichContent ? (
+                <p className="text-stone-700 mb-6">{content.about}</p>
+              ) : (
+                <p className="text-stone-700 mb-6">
+                  {processor.name} is an independent custom meat processor located in {city}, {stateFull}. They process {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1')} and offer online scheduling and digital cut sheets through Farmshare.
+                </p>
+              )}
+
+              {/* Certifications */}
+              {content?.certifications && content.certifications.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {content.certifications.map(cert => (
+                    <span key={cert} className="bg-brand-green/10 text-brand-green text-xs font-bold px-3 py-1 rounded-full">
+                      {cert}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Highlights */}
+              {content?.highlights && content.highlights.length > 0 && (
+                <div className="mb-6">
+                  <ul className="space-y-2">
+                    {content.highlights.map(h => (
+                      <li key={h} className="flex items-start gap-2 text-stone-700 text-sm">
+                        <CheckCircle2 className="h-4 w-4 text-brand-orange mt-0.5 flex-shrink-0" />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Visit Website */}
+              {content?.website && (
+                <div className="mb-6">
+                  <a
+                    href={content.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand-cream rounded-lg text-brand-green font-medium hover:text-brand-orange transition-colors"
+                  >
+                    <Globe className="h-4 w-4" />
+                    Visit Website
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
+              )}
 
               <h3 className="text-lg font-bold text-brand-green mb-3">What You Get with Farmshare</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

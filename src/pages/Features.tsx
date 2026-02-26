@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Clock, Calendar, CalendarClock, FileText, MessageSquare, Briefcase, Settings, Smartphone, TrendingUp, Bell, Users, ClipboardList, Receipt, UserCircle, BarChart3 } from 'lucide-react';
+import { Calendar, CalendarClock, FileText, MessageSquare, Bell, Users, ClipboardList, Receipt, UserCircle, BarChart3 } from 'lucide-react';
 
 export default function Features() {
   const parallaxRef = useRef<HTMLDivElement>(null);
@@ -275,49 +275,6 @@ export default function Features() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Value Props */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Time Savings */}
-            <div className="bg-brand-cream rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300 fade-up">
-              <div className="flex items-center mb-6">
-                <div className="h-16 w-16 bg-brand-orange rounded-full flex items-center justify-center mr-4">
-                  <Clock className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-4xl font-bold text-brand-green">5 hrs</h3>
-              </div>
-              <p className="text-xl font-medium text-brand-orange mb-4">Saved Per Day</p>
-              <p className="text-stone-700">Cut back on paperwork, phone calls, and manual entry with automated scheduling, cut sheets, notifications, and invoicing.</p>
-            </div>
-
-            {/* Tools Replaced */}
-            <div className="bg-brand-cream rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300 fade-up">
-              <div className="flex items-center mb-6">
-                <div className="h-16 w-16 bg-brand-orange rounded-full flex items-center justify-center mr-4">
-                  <Smartphone className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-4xl font-bold text-brand-green">6</h3>
-              </div>
-              <p className="text-xl font-medium text-brand-orange mb-4">Tools Replaced</p>
-              <p className="text-stone-700">Farmshare combines your calendar, cut cards, spreadsheets, text/email tools, payment processing, and billing—all in a single platform.</p>
-            </div>
-
-            {/* Throughput */}
-            <div className="bg-brand-cream rounded-lg p-8 transform hover:-translate-y-2 transition-transform duration-300 fade-up">
-              <div className="flex items-center mb-6">
-                <div className="h-16 w-16 bg-brand-orange rounded-full flex items-center justify-center mr-4">
-                  <TrendingUp className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-4xl font-bold text-brand-green">15%</h3>
-              </div>
-              <p className="text-xl font-medium text-brand-orange mb-4">Weekly Throughput</p>
-              <p className="text-stone-700">Reduce no-shows and cancellations, and drive more bookings from new and returning customers through self-serve scheduling and waitlist tools.</p>
-            </div>
           </div>
         </div>
       </section>

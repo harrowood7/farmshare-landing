@@ -26,6 +26,9 @@ export default function Footer() {
               <Link to="/features" className="block hover:text-white transition-colors">
                 Features
               </Link>
+              <Link to="/find-a-processor" className="block hover:text-white transition-colors">
+                Find a Processor
+              </Link>
               <Link to="/mission" className="block hover:text-white transition-colors">
                 Mission
               </Link>

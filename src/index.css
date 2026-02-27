@@ -67,6 +67,15 @@
   animation-play-state: paused;
 }
 
+.testimonial-slide {
+  animation: slide 45s linear infinite;
+  width: fit-content;
+}
+
+.testimonial-slide:hover {
+  animation-play-state: paused;
+}
+
 /* Optimize image loading */
 img {
   image-rendering: -webkit-optimize-contrast;

@@ -5,6 +5,27 @@ import LogoBanner from '../components/LogoBanner';
 import PartnerLogoBanner from '../components/PartnerLogoBanner';
 import ROICalculator from '../components/ROICalculator';
 
+const testimonials = [
+  {
+    quote: "Scheduling has never been easier! We can manage our appointments in the office or on the go, which for our small business is a BIG deal! What really sets Farmshare apart is their team — energetic, forward-thinking, and genuinely committed to helping businesses like ours run more efficiently.",
+    author: "Samantha Stallings",
+    company: "The Butcher's Block",
+    logo: "https://www.butchersblockva.com/mt-content/uploads/2020/11/thumbnails/butchers-block-black-grunge_m_264x300.png",
+  },
+  {
+    quote: "Farmshare has been a game-changer for our processing operation. Their software's scheduling feature allows our customers to schedule their own appointments with ease, and we can manage our calendar and customer information without the usual hassle. This capability alone has saved us countless hours that we can use for other tasks.",
+    author: "Zac Knowles",
+    company: "ZK Ranches",
+    logo: "/logos/zk-ranches.png",
+  },
+  {
+    quote: "We picked up four new customers in our first month on Farmshare.",
+    author: "Chelsea White",
+    company: "Adams Farm",
+    logo: "https://assets.partners.farmshare.co/tenant-689b8a950ff9f81e4e3bef98/images/1769017018196-adams_farm_logo.jpg",
+  },
+];
+
 export default function Home() {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const [showStickyButton, setShowStickyButton] = useState(false);
@@ -272,72 +293,44 @@ export default function Home() {
 
       <section className="py-20 bg-brand-cream">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-roca text-brand-green text-center mb-12 fade-up">What Processors Are Saying</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-lg shadow-lg fade-up">
-                <Quote className="h-8 w-8 text-brand-orange mb-4" />
-                <p className="text-lg text-stone-700 mb-6 leading-relaxed">
-                  "Scheduling has never been easier! We can manage our appointments in the office or on the go, which for our small business is a BIG deal! What really sets Farmshare apart is their team — energetic, forward-thinking, and genuinely committed to helping businesses like ours run more efficiently."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
-                    <img
-                      src="https://www.butchersblockva.com/mt-content/uploads/2020/11/thumbnails/butchers-block-black-grunge_m_264x300.png"
-                      alt="The Butcher's Block"
-                      className="max-w-full max-h-full object-contain"
-                      loading="lazy" decoding="async"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-bold text-brand-green">Samantha Stallings</p>
-                    <p className="text-stone-600">The Butcher's Block</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white p-8 rounded-lg shadow-lg fade-up">
-                <Quote className="h-8 w-8 text-brand-orange mb-4" />
-                <p className="text-lg text-stone-700 mb-6 leading-relaxed">
-                  "Farmshare has been a game-changer for our processing operation. Their software's scheduling feature allows our customers to schedule their own appointments with ease, and we can manage our calendar and customer information without the usual hassle. This capability alone has saved us countless hours that we can use for other tasks."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
-                    <img
-                      src="/logos/zk-ranches.png"
-                      alt="ZK Ranches"
-                      className="max-w-full max-h-full object-contain"
-                      loading="lazy" decoding="async"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-bold text-brand-green">Zac Knowles</p>
-                    <p className="text-stone-600">ZK Ranches</p>
+          <h2 className="text-3xl md:text-4xl font-roca text-brand-green text-center mb-12 fade-up">What Processors Are Saying</h2>
+        </div>
+        <div className="relative w-full overflow-hidden">
+          <div className="flex testimonial-slide">
+            {[...testimonials, ...testimonials].map((t, index) => (
+              <div
+                key={index}
+                className="flex-none px-4"
+                style={{ minWidth: '300px', maxWidth: '450px', width: t.quote.length > 150 ? '450px' : t.quote.length > 80 ? '380px' : '300px' }}
+              >
+                <div className="bg-white p-8 rounded-lg shadow-lg h-full flex flex-col">
+                  <Quote className="h-8 w-8 text-brand-orange mb-4 flex-shrink-0" />
+                  <p className="text-lg text-stone-700 mb-6 leading-relaxed flex-grow">
+                    "{t.quote}"
+                  </p>
+                  <div className="flex items-center flex-shrink-0">
+                    {t.logo ? (
+                      <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
+                        <img
+                          src={t.logo}
+                          alt={t.company}
+                          className="max-w-full max-h-full object-contain"
+                          loading="lazy" decoding="async"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 rounded-lg bg-brand-green flex items-center justify-center mr-4">
+                        <span className="text-white font-bold text-lg">{t.company.split(' ').map(w => w[0]).join('').slice(0, 2)}</span>
+                      </div>
+                    )}
+                    <div>
+                      <p className="font-bold text-brand-green">{t.author}</p>
+                      <p className="text-stone-600">{t.company}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <div className="bg-white p-8 rounded-lg shadow-lg fade-up">
-                <Quote className="h-8 w-8 text-brand-orange mb-4" />
-                <p className="text-lg text-stone-700 mb-6 leading-relaxed">
-                  "We picked up four new customers in our first month on Farmshare."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
-                    <img
-                      src="https://assets.partners.farmshare.co/tenant-689b8a950ff9f81e4e3bef98/images/1769017018196-adams_farm_logo.jpg"
-                      alt="Adams Farm"
-                      className="max-w-full max-h-full object-contain"
-                      loading="lazy" decoding="async"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-bold text-brand-green">Chelsea White</p>
-                    <p className="text-stone-600">Adams Farm</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

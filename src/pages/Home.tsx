@@ -22,7 +22,7 @@ const testimonials = [
     quote: "We picked up four new customers in our first month on Farmshare.",
     author: "Chelsea White",
     company: "Adams Farm",
-    logo: "https://assets.partners.farmshare.co/tenant-689b8a950ff9f81e4e3bef98/images/1769017018196-adams_farm_logo.jpg",
+    logo: "/logos/adams-farm.jpg",
   },
 ];
 

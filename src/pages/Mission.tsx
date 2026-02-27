@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { Calendar, Mail, Users, Beef, ShoppingCart, Factory } from 'lucide-react';
+import { Calendar, Mail, Users, Factory, Link2, ShoppingCart, BarChart3 } from 'lucide-react';
 
 export default function Mission() {
   const parallaxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    document.title = 'Our Mission - Rebuilding the Meat Supply Chain | Farmshare';
+    document.title = 'Our Mission - The Operating System for Independent Meat | Farmshare';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Farmshare is building the operating system for independent meat—starting with processor software and expanding into a connected network of producers, processors, and buyers.');
+      metaDescription.setAttribute('content', 'Four companies control 85% of beef processing in America. Their advantage isn\'t quality—it\'s coordination. Farmshare is building the infrastructure that lets independent processors compete.');
     }
 
     const observerOptions = {
@@ -46,6 +46,7 @@ export default function Mission() {
 
   return (
     <div className="min-h-screen bg-brand-cream">
+      {/* Hero */}
       <section className="relative py-12 md:py-20 lg:py-32 overflow-hidden">
         <div 
           ref={parallaxRef}
@@ -58,22 +59,26 @@ export default function Mission() {
         <div className="container mx-auto px-4 relative">
           <div className="max-w-3xl mx-auto text-center fade-up">
             <h1 className="text-4xl md:text-5xl lg:text-7xl mb-4 md:mb-6 lg:mb-8 leading-tight text-brand-green font-roca tracking-tight stagger-child">
-              A Better Meat Supply Chain—Built from the Ground Up
+              Independent Meat Is Better. It Should Win.
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-stone-600 mb-6 lg:mb-8 font-medium stagger-child">
-              The industrial system is consolidated, opaque, and extractive. Farmshare exists to change that—starting with the tools processors need today, and building toward a connected network that works for everyone.
+              Four companies control 85% of beef processing in America. Their advantage isn't quality—it's coordination. Farmshare is building the infrastructure that lets independent processors compete together.
             </p>
           </div>
         </div>
       </section>
 
       <div className="container mx-auto px-4 py-8 md:py-12 lg:py-20">
-        {/* Who We Are Today */}
+
+        {/* The Problem */}
         <div className="max-w-3xl mx-auto mb-8 md:mb-12 lg:mb-20">
-          <h2 className="text-2xl md:text-3xl font-roca text-brand-orange mb-4 md:mb-6">Making Independent Meat Thrive</h2>
+          <h2 className="text-2xl md:text-3xl font-roca text-brand-orange mb-4 md:mb-6">The Problem</h2>
           <div className="space-y-4 md:space-y-6">
             <p className="text-base md:text-xl text-stone-700 leading-relaxed">
-              Farmshare's mission is to help independent meat thrive. Today, that starts with the processor—the backbone of the local meat supply chain. We build software that replaces spreadsheets, phone calls, and paper cut sheets with a single platform that saves hours every day. Over 30 processors across the country already run on Farmshare.
+              The industrial meat system is built on logistics, not quality. The largest packers don't dominate because they produce better meat—they dominate because they can coordinate supply, processing, and distribution at scale. Independent processors produce the higher-quality, traceable, locally-raised product that consumers increasingly want. But they're running on paper, spreadsheets, and software from 20 years ago. They can't coordinate. They can't compete.
+            </p>
+            <p className="text-base md:text-xl text-stone-700 leading-relaxed">
+              Meanwhile, the tailwinds have never been stronger. Consumer demand for local and traceable meat is surging. USDA grants are funding new independent capacity. State inspection reciprocity is expanding. Over 3,000 independent processors serve this demand—but they're fragmented, disconnected, and running blind.
             </p>
           </div>
         </div>
@@ -94,21 +99,21 @@ export default function Mission() {
           </div>
         </div>
 
-        {/* Our Values */}
+        {/* What We Believe */}
         <div className="max-w-3xl mx-auto mb-8 md:mb-12 lg:mb-20">
-          <h2 className="text-2xl md:text-3xl font-roca text-brand-orange mb-4 md:mb-6">Our Values</h2>
+          <h2 className="text-2xl md:text-3xl font-roca text-brand-orange mb-4 md:mb-6">What We Believe</h2>
           <div className="space-y-3 md:space-y-4">
             <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-2">Transparency</h3>
-              <p className="text-sm md:text-base text-stone-700">We believe in complete transparency across the supply chain, from ranch to plate.</p>
+              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-2">The Network Wins</h3>
+              <p className="text-sm md:text-base text-stone-700">One independent processor can't supply a restaurant chain. Fifty processors on a shared platform can. The future of independent meat isn't each plant fighting alone—it's a connected network where processors are more powerful together than they could ever be apart.</p>
             </div>
             <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-2">Fair Value Distribution</h3>
-              <p className="text-sm md:text-base text-stone-700">Our system ensures that producers and processors receive their fair share of the final product value.</p>
+              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-2">Revenue Over Cost Cutting</h3>
+              <p className="text-sm md:text-base text-stone-700">The industry obsesses over shaving pennies off processing costs. But the real leverage is on the revenue side—filling your calendar, reducing no-shows, balancing the carcass, getting better prices for every cut. A 5% improvement in how you sell is worth 10x more than a 5% improvement in how you cut.</p>
             </div>
             <div className="bg-white p-4 md:p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-2">Innovation</h3>
-              <p className="text-sm md:text-base text-stone-700">We leverage technology to solve real-world problems experienced every day in the meat industry.</p>
+              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-2">Start Where It Hurts</h3>
+              <p className="text-sm md:text-base text-stone-700">We didn't start by building a marketplace. We started by solving the most painful daily problem: scheduling. Earn trust with a tool that saves hours every day, then build the connective tissue between processors, producers, and buyers. The wedge earns the right to build the network.</p>
             </div>
           </div>
         </div>
@@ -117,11 +122,11 @@ export default function Mission() {
         <div className="max-w-4xl mx-auto mb-8 md:mb-12 lg:mb-20">
           <h2 className="text-2xl md:text-3xl font-roca text-brand-orange mb-4 md:mb-6 text-center">Where We're Going</h2>
           <p className="text-base md:text-xl text-stone-700 leading-relaxed text-center mb-12 max-w-3xl mx-auto">
-            Farmshare is more than scheduling software. We're building the operating system for independent meat—a connected network where processors, producers, and buyers all benefit from better tools and shorter supply chains.
+            Farmshare is building the operating system for independent meat. Each stage adds participants to the network, funds the next, and compounds the advantage. The scheduling wedge got us in the door. The network keeps us in the room. The marketplace owns the room.
           </p>
 
           <div className="space-y-6">
-            {/* Stage 1 — Now */}
+            {/* Stage 1 — Processor Platform */}
             <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg fade-up">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 h-12 w-12 bg-brand-green rounded-full flex items-center justify-center">
@@ -133,43 +138,61 @@ export default function Mission() {
                     <span className="bg-brand-green/10 text-brand-green font-bold px-3 py-0.5 rounded-full text-xs uppercase tracking-wide">Live Now</span>
                   </div>
                   <p className="text-stone-700">
-                    Scheduling, cut sheets, customer messaging, invoicing, and job tracking—built for how plants actually run. Used by 30+ processors nationwide, saving 5+ hours per day.
+                    The wedge that earns trust. Scheduling, digital cut sheets, automated notifications, job tracking, and invoicing—built for how plants actually run. Processors save 5+ hours per day and their customers get a modern, self-service experience. Every processor on the platform is a node in the network.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Stage 2 — Building */}
+            {/* Stage 2 — Connected Plant */}
             <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg fade-up">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 h-12 w-12 bg-brand-orange rounded-full flex items-center justify-center">
-                  <Beef className="h-6 w-6 text-white" />
+                  <Link2 className="h-6 w-6 text-white" />
                 </div>
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-xl font-bold text-brand-green">Producer Tools</h3>
-                    <span className="bg-brand-orange/10 text-brand-orange font-bold px-3 py-0.5 rounded-full text-xs uppercase tracking-wide">Expanding</span>
+                    <h3 className="text-xl font-bold text-brand-green">Connected Plant Operations</h3>
+                    <span className="bg-brand-orange/10 text-brand-orange font-bold px-3 py-0.5 rounded-full text-xs uppercase tracking-wide">Building</span>
                   </div>
                   <p className="text-stone-700">
-                    Producers already book slots, submit cut sheets, and get text updates through their processor's Farmshare portal—free. We're expanding with yield tracking, inventory management, and direct-to-consumer sales tools so ranchers can manage their entire meat business from one place.
+                    Integrating with plant floor systems so that scheduling, production data, yield reporting, and financials flow through one pipeline—from the customer booking through the kill floor to the invoice. Farmshare becomes the connective tissue between the front office and the back office, eliminating the manual data bridging that costs processors hours every week.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Stage 3 — Coming */}
+            {/* Stage 3 — Wholesale Tools */}
             <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg fade-up">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0 h-12 w-12 bg-brand-yellow rounded-full flex items-center justify-center">
+                  <BarChart3 className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-xl font-bold text-brand-green">Wholesale & Full-Plant Tools</h3>
+                    <span className="bg-brand-yellow/10 text-brand-yellow font-bold px-3 py-0.5 rounded-full text-xs uppercase tracking-wide">Coming Soon</span>
+                  </div>
+                  <p className="text-stone-700">
+                    Most processors do both custom and wholesale. Today, Farmshare handles the custom side. Wholesale tools—inventory management, buy-sell workflows, wholesale invoicing—let processors run their entire operation from one platform. When Farmshare manages a processor's full revenue, it becomes indispensable.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Stage 4 — Marketplace */}
+            <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg fade-up">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 h-12 w-12 bg-stone-400 rounded-full flex items-center justify-center">
                   <ShoppingCart className="h-6 w-6 text-white" />
                 </div>
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-xl font-bold text-brand-green">Wholesale Marketplace</h3>
-                    <span className="bg-brand-yellow/10 text-brand-yellow font-bold px-3 py-0.5 rounded-full text-xs uppercase tracking-wide">Coming Soon</span>
+                    <h3 className="text-xl font-bold text-brand-green">The Network & Marketplace</h3>
+                    <span className="bg-stone-200 text-stone-600 font-bold px-3 py-0.5 rounded-full text-xs uppercase tracking-wide">The Vision</span>
                   </div>
                   <p className="text-stone-700">
-                    The long-term vision: a wholesale marketplace connecting restaurants, schools, grocers, and institutions directly to regional producers and processors. Fully traceable sourcing, coordinated logistics, and shorter supply chains—eliminating the middlemen that extract value from both ends.
+                    The endgame: a connected network where producers, processors, and buyers all operate on shared infrastructure. Processors list available inventory. Restaurants, grocers, and institutions source directly from regional producers. Fully traceable, shorter supply chains, better prices on both ends. Thousands of independent operators, collectively competing on reach and reliability—while maintaining the quality and traceability that industrial packers can't match.
                   </p>
                 </div>
               </div>
@@ -181,7 +204,7 @@ export default function Mission() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-roca text-brand-green mb-6">
-              Believe in the Future of Local Meat? Join Us.
+              Join the Network
             </h2>
           </div>
           
@@ -219,7 +242,7 @@ export default function Mission() {
               <div className="mb-3">
                 <Users className="h-8 w-8 mx-auto group-hover:scale-110 transition-transform duration-300" />
               </div>
-              <h3 className="text-lg font-bold mb-2">Refer a Processor or Producer</h3>
+              <h3 className="text-lg font-bold mb-2">Refer a Processor</h3>
               <p className="group-hover:text-white/90 transition-colors text-sm">Help grow the network</p>
             </a>
           </div>

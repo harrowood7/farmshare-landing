@@ -3,7 +3,7 @@ import { Calculator, Clock, TrendingUp, DollarSign, Calendar } from 'lucide-reac
 
 export default function ROICalculator() {
   const [weeklyHead, setWeeklyHead] = useState<number>(20);
-  const [revenuePerHead, setRevenuePerHead] = useState<number>(500);
+  const [revenuePerHead, setRevenuePerHead] = useState<number>(1000);
   const [isCalculated, setIsCalculated] = useState(false);
 
   // ROI Model — matches demo narrative

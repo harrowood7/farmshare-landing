@@ -1,12 +1,12 @@
 import React from 'react';
-import { Mail, Phone, Linkedin } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
     <footer className="bg-brand-green text-brand-cream py-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-xl font-roca mb-4">Contact</h3>
             <div className="space-y-2 font-medium">
@@ -44,13 +44,6 @@ export default function Footer() {
                 Terms of Service
               </Link>
             </div>
-          </div>
-          <div>
-            <h3 className="text-xl font-roca mb-4">Connect</h3>
-            <a href="#" className="flex items-center hover:text-white transition-colors font-medium">
-              <Linkedin className="h-5 w-5 mr-2" />
-              LinkedIn
-            </a>
           </div>
         </div>
         <div className="border-t border-brand-cream/20 mt-8 pt-8 text-center font-medium">

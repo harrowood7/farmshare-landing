@@ -225,7 +225,7 @@ export default function Home() {
                 disablePictureInPicture disableRemotePlayback
                 preload="metadata" poster=""
               >
-                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/scheduling%20and%20capacity%20v2.mp4" type="video/mp4" />
+                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/smart-scheduling.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
@@ -238,7 +238,7 @@ export default function Home() {
                 disablePictureInPicture disableRemotePlayback
                 preload="none" poster=""
               >
-                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/cutsheets%20and%20capabilities.mp4" type="video/mp4" />
+                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/digital-cut-sheets.mp4" type="video/mp4" />
               </video>
             </div>
             <div className="order-1 md:order-2 fade-up">
@@ -294,39 +294,31 @@ export default function Home() {
       <section className="py-20 bg-brand-cream">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-roca text-brand-green text-center mb-12 fade-up">What Processors Are Saying</h2>
-        </div>
-        <div className="relative w-full overflow-hidden">
-          <div className="flex testimonial-slide">
-            {[...testimonials, ...testimonials].map((t, index) => (
-              <div
-                key={index}
-                className="flex-none px-4"
-                style={{ minWidth: '300px', maxWidth: '450px', width: t.quote.length > 150 ? '450px' : t.quote.length > 80 ? '380px' : '300px' }}
-              >
-                <div className="bg-white p-8 rounded-lg shadow-lg h-full flex flex-col">
-                  <Quote className="h-8 w-8 text-brand-orange mb-4 flex-shrink-0" />
-                  <p className="text-lg text-stone-700 mb-6 leading-relaxed flex-grow">
-                    "{t.quote}"
-                  </p>
-                  <div className="flex items-center flex-shrink-0">
-                    {t.logo ? (
-                      <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
-                        <img
-                          src={t.logo}
-                          alt={t.company}
-                          className="max-w-full max-h-full object-contain"
-                          loading="lazy" decoding="async"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-12 h-12 rounded-lg bg-brand-green flex items-center justify-center mr-4">
-                        <span className="text-white font-bold text-lg">{t.company.split(' ').map(w => w[0]).join('').slice(0, 2)}</span>
-                      </div>
-                    )}
-                    <div>
-                      <p className="font-bold text-brand-green">{t.author}</p>
-                      <p className="text-stone-600">{t.company}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {testimonials.map((t, index) => (
+              <div key={index} className="bg-white p-8 rounded-lg shadow-lg flex flex-col">
+                <Quote className="h-8 w-8 text-brand-orange mb-4 flex-shrink-0" />
+                <p className="text-lg text-stone-700 mb-6 leading-relaxed flex-grow">
+                  "{t.quote}"
+                </p>
+                <div className="flex items-center flex-shrink-0">
+                  {t.logo ? (
+                    <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
+                      <img
+                        src={t.logo}
+                        alt={t.company}
+                        className="max-w-full max-h-full object-contain"
+                        loading="lazy" decoding="async"
+                      />
                     </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-lg bg-brand-green flex items-center justify-center mr-4">
+                      <span className="text-white font-bold text-lg">{t.company.split(' ').map(w => w[0]).join('').slice(0, 2)}</span>
+                    </div>
+                  )}
+                  <div>
+                    <p className="font-bold text-brand-green">{t.author}</p>
+                    <p className="text-stone-600">{t.company}</p>
                   </div>
                 </div>
               </div>

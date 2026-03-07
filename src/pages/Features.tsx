@@ -60,7 +60,7 @@ export default function Features() {
         'Drag-and-Drop Rescheduling: Balance your weekly workload by moving jobs with a click',
         'Waitlist Backfill: Automatically notify waitlisted customers when a slot opens up'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/scheduling%20and%20capacity%20v2.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/smart-scheduling.mp4'
     },
     cutsheets: {
       title: 'Digital Cut Sheets',
@@ -72,7 +72,7 @@ export default function Features() {
         'Custom Configuration: Tailor layout, categories, extras, and trim to match your workflow',
         'Print Anywhere: View and print cut sheets from the office or the cut room'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/cutsheets%20and%20capabilities.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/digital-cut-sheets.mp4'
     },
     notifications: {
       title: 'Automated Notifications',
@@ -96,7 +96,7 @@ export default function Features() {
         'Order Status Tracking: Real-time visibility into where their animal is in the process',
         'No Cost to Customers: The portal is free for every producer when their processor is on Farmshare'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/scheduling%20and%20capacity%20v2.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/customer-portal.mp4'
     },
     tracking: {
       title: 'Job Tracking',
@@ -108,7 +108,7 @@ export default function Features() {
         'Tracking Numbers: Every animal gets a unique ID from arrival to pickup',
         'Team Alignment: Everyone from the kill floor to the front office sees the same data'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/job%20workflow%20and%20agenda%20.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/job-tracking.mp4'
     },
     invoicing: {
       title: 'Invoicing',
@@ -120,7 +120,7 @@ export default function Features() {
         'Finalize & Send: Review, approve, and send invoices to customers in one click',
         'Accounting Export: Export billing and payment data to QuickBooks or your accounting system'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/insights%20and%20automation.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/invoicing.mp4'
     },
     profiles: {
       title: 'Customer Profiles',
@@ -132,7 +132,7 @@ export default function Features() {
         'Weight & Yield Records: Historical hanging weights, yield percentages, and trends',
         'Payment History: Track invoices, balances, and payment status per customer'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/job%20workflow%20and%20agenda%20.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/customer-profiles.mp4'
     },
     reporting: {
       title: 'Reporting',
@@ -144,7 +144,7 @@ export default function Features() {
         'Customer Trends: Identify your most active customers and seasonal patterns',
         'Yield Tracking: Compare hanging weights and cut yields across jobs'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/insights%20and%20automation.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/reporting.mp4'
     }
   };
 

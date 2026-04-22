@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Search, Calendar, Filter, ChevronDown, ChevronRight } from 'lucide-react';
+import { MapPin, Search, Calendar, Filter, ChevronDown, ChevronRight, Map as MapIcon, List, Navigation, X } from 'lucide-react';
 import { processors, stateNames } from '../data/processors';
+import ProcessorMap from '../components/ProcessorMap';
+import { useUserLocation, distanceMiles } from '../hooks/useUserLocation';
 
 // Derive unique states sorted alphabetically
 const allStates = ["All States", ...Array.from(new Set(processors.map(p => p.state))).sort()];
@@ -11,6 +13,8 @@ export default function FindProcessor() {
   const [selectedState, setSelectedState] = useState('All States');
   const [selectedSpecies, setSelectedSpecies] = useState('All Species');
   const [showFilters, setShowFilters] = useState(false);
+  const [view, setView] = useState<'list' | 'map'>('list');
+  const userLoc = useUserLocation();
 
   useEffect(() => {
     document.title = 'Find a Custom Meat Processor Near You | Farmshare';
@@ -60,7 +64,7 @@ export default function FindProcessor() {
 
   const allSpecies = ["All Species", ...Array.from(new Set(processors.flatMap(p => p.species))).sort()];
 
-  const filtered = processors.filter(p => {
+  const filteredRaw = processors.filter(p => {
     const q = searchQuery.toLowerCase();
     const matchesSearch = searchQuery === '' ||
       p.name.toLowerCase().includes(q) ||
@@ -71,6 +75,18 @@ export default function FindProcessor() {
     const matchesSpecies = selectedSpecies === 'All Species' || p.species.includes(selectedSpecies);
     return matchesSearch && matchesState && matchesSpecies;
   });
+
+  const filtered = userLoc.location
+    ? [...filteredRaw].sort((a, b) => {
+        const ad = a.lat != null && a.lng != null
+          ? distanceMiles(userLoc.location!, { lat: a.lat, lng: a.lng })
+          : Infinity;
+        const bd = b.lat != null && b.lng != null
+          ? distanceMiles(userLoc.location!, { lat: b.lat, lng: b.lng })
+          : Infinity;
+        return ad - bd;
+      })
+    : filteredRaw;
 
   return (
     <div className="min-h-screen bg-brand-cream">
@@ -100,6 +116,19 @@ export default function FindProcessor() {
         </div>
       </section>
 
+      {/* Buyer CTA Banner */}
+      <div className="bg-brand-green/5">
+        <div className="container mx-auto px-4 py-3">
+          <Link
+            to="/buy-beef"
+            className="flex items-center justify-center gap-2 text-sm font-medium text-brand-green hover:text-brand-green/80 transition-colors"
+          >
+            <span>🥩</span>
+            <span>Looking to buy a quarter, half, or whole? <span className="underline">Tell us what you need →</span></span>
+          </Link>
+        </div>
+      </div>
+
       {/* Filters + Results */}
       <section className="py-12">
         <div className="container mx-auto px-4">
@@ -111,7 +140,46 @@ export default function FindProcessor() {
                 Showing <span className="text-brand-green font-bold">{filtered.length}</span> processor{filtered.length !== 1 ? 's' : ''}
               </p>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 items-center">
+                {/* Near me */}
+                {userLoc.location ? (
+                  <button
+                    onClick={userLoc.clear}
+                    className="flex items-center gap-1.5 px-3 py-2 bg-brand-green text-white rounded-lg text-sm font-medium hover:bg-brand-green/90 transition-colors"
+                    title="Clear location"
+                  >
+                    <Navigation className="h-4 w-4" />
+                    Sorted by distance
+                    <X className="h-3.5 w-3.5 ml-1" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={userLoc.request}
+                    disabled={userLoc.loading}
+                    className="flex items-center gap-1.5 px-3 py-2 bg-white border border-stone-200 text-stone-700 rounded-lg text-sm font-medium hover:text-brand-green transition-colors disabled:opacity-60"
+                  >
+                    <Navigation className="h-4 w-4" />
+                    {userLoc.loading ? 'Locating…' : 'Near me'}
+                  </button>
+                )}
+
+                {/* View toggle */}
+                <div className="flex bg-white rounded-lg border border-stone-200 p-1">
+                  <button
+                    onClick={() => setView('list')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-sm font-medium transition-colors ${view === 'list' ? 'bg-brand-green text-white' : 'text-stone-600 hover:text-brand-green'}`}
+                  >
+                    <List className="h-4 w-4" />
+                    List
+                  </button>
+                  <button
+                    onClick={() => setView('map')}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-sm font-medium transition-colors ${view === 'map' ? 'bg-brand-green text-white' : 'text-stone-600 hover:text-brand-green'}`}
+                  >
+                    <MapIcon className="h-4 w-4" />
+                    Map
+                  </button>
+                </div>
                 <button
                   onClick={() => setShowFilters(!showFilters)}
                   className="md:hidden flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-stone-200 text-stone-700 font-medium"
@@ -141,7 +209,15 @@ export default function FindProcessor() {
               </div>
             </div>
 
+            {/* Map View */}
+            {view === 'map' && <ProcessorMap processors={filtered} userLocation={userLoc.location} />}
+
+            {userLoc.error && (
+              <p className="text-sm text-red-600 mb-4">{userLoc.error}</p>
+            )}
+
             {/* Processor Grid */}
+            {view === 'list' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((processor, index) => (
                 <Link
@@ -182,6 +258,11 @@ export default function FindProcessor() {
                         <div className="flex items-center text-stone-500 mt-1">
                           <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
                           <span className="text-sm">{processor.location}</span>
+                          {userLoc.location && processor.lat != null && processor.lng != null && (
+                            <span className="text-xs text-brand-green font-semibold ml-2">
+                              {Math.round(distanceMiles(userLoc.location, { lat: processor.lat, lng: processor.lng }))} mi
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -200,8 +281,17 @@ export default function FindProcessor() {
                     {/* CTA */}
                     <div className="flex items-center justify-between text-sm bg-brand-cream rounded-lg px-3 py-2">
                       <div className="flex items-center text-stone-600">
-                        <Calendar className="h-4 w-4 mr-2 text-brand-orange" />
-                        <span>Online scheduling available</span>
+                        {processor.status === 'customer' ? (
+                          <>
+                            <Calendar className="h-4 w-4 mr-2 text-brand-orange" />
+                            <span>Online scheduling available</span>
+                          </>
+                        ) : (
+                          <>
+                            <MapPin className="h-4 w-4 mr-2 text-brand-green" />
+                            <span>Independent processor</span>
+                          </>
+                        )}
                       </div>
                       <ChevronRight className="h-4 w-4 text-brand-green group-hover:text-brand-orange transition-colors" />
                     </div>
@@ -209,8 +299,9 @@ export default function FindProcessor() {
                 </Link>
               ))}
             </div>
+            )}
 
-            {filtered.length === 0 && (
+            {filtered.length === 0 && view === 'list' && (
               <div className="text-center py-16">
                 <p className="text-xl text-stone-500 mb-4">No processors found matching your search.</p>
                 <button

@@ -336,7 +336,28 @@ export default function Home() {
       <PartnerLogoBanner />
 
       {/* ============================================
-          SECTION 7: FINAL CTA
+          SECTION 7: BUYER CTA — Secondary audience
+          ============================================ */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center fade-up">
+            <h2 className="text-3xl md:text-4xl font-roca text-brand-green mb-4 stagger-child">Looking to Buy Local Beef?</h2>
+            <p className="text-lg text-stone-600 mb-8 max-w-xl mx-auto stagger-child">
+              Tell us what you're looking for — quarter, half, or whole — and we'll connect you with an independent processor in your area.
+            </p>
+            <Link
+              to="/buy-beef"
+              className="bg-brand-green text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-green/90 transition-colors inline-flex items-center justify-center font-bold stagger-child"
+            >
+              Find Beef Near You
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          SECTION 8: FINAL CTA
           ============================================ */}
       <section className="py-20 bg-brand-green">
         <div className="container mx-auto px-4">

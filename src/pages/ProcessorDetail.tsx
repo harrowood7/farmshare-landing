@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { MapPin, Calendar, ArrowLeft, ExternalLink, Globe, CheckCircle2 } from 'lucide-react';
+import { MapPin, Calendar, ArrowLeft, ExternalLink, Globe, CheckCircle2, Send, Phone } from 'lucide-react';
 import { processors, stateNames } from '../data/processors';
 import { processorAboutContent } from '../data/processorAboutContent';
+import RequestSchedulingModal from '../components/RequestSchedulingModal';
 
 export default function ProcessorDetail() {
   const { stateSlug: slug } = useParams<{ stateSlug: string }>();
   const processor = processors.find(p => p.slug === slug);
+  const [requestOpen, setRequestOpen] = useState(false);
+  const isCustomer = processor?.status === 'customer';
 
   useEffect(() => {
     if (!processor) return;
@@ -121,16 +124,26 @@ export default function ProcessorDetail() {
                 </span>
               ))}
             </div>
-            <a
-              href={`https://partners.farmshare.co/scheduling/${processor.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
-            >
-              <Calendar className="mr-2 h-5 w-5" />
-              Schedule Online
-              <ExternalLink className="ml-2 h-4 w-4" />
-            </a>
+            {isCustomer ? (
+              <a
+                href={`https://partners.farmshare.co/scheduling/${processor.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
+              >
+                <Calendar className="mr-2 h-5 w-5" />
+                Schedule Online
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </a>
+            ) : (
+              <button
+                onClick={() => setRequestOpen(true)}
+                className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
+              >
+                <Send className="mr-2 h-5 w-5" />
+                Request Online Scheduling
+              </button>
+            )}
           </div>
         </div>
       </section>
@@ -154,9 +167,11 @@ export default function ProcessorDetail() {
 
               {hasRichContent ? (
                 <p className="text-stone-700 mb-6">{content.about}</p>
+              ) : processor.description ? (
+                <p className="text-stone-700 mb-6">{processor.description}</p>
               ) : (
                 <p className="text-stone-700 mb-6">
-                  {processor.name} is an independent custom meat processor located in {city}, {stateFull}. They process {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1')} and offer online scheduling and digital cut sheets through Farmshare.
+                  {processor.name} is an independent custom meat processor located in {city}, {stateFull}. They process {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1')}{isCustomer ? ' and offer online scheduling and digital cut sheets through Farmshare' : ''}.
                 </p>
               )}
 
@@ -185,52 +200,84 @@ export default function ProcessorDetail() {
                 </div>
               )}
 
-              {/* Visit Website */}
-              {content?.website && (
-                <div className="mb-6">
-                  <a
-                    href={content.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand-cream rounded-lg text-brand-green font-medium hover:text-brand-orange transition-colors"
-                  >
-                    <Globe className="h-4 w-4" />
-                    Visit Website
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
+              {/* Visit Website / Contact Info */}
+              {(content?.website || processor.website || processor.phone) && (
+                <div className="mb-6 flex flex-wrap gap-2">
+                  {(content?.website || processor.website) && (
+                    <a
+                      href={content?.website || processor.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-brand-cream rounded-lg text-brand-green font-medium hover:text-brand-orange transition-colors"
+                    >
+                      <Globe className="h-4 w-4" />
+                      Visit Website
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  )}
+                  {!isCustomer && processor.phone && (
+                    <a
+                      href={`tel:${processor.phone.replace(/[^0-9+]/g, '')}`}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-brand-cream rounded-lg text-brand-green font-medium hover:text-brand-orange transition-colors"
+                    >
+                      <Phone className="h-4 w-4" />
+                      {processor.phone}
+                    </a>
+                  )}
                 </div>
               )}
 
-              <h3 className="text-lg font-bold text-brand-green mb-3">What You Get with Farmshare</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="bg-brand-cream rounded-lg p-4 text-center">
-                  <Calendar className="h-8 w-8 text-brand-orange mx-auto mb-2" />
-                  <p className="font-bold text-stone-800 text-sm">Online Scheduling</p>
-                  <p className="text-stone-600 text-sm">Book your harvest slot from your phone</p>
+              {isCustomer ? (
+                <>
+                  <h3 className="text-lg font-bold text-brand-green mb-3">What You Get with Farmshare</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="bg-brand-cream rounded-lg p-4 text-center">
+                      <Calendar className="h-8 w-8 text-brand-orange mx-auto mb-2" />
+                      <p className="font-bold text-stone-800 text-sm">Online Scheduling</p>
+                      <p className="text-stone-600 text-sm">Book your harvest slot from your phone</p>
+                    </div>
+                    <div className="bg-brand-cream rounded-lg p-4 text-center">
+                      <svg className="h-8 w-8 text-brand-orange mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                      <p className="font-bold text-stone-800 text-sm">Digital Cut Sheets</p>
+                      <p className="text-stone-600 text-sm">Submit your cutting instructions online</p>
+                    </div>
+                    <div className="bg-brand-cream rounded-lg p-4 text-center">
+                      <svg className="h-8 w-8 text-brand-orange mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                      <p className="font-bold text-stone-800 text-sm">Order Updates</p>
+                      <p className="text-stone-600 text-sm">Text & email updates on your order</p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="bg-brand-cream rounded-lg p-5 mb-6">
+                  <h3 className="text-lg font-bold text-brand-green mb-2">Want to book with {processor.name} online?</h3>
+                  <p className="text-stone-700 text-sm mb-0">
+                    {processor.name} isn't on Farmshare yet. Request online scheduling and we'll reach out to them on your behalf — you'll be the first to know if they join the network.
+                  </p>
                 </div>
-                <div className="bg-brand-cream rounded-lg p-4 text-center">
-                  <svg className="h-8 w-8 text-brand-orange mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                  <p className="font-bold text-stone-800 text-sm">Digital Cut Sheets</p>
-                  <p className="text-stone-600 text-sm">Submit your cutting instructions online</p>
-                </div>
-                <div className="bg-brand-cream rounded-lg p-4 text-center">
-                  <svg className="h-8 w-8 text-brand-orange mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                  <p className="font-bold text-stone-800 text-sm">Order Updates</p>
-                  <p className="text-stone-600 text-sm">Text & email updates on your order</p>
-                </div>
-              </div>
+              )}
 
               <div className="text-center">
-                <a
-                  href={`https://partners.farmshare.co/scheduling/${processor.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
-                >
-                  <Calendar className="mr-2 h-5 w-5" />
-                  View Available Dates
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </a>
+                {isCustomer ? (
+                  <a
+                    href={`https://partners.farmshare.co/scheduling/${processor.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
+                  >
+                    <Calendar className="mr-2 h-5 w-5" />
+                    View Available Dates
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => setRequestOpen(true)}
+                    className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
+                  >
+                    <Send className="mr-2 h-5 w-5" />
+                    Request Online Scheduling
+                  </button>
+                )}
               </div>
             </div>
 
@@ -240,11 +287,17 @@ export default function ProcessorDetail() {
                 Custom Meat Processing in {city}, {stateFull}
               </h2>
               <p className="text-stone-700 mb-4">
-                Looking for a meat processor near {city}, {stateFull}? {processor.name} offers custom {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1').toLowerCase()} processing with modern tools that make the experience easier for farmers, ranchers, and hunters.
+                Looking for a meat processor near {city}, {stateFull}? {processor.name} offers custom {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1').toLowerCase()} processing{isCustomer ? ' with modern tools that make the experience easier for farmers, ranchers, and hunters' : ' for farmers, ranchers, and hunters in the region'}.
               </p>
-              <p className="text-stone-700 mb-4">
-                Instead of playing phone tag to book a harvest slot, you can schedule online through Farmshare. Submit your cut sheet digitally from your phone—no more handwriting instructions on paper. And you'll get automatic text and email updates on your order status from drop-off to pickup.
-              </p>
+              {isCustomer ? (
+                <p className="text-stone-700 mb-4">
+                  Instead of playing phone tag to book a harvest slot, you can schedule online through Farmshare. Submit your cut sheet digitally from your phone—no more handwriting instructions on paper. And you'll get automatic text and email updates on your order status from drop-off to pickup.
+                </p>
+              ) : (
+                <p className="text-stone-700 mb-4">
+                  {processor.name} isn't on the Farmshare network yet — bookings still happen by phone or in person. If you'd like to see them offer online scheduling, digital cut sheets, and order updates, request it above and we'll reach out on your behalf.
+                </p>
+              )}
               <p className="text-stone-700">
                 Browse more processors in <Link to={`/find-a-processor/${stateFull.toLowerCase().replace(/\s+/g, '-')}`} className="text-brand-orange font-bold hover:underline">{stateFull}</Link> or view <Link to="/find-a-processor" className="text-brand-orange font-bold hover:underline">all processors</Link> in the Farmshare network.
               </p>
@@ -252,6 +305,13 @@ export default function ProcessorDetail() {
           </div>
         </div>
       </section>
+
+      <RequestSchedulingModal
+        open={requestOpen}
+        onClose={() => setRequestOpen(false)}
+        processorSlug={processor.slug}
+        processorName={processor.name}
+      />
     </div>
   );
 }

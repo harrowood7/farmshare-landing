@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@googlemaps/markerclusterer": "^2.6.2",
     "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/supabase-js": "^2.39.8",
+    "@vis.gl/react-google-maps": "^1.8.3",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

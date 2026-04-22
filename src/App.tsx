@@ -14,7 +14,8 @@ import {
   ServiceAgreement,
   ReleaseNotes,
   ReleaseNoteDetail,
-  Admin
+  Admin,
+  BuyBeef
 } from './pages';
 import { stateSlugToAbbr } from './data/processors';
 
@@ -39,6 +40,7 @@ function App() {
           <Route path="/mission" element={<Mission />} />
           <Route path="/features" element={<Features />} />
           <Route path="/processors" element={<Navigate to="/features" replace />} />
+          <Route path="/buy-beef" element={<BuyBeef />} />
           <Route path="/find-a-processor" element={<FindProcessor />} />
           <Route path="/find-a-processor/:stateSlug" element={<ProcessorOrStatePage />} />
           <Route path="/privacy" element={<Privacy />} />

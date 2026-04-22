@@ -1,10 +1,10 @@
 import React from 'react';
 import { processors } from '../data/processors';
 
-// Build logos from processors data (source of truth), skipping nulls and deduplicating by URL
+// Build logos from CUSTOMER processors only (not prospects), skipping nulls and deduplicating by URL
 const seen = new Set<string>();
 const logos = processors.reduce<{ src: string; alt: string }[]>((acc, p) => {
-  if (p.logo && !seen.has(p.logo)) {
+  if (p.status === 'customer' && p.logo && !seen.has(p.logo)) {
     seen.add(p.logo);
     acc.push({ src: p.logo, alt: p.name });
   }

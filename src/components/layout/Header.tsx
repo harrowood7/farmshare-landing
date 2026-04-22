@@ -44,6 +44,9 @@ export default function Header() {
             <Link to="/find-a-processor" className={getLinkClass('/find-a-processor')}>
               Find a Processor
             </Link>
+            <Link to="/buy-beef" className={getLinkClass('/buy-beef')}>
+              Buy Beef
+            </Link>
             <Link to="/mission" className={getLinkClass('/mission')}>
               Mission
             </Link>
@@ -87,15 +90,22 @@ export default function Header() {
             >
               Features
             </Link>
-            <Link 
-              to="/find-a-processor" 
+            <Link
+              to="/find-a-processor"
               className={`block ${getLinkClass('/find-a-processor')}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Find a Processor
             </Link>
-            <Link 
-              to="/mission" 
+            <Link
+              to="/buy-beef"
+              className={`block ${getLinkClass('/buy-beef')}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Buy Beef
+            </Link>
+            <Link
+              to="/mission"
               className={`block ${getLinkClass('/mission')}`}
               onClick={() => setIsMenuOpen(false)}
             >

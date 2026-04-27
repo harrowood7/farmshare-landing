@@ -1,19 +1,58 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { MapPin, Search, Calendar, Filter, ChevronDown, ChevronRight, Map as MapIcon, List, Navigation, X } from 'lucide-react';
-import { processors, stateNames } from '../data/processors';
+import { Link, useSearchParams } from 'react-router-dom';
+import { MapPin, Search, Calendar, Filter, ChevronDown, ChevronRight, Map as MapIcon, List, Navigation, X, CheckCircle2, Send } from 'lucide-react';
+import { processors, stateNames, type Processor } from '../data/processors';
 import ProcessorMap from '../components/ProcessorMap';
 import { useUserLocation, distanceMiles } from '../hooks/useUserLocation';
 
 // Derive unique states sorted alphabetically
 const allStates = ["All States", ...Array.from(new Set(processors.map(p => p.state))).sort()];
 
+function initialsFor(name: string): string {
+  return name.split(' ').map(w => w[0]).filter(c => c && c.match(/[A-Z0-9]/i)).slice(0, 2).join('').toUpperCase();
+}
+
+function ProcessorLogo({ processor }: { processor: Processor }) {
+  const [failed, setFailed] = useState(false);
+  if (!processor.logo || failed) {
+    return (
+      <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-green flex items-center justify-center">
+        <span className="text-white font-bold text-xl">{initialsFor(processor.name)}</span>
+      </div>
+    );
+  }
+  return (
+    <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1">
+      <img
+        src={processor.logo}
+        alt={processor.name}
+        className="max-w-full max-h-full object-contain"
+        loading="lazy"
+        decoding="async"
+        onError={() => setFailed(true)}
+      />
+    </div>
+  );
+}
+
 export default function FindProcessor() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedState, setSelectedState] = useState('All States');
   const [selectedSpecies, setSelectedSpecies] = useState('All Species');
+  const [onlineOnly, setOnlineOnly] = useState(searchParams.get('online') === 'true');
   const [showFilters, setShowFilters] = useState(false);
   const [view, setView] = useState<'list' | 'map'>('list');
+
+  // Keep URL in sync when user toggles the filter so the state is shareable.
+  useEffect(() => {
+    const next = new URLSearchParams(searchParams);
+    if (onlineOnly) next.set('online', 'true');
+    else next.delete('online');
+    if (next.toString() !== searchParams.toString()) {
+      setSearchParams(next, { replace: true });
+    }
+  }, [onlineOnly, searchParams, setSearchParams]);
   const userLoc = useUserLocation();
 
   useEffect(() => {
@@ -65,6 +104,7 @@ export default function FindProcessor() {
   const allSpecies = ["All Species", ...Array.from(new Set(processors.flatMap(p => p.species))).sort()];
 
   const filteredRaw = processors.filter(p => {
+    if (p.businessStatus === 'CLOSED_PERMANENTLY') return false;
     const q = searchQuery.toLowerCase();
     const matchesSearch = searchQuery === '' ||
       p.name.toLowerCase().includes(q) ||
@@ -73,7 +113,8 @@ export default function FindProcessor() {
       (stateNames[p.state]?.toLowerCase().includes(q) ?? false);
     const matchesState = selectedState === 'All States' || p.state === selectedState;
     const matchesSpecies = selectedSpecies === 'All Species' || p.species.includes(selectedSpecies);
-    return matchesSearch && matchesState && matchesSpecies;
+    const matchesOnline = !onlineOnly || p.status === 'customer';
+    return matchesSearch && matchesState && matchesSpecies && matchesOnline;
   });
 
   const filtered = userLoc.location
@@ -190,6 +231,20 @@ export default function FindProcessor() {
                 </button>
 
                 <div className={`${showFilters ? 'flex' : 'hidden'} md:flex flex-wrap gap-3`}>
+                  <button
+                    type="button"
+                    onClick={() => setOnlineOnly(v => !v)}
+                    aria-pressed={onlineOnly}
+                    className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                      onlineOnly
+                        ? 'bg-brand-green text-white border-brand-green'
+                        : 'bg-white text-stone-700 border-stone-200 hover:text-brand-green'
+                    }`}
+                  >
+                    <CheckCircle2 className="h-4 w-4" />
+                    Online scheduling only
+                  </button>
+
                   <select
                     value={selectedState}
                     onChange={(e) => setSelectedState(e.target.value)}
@@ -227,32 +282,7 @@ export default function FindProcessor() {
                 >
                   <div className="p-6">
                     <div className="flex items-start gap-4 mb-4">
-                      {processor.logo ? (
-                        <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1">
-                          <img
-                            src={processor.logo}
-                            alt={processor.name}
-                            className="max-w-full max-h-full object-contain"
-                            loading="lazy"
-                            decoding="async"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.style.display = 'none';
-                              const parent = target.parentElement;
-                              if (parent) {
-                                parent.className = "flex-shrink-0 w-16 h-16 rounded-lg bg-brand-green flex items-center justify-center";
-                                parent.innerHTML = `<span class="text-white font-bold text-xl">${processor.name.split(' ').map(w => w[0]).filter(c => c && c.match(/[A-Z0-9]/i)).slice(0, 2).join('').toUpperCase()}</span>`;
-                              }
-                            }}
-                          />
-                        </div>
-                      ) : (
-                        <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-green flex items-center justify-center">
-                          <span className="text-white font-bold text-xl">
-                            {processor.name.split(' ').map(w => w[0]).filter(c => c && c.match(/[A-Z0-9]/i)).slice(0, 2).join('').toUpperCase()}
-                          </span>
-                        </div>
-                      )}
+                      <ProcessorLogo processor={processor} />
                       <div className="flex-1 min-w-0">
                         <h3 className="text-lg font-bold text-brand-green leading-tight group-hover:text-brand-orange transition-colors">{processor.name}</h3>
                         <div className="flex items-center text-stone-500 mt-1">
@@ -264,6 +294,12 @@ export default function FindProcessor() {
                             </span>
                           )}
                         </div>
+                        {processor.status === 'customer' && (
+                          <div className="flex items-center gap-1 text-xs font-semibold text-brand-green mt-1.5">
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            <span>Online scheduling</span>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -279,22 +315,23 @@ export default function FindProcessor() {
                     )}
 
                     {/* CTA */}
-                    <div className="flex items-center justify-between text-sm bg-brand-cream rounded-lg px-3 py-2">
-                      <div className="flex items-center text-stone-600">
-                        {processor.status === 'customer' ? (
-                          <>
-                            <Calendar className="h-4 w-4 mr-2 text-brand-orange" />
-                            <span>Online scheduling available</span>
-                          </>
-                        ) : (
-                          <>
-                            <MapPin className="h-4 w-4 mr-2 text-brand-green" />
-                            <span>Independent processor</span>
-                          </>
-                        )}
+                    {processor.status === 'customer' ? (
+                      <div className="flex items-center justify-between text-sm bg-brand-green rounded-lg px-3 py-2 shadow-sm group-hover:bg-brand-green/90 transition-colors">
+                        <div className="flex items-center font-semibold text-white">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          <span>Book now — real-time availability</span>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-white" />
                       </div>
-                      <ChevronRight className="h-4 w-4 text-brand-green group-hover:text-brand-orange transition-colors" />
-                    </div>
+                    ) : (
+                      <div className="flex items-center justify-between text-sm bg-stone-100 rounded-lg px-3 py-2">
+                        <div className="flex items-center text-stone-600">
+                          <Send className="h-4 w-4 mr-2" />
+                          <span>Send scheduling request</span>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-stone-400 group-hover:text-brand-orange transition-colors" />
+                      </div>
+                    )}
                   </div>
                 </Link>
               ))}
@@ -305,7 +342,7 @@ export default function FindProcessor() {
               <div className="text-center py-16">
                 <p className="text-xl text-stone-500 mb-4">No processors found matching your search.</p>
                 <button
-                  onClick={() => { setSearchQuery(''); setSelectedState('All States'); setSelectedSpecies('All Species'); }}
+                  onClick={() => { setSearchQuery(''); setSelectedState('All States'); setSelectedSpecies('All Species'); setOnlineOnly(false); }}
                   className="text-brand-orange font-bold hover:underline"
                 >
                   Clear all filters

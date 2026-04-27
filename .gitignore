@@ -26,3 +26,22 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Enrichment pipeline intermediates — regenerated from the xlsx + Places API
+# each time `scripts/enrich_with_places.py` runs. Keep decisions.json (Henry's
+# rulings) tracked; ignore the ephemeral staged output.
+data/enrichment/staged.json
+data/enrichment/needs_review.json
+data/enrichment/merge_preview.json
+data/enrichment/legacy_audit.json
+data/enrichment/expanded_places.json
+data/enrichment/reviews_pull.json
+data/enrichment/broken_websites.json
+data/enrichment/truly_broken_websites.json
+data/enrichment/logo_suggestions.json
+data/enrichment/website_suggestions.json
+data/enrichment/pre_bd_slugs.json
+
+# Ad-hoc geocoding audit CSVs written by scripts/validate-geocoding.mjs
+geocoding-review.csv
+geocoding-validation.csv

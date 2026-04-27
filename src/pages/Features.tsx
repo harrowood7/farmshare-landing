@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Calendar, CalendarClock, FileText, MessageSquare, Bell, Users, ClipboardList, Receipt, UserCircle, BarChart3 } from 'lucide-react';
+import { Calendar, CalendarClock, FileText, MessageSquare, Bell, Users, ClipboardList, Receipt, UserCircle, BarChart3, Smartphone } from 'lucide-react';
 
 export default function Features() {
   const parallaxRef = useRef<HTMLDivElement>(null);
@@ -204,7 +204,7 @@ export default function Features() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-roca text-brand-green text-center mb-12">Smart Features</h2>
+            <h2 className="text-4xl font-roca text-brand-green text-center mb-12">Everything Your Plant Needs in One System</h2>
 
             {/* Feature Tabs */}
             <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -284,22 +284,22 @@ export default function Features() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-4xl font-roca text-brand-green text-center mb-4 fade-up">Your Customers Will Love It Too</h2>
-            <p className="text-xl text-stone-600 text-center mb-12 fade-up">When your producers use Farmshare, your whole operation runs smoother—fewer calls, fewer mix-ups, fewer headaches.</p>
+            <p className="text-xl text-stone-600 text-center mb-12 fade-up">When booking, cut sheets, and updates all live on their phone, your customers stop calling—and start coming back.</p>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-white p-8 rounded-lg shadow-lg text-center fade-up">
-                <CalendarClock className="h-12 w-12 text-brand-orange mx-auto mb-6" />
-                <h3 className="text-xl font-bold text-brand-green mb-4">Self-Serve Booking</h3>
-                <p className="text-stone-700">Producers book their own harvest slots online—no more phone tag or back-and-forth scheduling.</p>
+                <Smartphone className="h-12 w-12 text-brand-orange mx-auto mb-6" />
+                <h3 className="text-xl font-bold text-brand-green mb-4">Booked in Two Minutes</h3>
+                <p className="text-stone-700">Producers see your real availability and grab a slot from their phone—no phone tag, no waiting until office hours.</p>
               </div>
               <div className="bg-white p-8 rounded-lg shadow-lg text-center fade-up">
-                <FileText className="h-12 w-12 text-brand-orange mx-auto mb-6" />
-                <h3 className="text-xl font-bold text-brand-green mb-4">Digital Cut Sheets</h3>
-                <p className="text-stone-700">Customers submit cut selections from their phone. Your team gets clean, legible specs every time.</p>
+                <ClipboardList className="h-12 w-12 text-brand-orange mx-auto mb-6" />
+                <h3 className="text-xl font-bold text-brand-green mb-4">Cut Sheets Without the Phone Call</h3>
+                <p className="text-stone-700">Customers submit cut selections from their phone, on their own time. Reusable templates remember their preferences—no faxes, no rewrites, no errors at drop-off.</p>
               </div>
               <div className="bg-white p-8 rounded-lg shadow-lg text-center fade-up">
-                <MessageSquare className="h-12 w-12 text-brand-orange mx-auto mb-6" />
-                <h3 className="text-xl font-bold text-brand-green mb-4">Automatic Updates</h3>
-                <p className="text-stone-700">Text and email reminders for drop-offs, pickups, and status changes—so you're not chasing anyone down.</p>
+                <Bell className="h-12 w-12 text-brand-orange mx-auto mb-6" />
+                <h3 className="text-xl font-bold text-brand-green mb-4">Always In the Loop</h3>
+                <p className="text-stone-700">Text and email updates at every stage—hanging, cut, ready for pickup. They never call to check status again.</p>
               </div>
             </div>
             <p className="text-center text-stone-500 mt-8 fade-up">Free for producers and end customers when their processor is on Farmshare.</p>

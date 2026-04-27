@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Beef, Calendar, Send, CheckCircle, ArrowRight } from 'lucide-react';
-import { processors } from '../data/processors';
-import { useUserLocation, distanceMiles } from '../hooks/useUserLocation';
+import { MapPin, Send, CheckCircle } from 'lucide-react';
 
 const SPECIES_OPTIONS = ['Beef', 'Pork', 'Lamb', 'Goat', 'Other'];
 const CUT_OPTIONS = ['Whole', 'Half', 'Quarter', 'Not sure'];
 const TIMING_OPTIONS = ['Within 1 month', '1–3 months', '3–6 months', 'Just exploring'];
-
-interface NearbyProcessor {
-  name: string;
-  slug: string;
-  location: string;
-  distance: number;
-  isFarmshare: boolean;
-}
 
 export default function BuyBeef() {
   const [form, setForm] = useState({
@@ -29,8 +19,6 @@ export default function BuyBeef() {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
-  const [nearbyProcessors, setNearbyProcessors] = useState<NearbyProcessor[]>([]);
-  const userLoc = useUserLocation();
 
   useEffect(() => {
     document.title = 'Buy Local Beef, Pork & Lamb | Farmshare';
@@ -44,21 +32,6 @@ export default function BuyBeef() {
     setForm(f => ({ ...f, [field]: value }));
   };
 
-  const findNearby = (zipOrCoords: { lat: number; lng: number } | null) => {
-    if (!zipOrCoords) return [];
-    return processors
-      .filter(p => p.lat && p.lng)
-      .map(p => ({
-        name: p.name,
-        slug: p.slug,
-        location: p.location,
-        distance: distanceMiles(zipOrCoords.lat, zipOrCoords.lng, p.lat!, p.lng!),
-        isFarmshare: p.status === 'customer',
-      }))
-      .sort((a, b) => a.distance - b.distance)
-      .slice(0, 5);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.species || !form.cutType) return;
@@ -67,12 +40,11 @@ export default function BuyBeef() {
     setErrorMsg('');
 
     try {
-      // Send via Web3Forms (free, no signup for basic, just POST)
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          access_key: '5f6e1c3f-0000-0000-0000-000000000000', // TODO: replace with real Web3Forms key
+          access_key: 'd9ea2243-5be0-499d-915e-be1be2b6fc88',
           subject: `🥩 New buyer lead: ${form.name} — ${form.species} ${form.cutType}`,
           from_name: 'Farmshare Buy Beef',
           to: 'henry@farmshare.co',
@@ -89,10 +61,6 @@ export default function BuyBeef() {
 
       const data = await res.json();
       if (!data.success) throw new Error(data.message || 'Submission failed');
-
-      // Find nearby processors to show
-      const nearby = userLoc ? findNearby(userLoc) : [];
-      setNearbyProcessors(nearby);
 
       setStatus('success');
     } catch (err) {
@@ -113,37 +81,6 @@ export default function BuyBeef() {
               We'll connect you with a processor in your area. Expect to hear from us within 1–2 business days.
             </p>
           </div>
-
-          {nearbyProcessors.length > 0 && (
-            <div className="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
-              <h2 className="text-lg font-roca text-brand-green mb-4">Processors near you</h2>
-              <div className="space-y-3">
-                {nearbyProcessors.map((p) => (
-                  <Link
-                    key={p.slug}
-                    to={`/find-a-processor/${p.slug}`}
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-stone-50 transition-colors"
-                  >
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-stone-900">{p.name}</span>
-                        {p.isFarmshare && (
-                          <span className="text-xs bg-brand-green text-white px-2 py-0.5 rounded-full">
-                            Book online
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-sm text-stone-500">{p.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-stone-400">
-                      <span>{Math.round(p.distance)} mi</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
 
           <div className="mt-8 text-center">
             <Link to="/find-a-processor" className="text-brand-green font-medium hover:underline">

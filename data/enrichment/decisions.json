@@ -1,0 +1,213 @@
+{
+  "_note": "Manual decisions for flagged-for-review entries from needs_review.json. Consumed by merge_enriched.py. Keyed by BD-list name + state.",
+  "skip": [
+    {
+      "name": "Butt Pork",
+      "state": "IA",
+      "reason": "Places returned just an address \u2014 business closed or misnamed"
+    },
+    {
+      "name": "Stagno Meat",
+      "state": "CA",
+      "reason": "Closed (per Henry)"
+    },
+    {
+      "name": "Burke's Meats",
+      "state": "IA",
+      "reason": "Places resolves to Burke Corporation (national industrial processor) \u2014 not the intended local shop"
+    },
+    {
+      "name": "Carlin",
+      "state": "ID",
+      "reason": "BD 'name' is just 'Carlin' \u2014 no real business name, Places returned only an address"
+    },
+    {
+      "name": "Daisy Oaks Ranch",
+      "state": "MO",
+      "reason": "Places returned only an address \u2014 likely closed"
+    },
+    {
+      "name": "Trails End Butchering",
+      "state": "IA",
+      "reason": "Places no-match \u2014 likely closed or moved"
+    },
+    {
+      "name": "Ferguson Highlands",
+      "state": "NM",
+      "reason": "Places no-match"
+    },
+    {
+      "name": "Sublime Pastures",
+      "state": "NM",
+      "reason": "Places no-match"
+    },
+    {
+      "name": "Big Dan's Smokin Meats",
+      "state": "SD",
+      "reason": "Places no-match; BD zip is malformed"
+    },
+    {
+      "name": "Caprock Custom Processing",
+      "state": "TX",
+      "reason": "Places no-match"
+    },
+    {
+      "name": "Gene's Custom Slaughtering",
+      "state": "WA",
+      "reason": "Places no-match"
+    },
+    {
+      "name": "BMCC Meats",
+      "state": "OR",
+      "reason": "Places returned a different business at a different address \u2014 likely mismatch"
+    },
+    {
+      "name": "Carniceria Aguililla",
+      "state": "ID",
+      "reason": "Skipped per manual review (was: Places returned 'Aguililla Mexican Restaurant' at same address \u2014 likely butcher attached to restaurant)"
+    },
+    {
+      "name": "2nd Ave Sausage Company",
+      "state": "MN",
+      "reason": "Skipped per manual review (was: Places returned 'Morgan's Meat Market' at same address \u2014 likely rebrand)"
+    }
+  ],
+  "accept_places": [
+    {
+      "name": "Rachida Meat Processing",
+      "state": "CA",
+      "reason": "Use Places-resolved 'Mid State Meat Processing' as canonical"
+    },
+    {
+      "name": "Boston's Beef House",
+      "state": "ID",
+      "reason": "BD state was wrong \u2014 business is 'Boston Beef House' in OR"
+    },
+    {
+      "name": "Winner's Meat Farm",
+      "state": "IN",
+      "reason": "BD state was wrong \u2014 business is in OH"
+    },
+    {
+      "name": "Burnett Meats",
+      "state": "KY",
+      "reason": "Same business; Places name is just verbose"
+    },
+    {
+      "name": "Breeden's Quality Meats",
+      "state": "NC",
+      "reason": "BD state was wrong \u2014 business is in SC"
+    },
+    {
+      "name": "Begley's Butcher Block",
+      "state": "NC",
+      "reason": "BD state was wrong \u2014 business is in SC"
+    },
+    {
+      "name": "Penn Avenue Meats",
+      "state": "PA",
+      "reason": "BD state was wrong \u2014 business is in MD"
+    },
+    {
+      "name": "Bellevue Meat Processing Plant",
+      "state": "TX",
+      "reason": "Likely spelling drift \u2014 Places has 'Bellville Meat Market' at same area"
+    },
+    {
+      "name": "Richmond Meat Company",
+      "state": "IA",
+      "reason": "BD state was wrong \u2014 business is 'Richmond Meat Packers' in MI"
+    },
+    {
+      "name": "Chucky's In Holley-Woods",
+      "state": "OR",
+      "reason": "Places returned 'Holy Cow Meats' at same address \u2014 likely rebrand"
+    },
+    {
+      "name": "Champion Meat Processors",
+      "state": "TX",
+      "reason": "Places returned 'Rocking RD Cattle Company Processing' at same address \u2014 likely rebrand"
+    },
+    {
+      "name": "Grant Packing",
+      "state": "NE",
+      "reason": "Places returned 'Sargent Packing Co' in same town \u2014 likely rebrand"
+    },
+    {
+      "name": "Bailey Beef Processing",
+      "state": "IA",
+      "reason": "Accepted Places match per manual review (was: Places returned a different business at a different address in the same town \u2014 likely mismatch)"
+    },
+    {
+      "name": "Al's Butchers Blend",
+      "state": "MN",
+      "reason": "Accepted Places match per manual review (was: Places returned a different business at a different address \u2014 likely mismatch)"
+    },
+    {
+      "name": "Barnyard Butchers",
+      "state": "WI",
+      "reason": "Accepted Places match per manual review (was: Places returned a different business at a different address \u2014 likely mismatch)"
+    }
+  ],
+  "replace": [
+    {
+      "name": "American Butchery",
+      "state": "AL",
+      "reason": "BD had wrong state \u2014 actual business is in Texas (Santo, TX 76472)",
+      "override": {
+        "state": "TX",
+        "name": "American Butchery",
+        "address": "13610 US-281, Santo, TX 76472",
+        "phone": "(940) 463-2517",
+        "website": "https://americanbutchery.com/",
+        "lat": 32.6194152,
+        "lng": -98.1099548,
+        "place_id": "ChIJ2bw7vgXtUYYRkbooH5rtPzM"
+      }
+    },
+    {
+      "name": "3 Brothers Processing",
+      "state": "IA",
+      "reason": "BD had wrong state and name \u2014 actual business is 'Three Brothers Meat Co.' in Montreal, MO",
+      "override": {
+        "state": "MO",
+        "name": "Three Brothers Meat Co.",
+        "address": "2179 State Rte A, Montreal, MO 65591",
+        "phone": "(573) 346-5233",
+        "website": "http://m.facebook.com/tomsmeatprocessing/",
+        "lat": 38.0449195,
+        "lng": -92.6666226,
+        "place_id": "ChIJAaBB4VrWxIcRVJ1ultbibk8"
+      }
+    },
+    {
+      "name": "Henderson Meats",
+      "state": "MT",
+      "reason": "BD had wrong state \u2014 actual business is 'Henderson Meat Processing' in Urie, WY",
+      "override": {
+        "state": "WY",
+        "name": "Henderson Meat Processing",
+        "address": "39139 I-80BL, Urie, WY 82937",
+        "phone": "(307) 786-4577",
+        "website": "http://www.henderson-meat.com/",
+        "lat": 41.3170323,
+        "lng": -110.3482569,
+        "place_id": "ChIJ0Tje21OrUYcRjod--_euwfo"
+      }
+    }
+  ],
+  "add": [
+    {
+      "name": "Weaver Meat Processing",
+      "state": "AL",
+      "reason": "Places surfaced this while looking up 'American Butchery' at the same AL address \u2014 legitimate separate business worth including",
+      "override": {
+        "state": "AL",
+        "name": "Weaver Meat Processing",
+        "address": "2098 Highway 55 W, Hartselle, AL 35640",
+        "phone": "(256) 462-1034",
+        "website": "http://weavermeatprocessing.com/"
+      }
+    }
+  ]
+}

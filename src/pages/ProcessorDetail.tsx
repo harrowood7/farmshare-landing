@@ -1,9 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { MapPin, Calendar, ArrowLeft, ExternalLink, Globe, CheckCircle2, Send, Phone } from 'lucide-react';
-import { processors, stateNames } from '../data/processors';
+import { MapPin, Calendar, ArrowLeft, ExternalLink, Globe, CheckCircle2, Send, Phone, Star, Clock, Map as MapIcon } from 'lucide-react';
+import { processors, stateNames, partnerSlugFor, partnerFacilitiesFor, type Processor } from '../data/processors';
 import { processorAboutContent } from '../data/processorAboutContent';
 import RequestSchedulingModal from '../components/RequestSchedulingModal';
+
+function initialsFor(name: string): string {
+  return name.split(' ').map(w => w[0]).filter(c => c && c.match(/[A-Z0-9]/i)).slice(0, 2).join('').toUpperCase();
+}
+
+function HeroLogo({ processor }: { processor: Processor }) {
+  const [failed, setFailed] = useState(false);
+  if (!processor.logo || failed) {
+    return (
+      <div className="w-24 h-24 mx-auto mb-6 rounded-xl bg-white/10 flex items-center justify-center">
+        <span className="text-white font-bold text-3xl">{initialsFor(processor.name)}</span>
+      </div>
+    );
+  }
+  return (
+    <div className="w-24 h-24 mx-auto mb-6 rounded-xl bg-white/10 flex items-center justify-center overflow-hidden p-2">
+      <img
+        src={processor.logo}
+        alt={processor.name}
+        className="max-w-full max-h-full object-contain"
+        onError={() => setFailed(true)}
+      />
+    </div>
+  );
+}
 
 export default function ProcessorDetail() {
   const { stateSlug: slug } = useParams<{ stateSlug: string }>();
@@ -15,9 +40,10 @@ export default function ProcessorDetail() {
     if (!processor) return;
 
     // SEO title and meta
-    const city = processor.location.split(',')[0].trim();
+    const rawCity = processor.location.split(',')[0].trim();
+    const city = /^\d/.test(rawCity) ? '' : rawCity;
     const stateFull = stateNames[processor.state] || processor.state;
-    document.title = `${processor.name} — Custom Meat Processor in ${city}, ${stateFull} | Farmshare`;
+    document.title = `${processor.name} — Custom Meat Processor in ${city ? `${city}, ` : ''}${stateFull} | Farmshare`;
 
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
@@ -37,7 +63,7 @@ export default function ProcessorDetail() {
       "description": `${processor.name} is an independent custom meat processor in ${processor.location} offering online scheduling and digital cut sheets through Farmshare. Species processed: ${processor.species.join(', ')}.`,
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": city,
+        "addressLocality": city || undefined,
         "addressRegion": stateFull,
         "addressCountry": "US"
       },
@@ -47,7 +73,7 @@ export default function ProcessorDetail() {
         "@type": "ReserveAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": `https://partners.farmshare.co/scheduling/${processor.slug}`,
+          "urlTemplate": `https://partners.farmshare.co/scheduling/${partnerSlugFor(processor)}`,
           "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
         },
         "result": {
@@ -81,7 +107,8 @@ export default function ProcessorDetail() {
     return <Navigate to="/find-a-processor" replace />;
   }
 
-  const city = processor.location.split(',')[0].trim();
+  const rawCity = processor.location.split(',')[0].trim();
+  const city = /^\d/.test(rawCity) ? '' : rawCity;
   const stateFull = stateNames[processor.state] || processor.state;
   const content = processorAboutContent[processor.slug];
   const hasRichContent = content && content.about.length >= 100;
@@ -92,56 +119,88 @@ export default function ProcessorDetail() {
       <section className="relative py-16 md:py-24 overflow-hidden bg-brand-green">
         <div className="container mx-auto px-4 relative">
           <div className="max-w-3xl mx-auto text-center">
-            {processor.logo ? (
-              <div className="w-24 h-24 mx-auto mb-6 rounded-xl bg-white/10 flex items-center justify-center overflow-hidden p-2">
-                <img
-                  src={processor.logo}
-                  alt={processor.name}
-                  className="max-w-full max-h-full object-contain"
-                />
-              </div>
-            ) : (
-              <div className="w-24 h-24 mx-auto mb-6 rounded-xl bg-white/10 flex items-center justify-center">
-                <span className="text-white font-bold text-3xl">
-                  {processor.name.split(' ').map(w => w[0]).filter(c => c && c.match(/[A-Z0-9]/i)).slice(0, 2).join('').toUpperCase()}
-                </span>
-              </div>
-            )}
+            <HeroLogo processor={processor} />
             <h1 className="text-4xl md:text-5xl lg:text-6xl mb-4 leading-tight text-white font-roca tracking-tight">
               {processor.name}
             </h1>
             {content?.established && (
               <p className="text-brand-cream/60 text-sm font-medium mb-2">Est. {content.established}</p>
             )}
-            <div className="flex items-center justify-center text-brand-cream/80 text-xl mb-6">
-              <MapPin className="h-5 w-5 mr-2" />
-              {processor.location}
+            <div className="flex flex-col items-center text-brand-cream/80 mb-6">
+              <div className="flex items-center text-xl">
+                <MapPin className="h-5 w-5 mr-2" />
+                {processor.location}
+              </div>
+              {processor.address && (
+                <div className="text-sm text-brand-cream/60 mt-1">
+                  {processor.address}{processor.zip ? `, ${processor.zip}` : ''}
+                </div>
+              )}
             </div>
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
+            <div className="flex flex-wrap justify-center gap-2 mb-4">
               {processor.species.map(s => (
                 <span key={s} className="bg-white/10 text-white text-sm font-bold px-3 py-1 rounded-full">
                   {s}
                 </span>
               ))}
             </div>
+            {processor.rating != null && (
+              <div className="flex items-center justify-center gap-1.5 text-brand-cream/90 text-sm mb-8">
+                <Star className="h-4 w-4 fill-brand-yellow text-brand-yellow" />
+                <span className="font-bold">{processor.rating}</span>
+                {processor.userRatingCount != null && (
+                  <span className="text-brand-cream/60">({processor.userRatingCount} {processor.userRatingCount === 1 ? 'review' : 'reviews'})</span>
+                )}
+                {processor.businessStatus === 'CLOSED_PERMANENTLY' && (
+                  <span className="ml-3 bg-red-500/20 text-red-200 text-xs font-bold px-2 py-0.5 rounded-full">Permanently closed</span>
+                )}
+                {processor.businessStatus === 'CLOSED_TEMPORARILY' && (
+                  <span className="ml-3 bg-amber-500/20 text-amber-200 text-xs font-bold px-2 py-0.5 rounded-full">Temporarily closed</span>
+                )}
+              </div>
+            )}
             {isCustomer ? (
-              <a
-                href={`https://partners.farmshare.co/scheduling/${processor.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
-              >
-                <Calendar className="mr-2 h-5 w-5" />
-                Schedule Online
-                <ExternalLink className="ml-2 h-4 w-4" />
-              </a>
+              (() => {
+                const facilities = partnerFacilitiesFor(processor);
+                if (facilities.length > 1) {
+                  return (
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                      {facilities.map(f => (
+                        <a
+                          key={f.slug}
+                          href={`https://partners.farmshare.co/scheduling/${f.slug}?ref=farmshare-directory`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
+                        >
+                          <Calendar className="mr-2 h-5 w-5" />
+                          Schedule — {f.label}
+                          <ExternalLink className="ml-2 h-4 w-4" />
+                        </a>
+                      ))}
+                    </div>
+                  );
+                }
+                return (
+                  <a
+                    href={`https://partners.farmshare.co/scheduling/${facilities[0].slug}?ref=farmshare-directory`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
+                  >
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Schedule Online
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </a>
+                );
+              })()
             ) : (
               <button
                 onClick={() => setRequestOpen(true)}
                 className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
               >
                 <Send className="mr-2 h-5 w-5" />
-                Request Online Scheduling
+                Send scheduling request
               </button>
             )}
           </div>
@@ -167,11 +226,13 @@ export default function ProcessorDetail() {
 
               {hasRichContent ? (
                 <p className="text-stone-700 mb-6">{content.about}</p>
+              ) : processor.editorialSummary ? (
+                <p className="text-stone-700 mb-6">{processor.editorialSummary}</p>
               ) : processor.description ? (
                 <p className="text-stone-700 mb-6">{processor.description}</p>
               ) : (
                 <p className="text-stone-700 mb-6">
-                  {processor.name} is an independent custom meat processor located in {city}, {stateFull}. They process {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1')}{isCustomer ? ' and offer online scheduling and digital cut sheets through Farmshare' : ''}.
+                  {processor.name} is an independent custom meat processor located in {city ? `${city}, ` : ''}{stateFull}. They process {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1')}{isCustomer ? ' and offer online scheduling and digital cut sheets through Farmshare' : ''}.
                 </p>
               )}
 
@@ -201,7 +262,7 @@ export default function ProcessorDetail() {
               )}
 
               {/* Visit Website / Contact Info */}
-              {(content?.website || processor.website || processor.phone) && (
+              {(content?.website || processor.website || processor.phone || processor.googleMapsUri) && (
                 <div className="mb-6 flex flex-wrap gap-2">
                   {(content?.website || processor.website) && (
                     <a
@@ -224,6 +285,33 @@ export default function ProcessorDetail() {
                       {processor.phone}
                     </a>
                   )}
+                  {processor.googleMapsUri && (
+                    <a
+                      href={processor.googleMapsUri}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-brand-cream rounded-lg text-brand-green font-medium hover:text-brand-orange transition-colors"
+                    >
+                      <MapIcon className="h-4 w-4" />
+                      View on Google Maps
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {/* Hours */}
+              {processor.hours && processor.hours.length > 0 && (
+                <div className="mb-6 bg-brand-cream rounded-lg p-4">
+                  <div className="flex items-center gap-2 text-brand-green font-bold mb-2">
+                    <Clock className="h-4 w-4" />
+                    Hours
+                  </div>
+                  <ul className="text-sm text-stone-700 space-y-0.5">
+                    {processor.hours.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </ul>
                 </div>
               )}
 
@@ -250,32 +338,62 @@ export default function ProcessorDetail() {
                 </>
               ) : (
                 <div className="bg-brand-cream rounded-lg p-5 mb-6">
-                  <h3 className="text-lg font-bold text-brand-green mb-2">Want to book with {processor.name} online?</h3>
-                  <p className="text-stone-700 text-sm mb-0">
-                    {processor.name} isn't on Farmshare yet. Request online scheduling and we'll reach out to them on your behalf — you'll be the first to know if they join the network.
+                  <h3 className="text-lg font-bold text-brand-green mb-2">Want to book with {processor.name}?</h3>
+                  <p className="text-stone-700 text-sm mb-2">
+                    Send us your request and we'll get back to you within 1–2 business days.
+                  </p>
+                  <p className="text-stone-600 text-sm mb-0">
+                    Need to book right now?{' '}
+                    <Link to="/find-a-processor?online=true" className="text-brand-green font-semibold hover:underline">
+                      See processors with online scheduling →
+                    </Link>
                   </p>
                 </div>
               )}
 
               <div className="text-center">
                 {isCustomer ? (
-                  <a
-                    href={`https://partners.farmshare.co/scheduling/${processor.slug}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
-                  >
-                    <Calendar className="mr-2 h-5 w-5" />
-                    View Available Dates
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </a>
+                  (() => {
+                    const facilities = partnerFacilitiesFor(processor);
+                    if (facilities.length > 1) {
+                      return (
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                          {facilities.map(f => (
+                            <a
+                              key={f.slug}
+                              href={`https://partners.farmshare.co/scheduling/${f.slug}?ref=farmshare-directory`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
+                            >
+                              <Calendar className="mr-2 h-5 w-5" />
+                              {f.label} dates
+                              <ExternalLink className="ml-2 h-4 w-4" />
+                            </a>
+                          ))}
+                        </div>
+                      );
+                    }
+                    return (
+                      <a
+                        href={`https://partners.farmshare.co/scheduling/${facilities[0].slug}?ref=farmshare-directory`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
+                      >
+                        <Calendar className="mr-2 h-5 w-5" />
+                        View Available Dates
+                        <ExternalLink className="ml-2 h-4 w-4" />
+                      </a>
+                    );
+                  })()
                 ) : (
                   <button
                     onClick={() => setRequestOpen(true)}
                     className="bg-brand-orange text-white text-lg px-8 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold"
                   >
                     <Send className="mr-2 h-5 w-5" />
-                    Request Online Scheduling
+                    Send scheduling request
                   </button>
                 )}
               </div>
@@ -284,10 +402,10 @@ export default function ProcessorDetail() {
             {/* SEO Content */}
             <div className="bg-white rounded-lg shadow-md p-8">
               <h2 className="text-2xl font-roca text-brand-green mb-4">
-                Custom Meat Processing in {city}, {stateFull}
+                Custom Meat Processing in {city ? `${city}, ` : ''}{stateFull}
               </h2>
               <p className="text-stone-700 mb-4">
-                Looking for a meat processor near {city}, {stateFull}? {processor.name} offers custom {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1').toLowerCase()} processing{isCustomer ? ' with modern tools that make the experience easier for farmers, ranchers, and hunters' : ' for farmers, ranchers, and hunters in the region'}.
+                Looking for a meat processor {city ? `near ${city}, ${stateFull}` : `in ${stateFull}`}? {processor.name} offers custom {processor.species.join(', ').replace(/, ([^,]*)$/, ' and $1').toLowerCase()} processing{isCustomer ? ' with modern tools that make the experience easier for farmers and ranchers' : ' for farmers and ranchers in the region'}.
               </p>
               {isCustomer ? (
                 <p className="text-stone-700 mb-4">

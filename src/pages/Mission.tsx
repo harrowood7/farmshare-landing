@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Calendar, Mail, Users, Factory, Link2, ShoppingCart, BarChart3, Network, TrendingUp, Wrench } from 'lucide-react';
+import { Calendar, Mail, Users, Factory, Link2, Network, TrendingUp, Sparkles } from 'lucide-react';
 
 function AnimatedNumber({ target, suffix = '' }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -35,39 +35,30 @@ function AnimatedNumber({ target, suffix = '' }: { target: number; suffix?: stri
 const stages = [
   {
     icon: Factory,
-    title: 'Processor Platform',
-    badge: 'Live Now',
+    title: 'Act 1 — The Operational Platform',
+    badge: 'Built',
     badgeBg: 'bg-brand-green/10',
     badgeText: 'text-brand-green',
     iconBg: 'bg-brand-green',
-    description: 'The wedge that earns trust. Scheduling, digital cut sheets, automated notifications, job tracking, and invoicing—built for how plants actually run. Processors save 5+ hours per day and their customers get a modern, self-service experience.',
+    description: 'The platform that grows plants\' revenue. Online scheduling, automated notifications, digital cut sheets, job tracking, and invoicing replace the phone tag and paperwork chaos. Farmshare drives new customer acquisition. Staff focus on the meat, not the admin.',
   },
   {
-    icon: Link2,
-    title: 'Connected Plant Operations',
+    icon: Sparkles,
+    title: 'Act 2 — Plant Intelligence',
     badge: 'Building',
     badgeBg: 'bg-brand-orange/10',
     badgeText: 'text-brand-orange',
     iconBg: 'bg-brand-orange',
-    description: 'Integrating with plant floor systems so scheduling, production data, yield reporting, and financials flow through one pipeline—from customer booking through the kill floor to the invoice.',
+    description: 'The intelligence that grows plants\' profit. The system fills calendar gaps before the office sees them. It wins back customers who drifted away. It gives plants pricing visibility they\'ve never had — so they stop leaving money on the table.',
   },
   {
-    icon: BarChart3,
-    title: 'Wholesale & Full-Plant Tools',
-    badge: 'Coming Soon',
-    badgeBg: 'bg-brand-yellow/10',
-    badgeText: 'text-brand-yellow',
-    iconBg: 'bg-brand-yellow',
-    description: 'Most processors do both custom and wholesale. Wholesale tools—inventory management, buy-sell workflows, wholesale invoicing—let processors run their entire operation from one platform.',
-  },
-  {
-    icon: ShoppingCart,
-    title: 'The Network & Marketplace',
+    icon: TrendingUp,
+    title: 'Act 3 — Market-Making',
     badge: 'The Vision',
     badgeBg: 'bg-stone-200',
     badgeText: 'text-stone-600',
     iconBg: 'bg-stone-400',
-    description: 'A connected network where producers, processors, and buyers all operate on shared infrastructure. Fully traceable, shorter supply chains, better prices on both ends—thousands of independents competing together.',
+    description: 'The network that shifts the power. Independents stop being price-takers. Processors coordinate forward-selling, aggregated purchasing, and carcass-balancing across plants. Producers access the markets the Big Four used to control. Value stops getting extracted and starts returning to the people who do the work.',
   },
 ];
 
@@ -78,7 +69,7 @@ export default function Mission() {
     document.title = 'Our Mission - The Operating System for Independent Meat | Farmshare';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Four companies control 85% of beef processing in America. Their advantage isn\'t quality—it\'s coordination. Farmshare is building the infrastructure that lets independent processors compete.');
+      metaDescription.setAttribute('content', 'Four companies control 85% of beef processing in America. Their advantage isn\'t quality — it\'s scale and intelligence. Farmshare is building both for independents.');
     }
 
     const observer = new IntersectionObserver(
@@ -125,7 +116,7 @@ export default function Mission() {
               Independent Meat Is Better. It Should Win.
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-stone-600 mb-6 lg:mb-8 font-medium stagger-child">
-              Four companies control 85% of beef processing in America. Their advantage isn't quality—it's coordination. Farmshare is building the infrastructure that lets independent processors compete together.
+              Four companies control 85% of beef processing in America. Their advantage isn't quality — it's scale and intelligence. Farmshare is building both for independents.
             </p>
           </div>
         </div>
@@ -147,38 +138,44 @@ export default function Mission() {
             </div>
             <div className="text-center fade-up">
               <p className="text-5xl md:text-6xl font-roca text-brand-green mb-2">
-                <AnimatedNumber target={3000} suffix="+" />
+                <AnimatedNumber target={5000} suffix="+" />
               </p>
               <p className="text-stone-600 text-sm md:text-base">independent processors serving growing local demand</p>
             </div>
             <div className="text-center fade-up">
               <p className="text-5xl md:text-6xl font-roca text-brand-green mb-2">
-                <AnimatedNumber target={20} suffix=" yr" />
+                <AnimatedNumber target={14} suffix="¢" />
               </p>
-              <p className="text-stone-600 text-sm md:text-base">old software and paper systems most plants still run on</p>
+              <p className="text-stone-600 text-sm md:text-base">of every meat dollar makes it back to the producer</p>
             </div>
           </div>
 
           <div className="max-w-3xl mx-auto text-center fade-up">
             <p className="text-base md:text-lg text-stone-700 leading-relaxed">
-              The largest packers don't dominate because they produce better meat—they dominate because they can coordinate at scale. Independent processors produce the quality and traceability consumers want, but they're fragmented, disconnected, and running blind. Meanwhile, demand for local meat is surging and new USDA-funded capacity is coming online. The opportunity has never been bigger. The infrastructure to seize it hasn't existed—until now.
+              The largest packers don't dominate because they produce better meat — they dominate because they coordinate at scale, with intelligence. Independent processors produce the quality and traceability consumers want, but they're fragmented, disconnected, and running blind. Meanwhile, demand for local meat is surging and new USDA-funded capacity is coming online. The opportunity has never been bigger. The infrastructure — and the intelligence — to seize it hasn't existed.
             </p>
           </div>
         </div>
       </section>
 
       {/* ============================================
-          VIDEO
+          VIDEO — Henry's Story
           ============================================ */}
       <section className="py-8 md:py-12 lg:py-16 bg-brand-cream">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-6 md:mb-8 fade-up">
+              <h2 className="text-2xl md:text-3xl font-roca text-brand-orange mb-2">Our Founder's Story</h2>
+              <p className="text-sm md:text-base text-stone-600">
+                Henry Arrowood, founder of Farmshare, speaking at the PLA BeefTech Producer Summit on why Farmshare exists.
+              </p>
+            </div>
             <div className="h-[250px] md:h-[350px] lg:h-[450px] rounded-lg shadow-[0_20px_50px_rgba(0,111,53,0.2)] overflow-hidden">
               <iframe
                 width="100%"
                 height="100%"
                 src="https://www.youtube.com/embed/XtJwE05TqHE"
-                title="Farmshare Overview"
+                title="Our Founder's Story — Farmshare"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
@@ -190,7 +187,7 @@ export default function Mission() {
       </section>
 
       {/* ============================================
-          WHAT WE BELIEVE — Horizontal cards with icons
+          WHAT WE BELIEVE — The Trinity
           ============================================ */}
       <section className="py-12 md:py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-4">
@@ -203,27 +200,27 @@ export default function Mission() {
               </div>
               <h3 className="text-lg md:text-xl font-bold text-brand-green mb-3">The Network Wins</h3>
               <p className="text-sm md:text-base text-stone-600 leading-relaxed">
-                One processor can't supply a restaurant chain. Fifty on a shared platform can. The future of independent meat is processors becoming more powerful together than they could ever be apart.
+                One processor can't supply a restaurant chain. Fifty on shared infrastructure can. Independent meat wins by coordinating as one — not by out-competing the Big Four on their own terms.
               </p>
             </div>
 
             <div className="bg-brand-cream rounded-xl p-6 md:p-8 text-center fade-up">
               <div className="h-14 w-14 bg-brand-orange/10 rounded-full flex items-center justify-center mx-auto mb-5">
-                <TrendingUp className="h-7 w-7 text-brand-orange" />
+                <Sparkles className="h-7 w-7 text-brand-orange" />
               </div>
-              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-3">Revenue Over Cost Cutting</h3>
+              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-3">Intelligence Is the Other Half</h3>
               <p className="text-sm md:text-base text-stone-600 leading-relaxed">
-                The industry obsesses over shaving pennies off processing costs. The real leverage is revenue—filling your calendar, reducing no-shows, balancing the carcass. A 5% improvement in how you sell beats 5% in how you cut by 10x.
+                The Big Four know what to buy, how to cut it, where to sell every piece, and at what price. That's intelligence. Independent processors don't have it — yet. Farmshare is building it for them.
               </p>
             </div>
 
             <div className="bg-brand-cream rounded-xl p-6 md:p-8 text-center fade-up">
               <div className="h-14 w-14 bg-brand-yellow/10 rounded-full flex items-center justify-center mx-auto mb-5">
-                <Wrench className="h-7 w-7 text-brand-yellow" />
+                <Link2 className="h-7 w-7 text-brand-yellow" />
               </div>
-              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-3">Start Where It Hurts</h3>
+              <h3 className="text-lg md:text-xl font-bold text-brand-green mb-3">Neither Works Alone</h3>
               <p className="text-sm md:text-base text-stone-600 leading-relaxed">
-                We didn't start by building a marketplace. We started by solving the most painful daily problem: scheduling. Earn trust with a tool that saves hours every day, then build the connective tissue between everyone in the supply chain.
+                Scale without intelligence is a big dumb machine. Intelligence without scale stays on a whiteboard. Farmshare is the coordination layer that gives independents both.
               </p>
             </div>
           </div>
@@ -236,19 +233,19 @@ export default function Mission() {
       <section className="py-12 md:py-16 bg-brand-green">
         <div className="container mx-auto px-4">
           <p className="max-w-3xl mx-auto text-center text-xl md:text-2xl lg:text-3xl font-roca text-white leading-snug">
-            The scheduling wedge got us in the door. The network keeps us in the room. The marketplace owns the room.
+            Thousands of independent processors, collectively operating with the intelligence of a Cargill. Without any one of them needing to become Cargill.
           </p>
         </div>
       </section>
 
       {/* ============================================
-          WHERE WE'RE GOING — Vertical connected timeline
+          WHERE WE'RE GOING — Acts timeline
           ============================================ */}
       <section className="py-12 md:py-16 lg:py-20 bg-brand-cream">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-roca text-brand-orange text-center mb-4 fade-up">Where We're Going</h2>
           <p className="text-base md:text-lg text-stone-600 text-center mb-12 md:mb-16 max-w-2xl mx-auto fade-up">
-            Each stage adds participants to the network and funds the next.
+            Three acts — revenue, then profit, then market power. Each builds on the last, from today's platform to tomorrow's market-making network.
           </p>
 
           <div className="max-w-3xl mx-auto relative">
@@ -277,6 +274,46 @@ export default function Mission() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          THIRD OPTION FOR PRODUCERS
+          ============================================ */}
+      <section className="py-12 md:py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 fade-up">
+            <h2 className="text-2xl md:text-3xl font-roca text-brand-orange mb-4">A Third Option for Producers</h2>
+            <p className="text-base md:text-lg text-stone-600">
+              Producers with cattle to sell have had two options. Farmshare creates a third.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="bg-brand-cream rounded-xl p-6 md:p-8 fade-up">
+              <p className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-3">Option 1</p>
+              <h3 className="text-lg md:text-xl font-bold text-stone-700 mb-3">Sale Barn</h3>
+              <p className="text-sm md:text-base text-stone-600 leading-relaxed">
+                Commodity price. No control. No relationship with the end buyer.
+              </p>
+            </div>
+
+            <div className="bg-brand-cream rounded-xl p-6 md:p-8 fade-up">
+              <p className="text-xs font-bold uppercase tracking-wider text-stone-500 mb-3">Option 2</p>
+              <h3 className="text-lg md:text-xl font-bold text-stone-700 mb-3">Fee-for-Service + DIY</h3>
+              <p className="text-sm md:text-base text-stone-600 leading-relaxed">
+                Keep ownership. Now you're marketing quarters, halves, and wholes yourself — a different job than raising cattle, and one most producers didn't sign up for.
+              </p>
+            </div>
+
+            <div className="bg-brand-green rounded-xl p-6 md:p-8 text-white fade-up shadow-xl">
+              <p className="text-xs font-bold uppercase tracking-wider text-brand-orange mb-3">The Third Option</p>
+              <h3 className="text-lg md:text-xl font-bold text-white mb-3">Local Processor + Network Intelligence</h3>
+              <p className="text-sm md:text-base text-brand-cream/90 leading-relaxed">
+                Take your animal to a local processor who — powered by Farmshare's network intelligence — can actually merchandise into higher-value channels. The processor becomes a real buyer, not a service provider. You access the same kind of market-making the Big Four offer, but locally, transparently, with your upside.
+              </p>
+            </div>
           </div>
         </div>
       </section>

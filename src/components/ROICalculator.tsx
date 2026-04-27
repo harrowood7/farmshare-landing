@@ -182,7 +182,7 @@ export default function ROICalculator() {
                       <h4 className="text-lg font-bold text-brand-green">Additional Revenue</h4>
                     </div>
                     <p className="text-sm text-stone-500 mb-4">
-                      5% throughput increase from fewer no-shows, waitlist fills, and better scheduling
+                      5% throughput lift from fewer no-shows, waitlist fills, better scheduling, and new customers found through Farmshare's public directory
                     </p>
                     <div className="space-y-3">
                       <div className="flex justify-between items-baseline">
@@ -233,7 +233,7 @@ export default function ROICalculator() {
 
           {/* Methodology note */}
           <p className="text-center text-sm text-stone-400 mt-6">
-            Estimates based on averages across 30+ processors on the Farmshare network. Actual results vary by operation size, species mix, and workflow.
+            Estimates based on customer outcomes across the Farmshare network. Actual results vary by operation size, species mix, and workflow.
           </p>
         </div>
       </div>

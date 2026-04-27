@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
-import { MapPin, Calendar, ArrowLeft, ExternalLink, Map as MapIcon, List, Navigation, X } from 'lucide-react';
+import { MapPin, Calendar, ArrowLeft, ExternalLink, Map as MapIcon, List, Navigation, X, CheckCircle2, Send, ChevronRight } from 'lucide-react';
 import { processors, stateNames, stateSlugToAbbr } from '../data/processors';
 import ProcessorMap from '../components/ProcessorMap';
 import { useUserLocation, distanceMiles } from '../hooks/useUserLocation';
@@ -200,6 +200,12 @@ export default function StatePage() {
                             </span>
                           )}
                         </div>
+                        {processor.status === 'customer' && (
+                          <div className="flex items-center gap-1 text-xs font-semibold text-brand-green mt-1.5">
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            <span>Online scheduling</span>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -213,22 +219,23 @@ export default function StatePage() {
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between text-sm bg-brand-cream rounded-lg px-3 py-2">
-                      <div className="flex items-center text-stone-600">
-                        {processor.status === 'customer' ? (
-                          <>
-                            <Calendar className="h-4 w-4 mr-2 text-brand-orange" />
-                            <span>Online scheduling available</span>
-                          </>
-                        ) : (
-                          <>
-                            <MapPin className="h-4 w-4 mr-2 text-brand-green" />
-                            <span>Independent processor</span>
-                          </>
-                        )}
+                    {processor.status === 'customer' ? (
+                      <div className="flex items-center justify-between text-sm bg-brand-green rounded-lg px-3 py-2 shadow-sm group-hover:bg-brand-green/90 transition-colors">
+                        <div className="flex items-center font-semibold text-white">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          <span>Book now — real-time availability</span>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-white" />
                       </div>
-                      <ExternalLink className="h-4 w-4 text-brand-green group-hover:text-brand-orange transition-colors" />
-                    </div>
+                    ) : (
+                      <div className="flex items-center justify-between text-sm bg-stone-100 rounded-lg px-3 py-2">
+                        <div className="flex items-center text-stone-600">
+                          <Send className="h-4 w-4 mr-2" />
+                          <span>Send scheduling request</span>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-stone-400 group-hover:text-brand-orange transition-colors" />
+                      </div>
+                    )}
                   </div>
                 </Link>
               ))}
@@ -242,7 +249,7 @@ export default function StatePage() {
               </h2>
               <div className="space-y-4 text-stone-700">
                 <p>
-                  Farmshare connects you with {stateProcessors.length} independent custom meat processor{stateProcessors.length !== 1 ? 's' : ''} in {stateFull}. Whether you're a rancher, farmer, or hunter, finding a reliable processor near you doesn't have to be difficult.
+                  Farmshare connects you with {stateProcessors.length} independent custom meat processor{stateProcessors.length !== 1 ? 's' : ''} in {stateFull}. Whether you're a rancher, farmer, or producer, finding a reliable processor near you doesn't have to be difficult.
                 </p>
                 <p>
                   Every processor on the Farmshare network in {stateFull} offers online scheduling—book your harvest slot from your phone instead of calling. Submit your cut sheet digitally and get automatic text and email updates on your order status.

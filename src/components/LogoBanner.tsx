@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { processors } from '../data/processors';
 
 // Build logos from CUSTOMER processors only (not prospects), skipping nulls and deduplicating by URL
 const seen = new Set<string>();
-const logos = processors.reduce<{ src: string; alt: string }[]>((acc, p) => {
-  if (p.status === 'customer' && p.logo && !seen.has(p.logo)) {
+const logos = processors.reduce<{ src: string; alt: string; slug: string }[]>((acc, p) => {
+  if (p.status === 'customer' && p.logo && p.slug && !seen.has(p.logo)) {
     seen.add(p.logo);
-    acc.push({ src: p.logo, alt: p.name });
+    acc.push({ src: p.logo, alt: p.name, slug: p.slug });
   }
   return acc;
 }, []);
@@ -21,11 +22,15 @@ export default function LogoBanner() {
         <div className="relative w-full overflow-hidden">
           <div className="flex logo-slide">
             {[...logos, ...logos].map((logo, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="flex-none w-[200px] h-32 flex items-center justify-center px-8"
               >
-                <div className="w-full h-full flex items-center justify-center">
+                <Link
+                  to={`/find-a-processor/${logo.slug}`}
+                  aria-label={logo.alt}
+                  className="w-full h-full flex items-center justify-center"
+                >
                   <img
                     src={logo.src}
                     alt={logo.alt}
@@ -34,7 +39,7 @@ export default function LogoBanner() {
                     decoding="async"
                     style={{ padding: '8px' }}
                   />
-                </div>
+                </Link>
               </div>
             ))}
           </div>

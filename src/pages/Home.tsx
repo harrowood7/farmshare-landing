@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Factory, Calendar, Clock, Smartphone, TrendingUp, Quote, ArrowRight, Phone, FileX, AlertTriangle } from 'lucide-react';
+import { Factory, Calendar, Clock, Smartphone, TrendingUp, Quote, ArrowRight, Phone, FileX, AlertTriangle, CalendarX2, Layers } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LogoBanner from '../components/LogoBanner';
 import PartnerLogoBanner from '../components/PartnerLogoBanner';
@@ -34,7 +34,7 @@ export default function Home() {
     document.title = 'Farmshare - Modern Software for Independent Meat Processors';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Save 5+ hours a day with Farmshare\'s scheduling, cut sheet, and invoicing software built for independent meat processors. Trusted by 30+ plants nationwide.');
+      metaDescription.setAttribute('content', 'Farmshare is the operating system for independent meat processors — scheduling, cut sheets, customer messaging, and invoicing in a single platform built for how your plant actually runs.');
     }
 
     const observerOptions = {
@@ -111,7 +111,7 @@ export default function Home() {
               Move More Meat.
             </h1>
             <p className="text-xl md:text-2xl text-stone-600 mb-8 font-medium stagger-child">
-              Farmshare is the all-in-one platform for independent meat processors—automating scheduling, cut sheets, customer messaging, and invoicing so you can spend less time on paperwork and more time processing.
+              Farmshare is the all-in-one platform for independent meat processors—automating scheduling, cut sheets, and customer messaging so you can spend less time on paperwork and more time processing.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center stagger-child">
               <a 
@@ -179,20 +179,29 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-8 fade-up">
             <h2 className="text-3xl font-roca text-white mb-2">What It's Costing You</h2>
-            <p className="text-brand-cream/70">For a 20-head/week plant, the manual approach adds up fast.</p>
+            <p className="text-brand-cream/70">Every week, the same problems quietly drain hours, bookings, and revenue.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
-            <div className="fade-up">
-              <p className="text-4xl font-bold text-white font-roca">5+ hrs</p>
-              <p className="text-brand-cream/80 font-medium mt-1">Lost to Admin Per Day</p>
+            <div className="fade-up flex flex-col items-center">
+              <div className="h-16 w-16 bg-brand-orange/20 rounded-full flex items-center justify-center mb-4 ring-2 ring-brand-orange/30">
+                <Clock className="h-8 w-8 text-brand-yellow" />
+              </div>
+              <p className="text-2xl font-bold text-white font-roca">Hours of Admin</p>
+              <p className="text-brand-cream/80 font-medium mt-1">Phone tag, paper cut sheets, manual invoicing</p>
             </div>
-            <div className="fade-up">
-              <p className="text-4xl font-bold text-white font-roca">15%</p>
-              <p className="text-brand-cream/80 font-medium mt-1">Throughput Left on the Table</p>
+            <div className="fade-up flex flex-col items-center">
+              <div className="h-16 w-16 bg-brand-orange/20 rounded-full flex items-center justify-center mb-4 ring-2 ring-brand-orange/30">
+                <CalendarX2 className="h-8 w-8 text-brand-yellow" />
+              </div>
+              <p className="text-2xl font-bold text-white font-roca">Empty Slots</p>
+              <p className="text-brand-cream/80 font-medium mt-1">No-shows and cancellations with no waitlist to fill them</p>
             </div>
-            <div className="fade-up">
-              <p className="text-4xl font-bold text-white font-roca">6 tools</p>
-              <p className="text-brand-cream/80 font-medium mt-1">Duct-Taped Together</p>
+            <div className="fade-up flex flex-col items-center">
+              <div className="h-16 w-16 bg-brand-orange/20 rounded-full flex items-center justify-center mb-4 ring-2 ring-brand-orange/30">
+                <Layers className="h-8 w-8 text-brand-yellow" />
+              </div>
+              <p className="text-2xl font-bold text-white font-roca">Six Tools, No Source of Truth</p>
+              <p className="text-brand-cream/80 font-medium mt-1">Calendar here, spreadsheet there, sticky notes everywhere</p>
             </div>
           </div>
         </div>
@@ -205,7 +214,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-16 fade-up">
             <h2 className="text-4xl font-roca text-brand-green mb-4">One Platform. Everything You Need.</h2>
-            <p className="text-xl text-stone-600">Replace your calendar, spreadsheets, cut cards, texts, and invoicing tools with a single dashboard built for how your plant actually runs.</p>
+            <p className="text-xl text-stone-600">Replace your calendar, spreadsheets, cut cards, and text threads with a single dashboard built for how your plant actually runs.</p>
           </div>
           
           <div className="grid md:grid-cols-2 items-center gap-8 mb-20">
@@ -259,7 +268,7 @@ export default function Home() {
                 <h3 className="text-3xl font-roca text-brand-orange">Automated Notifications</h3>
               </div>
               <p className="text-xl text-stone-700 leading-relaxed mb-6 stagger-child">
-                Automated text and email reminders for drop-offs, pickups, and missing cut sheets. Customers stay informed without your team picking up the phone. No-shows drop. Cancellations get filled from the waitlist.
+                Automated text and email reminders for drop-offs, pickups, and missing cut sheets. Customers stay informed without your team picking up the phone—so no-shows drop and your floor stays focused.
               </p>
             </div>
             <div className="rounded-lg shadow-[0_20px_50px_rgba(0,111,53,0.2)] overflow-hidden fade-up">

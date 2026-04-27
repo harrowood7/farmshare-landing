@@ -20,9 +20,48 @@ export interface Processor {
   description?: string;
   lat?: number;
   lng?: number;
+  /** Slug used by partners.farmshare.co. Differs from `slug` when the landing
+   *  directory and partner admin disagree on casing, punctuation, or city. */
+  partnerSlug?: string;
+  /** Multi-facility customers have more than one scheduling page
+   *  (e.g. separate USDA + Custom plants). If set, takes precedence over
+   *  `partnerSlug` when rendering scheduling CTAs. */
+  partnerFacilities?: PartnerFacility[];
+  // Fields pulled from Places API (New) — populated for ~880 of 895 records.
+  googleMapsUri?: string;
+  rating?: number;
+  userRatingCount?: number;
+  /** Human-readable weekday hours, one string per day (Mon-Sun). */
+  hours?: string[];
+  /** Short Google-written description. Present on ~1% of records. */
+  editorialSummary?: string;
+  businessStatus?: 'OPERATIONAL' | 'CLOSED_TEMPORARILY' | 'CLOSED_PERMANENTLY';
+  /** Raw Google Places type tags (e.g. 'butcher_shop', 'meat_store'). */
+  placeTypes?: string[];
+}
+
+export interface PartnerFacility {
+  slug: string;
+  label: string;
 }
 
 export const processors: Processor[] = processorsData as Processor[];
+
+/** Returns the primary partner slug (first facility if multi, otherwise `partnerSlug`). */
+export function partnerSlugFor(p: Processor): string {
+  if (p.partnerFacilities && p.partnerFacilities.length > 0) {
+    return p.partnerFacilities[0].slug;
+  }
+  return p.partnerSlug ?? p.slug;
+}
+
+/** Returns every facility this processor offers scheduling at. One entry for
+ *  single-facility customers; two or more for multi-facility (e.g. Weimer). */
+export function partnerFacilitiesFor(p: Processor): PartnerFacility[] {
+  if (p.partnerFacilities && p.partnerFacilities.length > 0) return p.partnerFacilities;
+  const slug = p.partnerSlug ?? p.slug;
+  return [{ slug, label: '' }];
+}
 
 // State abbreviation to full name lookup — all 50 states + DC
 export const stateNames: Record<string, string> = {

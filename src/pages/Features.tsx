@@ -84,7 +84,7 @@ export default function Features() {
         'Status Updates: Customers know when their animal is harvested, hanging, cut, and ready',
         'Custom Templates: Save time with reusable message formats for common touchpoints'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/customer%20communication.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/notifications1.mp4'
     },
     portal: {
       title: 'Customer Portal',

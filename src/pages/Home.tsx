@@ -144,24 +144,24 @@ export default function Home() {
             <p className="text-xl text-stone-500 text-center mb-12 fade-up">Most processors we talk to are dealing with the same problems every single week.</p>
             
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-brand-cream rounded-xl p-6 fade-up">
-                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+              <div className="bg-brand-cream rounded-xl p-6 fade-up text-center">
+                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center mb-4 mx-auto">
                   <Phone className="h-6 w-6 text-red-500" />
                 </div>
                 <h3 className="text-lg font-bold text-brand-green mb-2">Phone Tag All Day</h3>
                 <p className="text-stone-600">Hours spent calling customers back about scheduling, cut instructions, and pickup times—instead of actually processing.</p>
               </div>
 
-              <div className="bg-brand-cream rounded-xl p-6 fade-up">
-                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+              <div className="bg-brand-cream rounded-xl p-6 fade-up text-center">
+                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center mb-4 mx-auto">
                   <FileX className="h-6 w-6 text-red-500" />
                 </div>
                 <h3 className="text-lg font-bold text-brand-green mb-2">Paper Cut Sheets & Errors</h3>
                 <p className="text-stone-600">Illegible faxes, missing instructions, and mistakes that cost time and product. Customers get frustrated, your team gets blamed.</p>
               </div>
 
-              <div className="bg-brand-cream rounded-xl p-6 fade-up">
-                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+              <div className="bg-brand-cream rounded-xl p-6 fade-up text-center">
+                <div className="h-12 w-12 bg-red-100 rounded-full flex items-center justify-center mb-4 mx-auto">
                   <AlertTriangle className="h-6 w-6 text-red-500" />
                 </div>
                 <h3 className="text-lg font-bold text-brand-green mb-2">No-Shows & Lost Revenue</h3>
@@ -278,7 +278,7 @@ export default function Home() {
                 disablePictureInPicture disableRemotePlayback
                 preload="none" poster=""
               >
-                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/demo%20videos/customer%20communication.mp4" type="video/mp4" />
+                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/notifications1.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
@@ -307,8 +307,8 @@ export default function Home() {
             {testimonials.map((t, index) => (
               <div key={index} className="bg-white p-8 rounded-lg shadow-lg flex flex-col">
                 <Quote className="h-8 w-8 text-brand-orange mb-4 flex-shrink-0" />
-                <p className="text-lg text-stone-700 mb-6 leading-relaxed flex-grow">
-                  "{t.quote}"
+                <p className="text-lg italic text-stone-700 mb-6 leading-relaxed flex-grow">
+                  {t.quote}
                 </p>
                 <div className="flex items-center flex-shrink-0">
                   {t.logo ? (

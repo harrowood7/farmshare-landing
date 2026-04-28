@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 @font-face {
   font-family: 'roca-two-heavy';
   src: url('https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content//RocaTwo-Hv.woff2') format('woff2'),

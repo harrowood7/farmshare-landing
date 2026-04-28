@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Calculator, Clock, TrendingUp, DollarSign, Calendar } from 'lucide-react';
+import { useState } from 'react';
+import { Clock, TrendingUp, DollarSign, Calendar } from 'lucide-react';
 
 export default function ROICalculator() {
   const [weeklyHead, setWeeklyHead] = useState<number>(20);
   const [revenuePerHead, setRevenuePerHead] = useState<number>(1000);
-  const [isCalculated, setIsCalculated] = useState(false);
 
   // ROI Model — matches demo narrative
   // 30 min saved per beef head on admin time
@@ -22,10 +21,6 @@ export default function ROICalculator() {
   const additionalMonthlyRevenue = additionalWeeklyRevenue * 4.33;
   const additionalYearlyRevenue = additionalWeeklyRevenue * 52;
 
-  const handleCalculate = () => {
-    setIsCalculated(true);
-  };
-
   const formatNumber = (n: number) => {
     return new Intl.NumberFormat('en-US').format(Math.round(n));
   };
@@ -35,7 +30,7 @@ export default function ROICalculator() {
   };
 
   return (
-    <section className="py-20 bg-white" id="roi-calculator">
+    <section className="py-20 bg-white scroll-mt-24" id="roi-calculator">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12 fade-up">
@@ -58,7 +53,6 @@ export default function ROICalculator() {
                     value={weeklyHead}
                     onChange={(e) => {
                       setWeeklyHead(Math.max(1, parseInt(e.target.value) || 1));
-                      setIsCalculated(false);
                     }}
                     className="w-full px-4 py-4 text-2xl font-bold text-brand-green bg-white rounded-lg border-2 border-stone-200 focus:border-brand-orange focus:outline-none transition-colors"
                   />
@@ -71,7 +65,6 @@ export default function ROICalculator() {
                   value={Math.min(weeklyHead, 200)}
                   onChange={(e) => {
                     setWeeklyHead(parseInt(e.target.value));
-                    setIsCalculated(false);
                   }}
                   className="w-full mt-3 accent-brand-orange h-2 rounded-lg cursor-pointer"
                 />
@@ -97,7 +90,6 @@ export default function ROICalculator() {
                     value={revenuePerHead}
                     onChange={(e) => {
                       setRevenuePerHead(Math.max(100, parseInt(e.target.value) || 100));
-                      setIsCalculated(false);
                     }}
                     className="w-full pl-12 pr-4 py-4 text-2xl font-bold text-brand-green bg-white rounded-lg border-2 border-stone-200 focus:border-brand-orange focus:outline-none transition-colors"
                   />
@@ -111,7 +103,6 @@ export default function ROICalculator() {
                   value={Math.min(revenuePerHead, 2000)}
                   onChange={(e) => {
                     setRevenuePerHead(parseInt(e.target.value));
-                    setIsCalculated(false);
                   }}
                   className="w-full mt-3 accent-brand-orange h-2 rounded-lg cursor-pointer"
                 />
@@ -125,23 +116,9 @@ export default function ROICalculator() {
               </div>
             </div>
 
-            {/* Calculate Button */}
-            {!isCalculated && (
-              <div className="text-center mb-8">
-                <button
-                  onClick={handleCalculate}
-                  className="bg-brand-orange text-white text-lg px-10 py-4 rounded-lg hover:bg-brand-yellow transition-colors inline-flex items-center font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all"
-                >
-                  <Calculator className="mr-2 h-5 w-5" />
-                  Calculate My ROI
-                </button>
-              </div>
-            )}
-
             {/* Results */}
-            {isCalculated && (
-              <div className="animate-fadeIn">
-                <div className="border-t-2 border-stone-200 pt-8 mb-8">
+            <div>
+              <div className="border-t-2 border-stone-200 pt-8 mb-8">
                   <h3 className="text-xl font-bold text-brand-green text-center mb-6">Your Estimated Farmshare Impact</h3>
                 </div>
 
@@ -218,17 +195,7 @@ export default function ROICalculator() {
                   </a>
                 </div>
 
-                {/* Recalculate */}
-                <div className="text-center mt-4">
-                  <button
-                    onClick={() => setIsCalculated(false)}
-                    className="text-stone-500 hover:text-brand-orange text-sm font-medium underline"
-                  >
-                    Adjust numbers and recalculate
-                  </button>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
 
           {/* Methodology note */}

@@ -28,10 +28,10 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link to="/">
-              <img 
-                src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content//farmshare%20(1).svg" 
-                alt="Farmshare Logo" 
-                className="h-16 w-auto"
+              <img
+                src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content//farmshare%20(1).svg"
+                alt="Farmshare Logo"
+                className="h-16 w-auto brightness-0 invert translate-y-1.5"
               />
             </Link>
           </div>

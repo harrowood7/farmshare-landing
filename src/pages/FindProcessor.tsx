@@ -278,9 +278,9 @@ export default function FindProcessor() {
                 <Link
                   key={index}
                   to={`/find-a-processor/${processor.slug}`}
-                  className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden block"
+                  className="group bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden flex flex-col h-full"
                 >
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1">
                     <div className="flex items-start gap-4 mb-4">
                       <ProcessorLogo processor={processor} />
                       <div className="flex-1 min-w-0">
@@ -316,7 +316,7 @@ export default function FindProcessor() {
 
                     {/* CTA */}
                     {processor.status === 'customer' ? (
-                      <div className="flex items-center justify-between text-sm bg-brand-green rounded-lg px-3 py-2 shadow-sm group-hover:bg-brand-green/90 transition-colors">
+                      <div className="mt-auto flex items-center justify-between text-sm bg-brand-green rounded-lg px-3 py-2 shadow-sm group-hover:bg-brand-green/90 transition-colors">
                         <div className="flex items-center font-semibold text-white">
                           <Calendar className="h-4 w-4 mr-2" />
                           <span>Book now — real-time availability</span>
@@ -324,7 +324,7 @@ export default function FindProcessor() {
                         <ChevronRight className="h-4 w-4 text-white" />
                       </div>
                     ) : (
-                      <div className="flex items-center justify-between text-sm bg-stone-100 rounded-lg px-3 py-2">
+                      <div className="mt-auto flex items-center justify-between text-sm bg-stone-100 rounded-lg px-3 py-2">
                         <div className="flex items-center text-stone-600">
                           <Send className="h-4 w-4 mr-2" />
                           <span>Send scheduling request</span>

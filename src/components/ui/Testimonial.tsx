@@ -6,7 +6,7 @@ export default function Testimonial({ quote, author, company, image }: Testimoni
   return (
     <div className="bg-brand-cream p-6 rounded-lg shadow-lg">
       <Quote className="h-8 w-8 text-brand-orange mb-4" />
-      <p className="text-lg text-stone-700 mb-6">{quote}</p>
+      <p className="text-lg italic text-stone-700 mb-6">{quote}</p>
       <div className="flex items-center">
         <div className="w-12 h-12 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1 mr-4">
           <img

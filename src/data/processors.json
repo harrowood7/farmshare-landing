@@ -938,7 +938,7 @@
       "Beef",
       "Hog"
     ],
-    "logo": "https://bichelmeyermeatskc.com/core/wp-content/uploads/2012/01/facebook-logo1.png",
+    "logo": null,
     "slug": "bichelmeyer-meats-kansas-city-ks",
     "status": "prospect",
     "address": "704 Cheyenne Ave",
@@ -5618,7 +5618,7 @@
       "Beef",
       "Hog"
     ],
-    "logo": "https://huntercattle.com/wp-content/uploads/2020/10/plus-sign.png",
+    "logo": "https://huntercattle.com/wp-content/uploads/2021/01/cropped-HunterCattleLogo-270x270.jpg",
     "slug": "hunter-cattle-brooklet-ga",
     "status": "prospect",
     "address": "934 Driggers Rd",
@@ -6469,7 +6469,7 @@
       "Hog",
       "Lamb"
     ],
-    "logo": "https://korte-meats.com/images/korte_facebook_1500.jpg",
+    "logo": null,
     "slug": "korte-meat-processing-inc-highland-il",
     "status": "prospect",
     "address": "810 Deal St.",
@@ -18044,44 +18044,6 @@
       "establishment"
     ],
     "description": "Meatheads Meat Market- Milan IL is a meat processor in Milan, IL, rated 4.6 stars across 279 Google reviews. Customers highlight their friendly staff and clean facility."
-  },
-  {
-    "name": "Korte Meat Processors Inc",
-    "location": "Highland, IL",
-    "state": "IL",
-    "species": [
-      "Hog"
-    ],
-    "logo": "https://korte-meats.com/images/korte_facebook_1500.jpg",
-    "slug": "korte-meat-processors-inc-highland-il",
-    "status": "prospect",
-    "address": "915 Hemlock St",
-    "zip": "62249",
-    "phone": "(618) 654-3813",
-    "website": "http://www.korte-meats.com/",
-    "lat": 38.7385441,
-    "lng": -89.69375250000002,
-    "googleMapsUri": "https://maps.google.com/?cid=4012276562366921807&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.7,
-    "userRatingCount": 190,
-    "hours": [
-      "Monday: 8:00 AM – 6:00 PM",
-      "Tuesday: 8:00 AM – 6:00 PM",
-      "Wednesday: 8:00 AM – 6:00 PM",
-      "Thursday: 8:00 AM – 6:00 PM",
-      "Friday: 8:00 AM – 6:00 PM",
-      "Saturday: 8:00 AM – 3:00 PM",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "food_store",
-      "store",
-      "food",
-      "point_of_interest",
-      "establishment"
-    ],
-    "description": "Korte Meat Processors Inc is a meat processor in Highland, IL, rated 4.7 stars across 190 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage."
   },
   {
     "name": "Dewig Meats",

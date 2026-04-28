@@ -17,6 +17,7 @@ import {
   Admin,
   BuyBeef
 } from './pages';
+import AdminPromote from './pages/AdminPromote';
 import { stateSlugToAbbr } from './data/processors';
 
 // Resolver: state slugs (e.g. "colorado") render StatePage,
@@ -49,6 +50,7 @@ function App() {
           <Route path="/release-notes" element={<ReleaseNotes />} />
           <Route path="/release-notes/:slug" element={<ReleaseNoteDetail />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/promote" element={<AdminPromote />} />
           {/* Redirects for removed pages */}
           <Route path="/producers" element={<Navigate to="/" replace />} />
           <Route path="/buyers" element={<Navigate to="/" replace />} />

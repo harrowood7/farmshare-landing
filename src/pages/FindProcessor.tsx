@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { MapPin, Search, Calendar, Filter, ChevronDown, ChevronRight, Map as MapIcon, List, Navigation, X, CheckCircle2, Send } from 'lucide-react';
 import { processors, stateNames, type Processor } from '../data/processors';
@@ -42,7 +42,10 @@ export default function FindProcessor() {
   const [selectedSpecies, setSelectedSpecies] = useState('All Species');
   const [onlineOnly, setOnlineOnly] = useState(searchParams.get('online') === 'true');
   const [showFilters, setShowFilters] = useState(false);
-  const [view, setView] = useState<'list' | 'map'>('list');
+  const [view, setView] = useState<'list' | 'map'>('map');
+  const PAGE_SIZE = 24;
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   // Keep URL in sync when user toggles the filter so the state is shareable.
   useEffect(() => {
@@ -128,6 +131,32 @@ export default function FindProcessor() {
         return ad - bd;
       })
     : filteredRaw;
+
+  // Reset pagination whenever filters/search/sort change.
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [searchQuery, selectedState, selectedSpecies, onlineOnly, userLoc.location]);
+
+  // Infinite scroll: bump visibleCount when sentinel enters viewport.
+  useEffect(() => {
+    if (view !== 'list') return;
+    const node = sentinelRef.current;
+    if (!node) return;
+    if (visibleCount >= filtered.length) return;
+
+    const io = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          setVisibleCount(c => Math.min(c + PAGE_SIZE, filtered.length));
+        }
+      },
+      { rootMargin: '600px 0px' }
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, [view, visibleCount, filtered.length]);
+
+  const visible = filtered.slice(0, visibleCount);
 
   return (
     <div className="min-h-screen bg-brand-cream">
@@ -274,7 +303,7 @@ export default function FindProcessor() {
             {/* Processor Grid */}
             {view === 'list' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((processor, index) => (
+              {visible.map((processor, index) => (
                 <Link
                   key={index}
                   to={`/find-a-processor/${processor.slug}`}
@@ -336,6 +365,12 @@ export default function FindProcessor() {
                 </Link>
               ))}
             </div>
+            )}
+
+            {view === 'list' && visibleCount < filtered.length && (
+              <div ref={sentinelRef} className="flex justify-center py-8">
+                <div className="h-6 w-6 border-2 border-brand-green/30 border-t-brand-green rounded-full animate-spin" />
+              </div>
             )}
 
             {filtered.length === 0 && view === 'list' && (

@@ -128,20 +128,27 @@ function ClusteredMarkers({ points, userLocation, maxZoomOnFit }: ClusteredProps
     [setMarkerRef]
   );
 
-  // Auto-fit bounds. For US-wide views, fit to continental-US bounds instead
-  // of including Alaska/Hawaii/territories. For narrower queries (state page,
-  // filter, near me), fit tightly to the markers plus the user's location.
+  // Auto-fit bounds. Three modes:
+  // 1. User location known → fit to user + nearest 10 markers (regional zoom).
+  // 2. >50 markers, no user location → continental-US clamp.
+  // 3. ≤50 markers, no user location → fit all markers tightly.
   useEffect(() => {
     if (!map || points.length === 0) return;
 
     const bounds = new google.maps.LatLngBounds();
-    const useConus = points.length > 50 && !userLocation;
-    if (useConus) {
+    if (userLocation) {
+      const ranked = [...points].sort((a, b) => {
+        const da = (a.lat - userLocation.lat) ** 2 + (a.lng - userLocation.lng) ** 2;
+        const db = (b.lat - userLocation.lat) ** 2 + (b.lng - userLocation.lng) ** 2;
+        return da - db;
+      });
+      ranked.slice(0, 10).forEach((p) => bounds.extend({ lat: p.lat, lng: p.lng }));
+      bounds.extend(userLocation);
+    } else if (points.length > 50) {
       bounds.extend({ lat: CONUS_BOUNDS.north, lng: CONUS_BOUNDS.west });
       bounds.extend({ lat: CONUS_BOUNDS.south, lng: CONUS_BOUNDS.east });
     } else {
       points.forEach((p) => bounds.extend({ lat: p.lat, lng: p.lng }));
-      if (userLocation) bounds.extend(userLocation);
     }
     map.fitBounds(bounds, 40);
 

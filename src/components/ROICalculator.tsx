@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Odometer from './ui/Odometer';
 import { Clock, TrendingUp, DollarSign, Calendar } from 'lucide-react';
 
 export default function ROICalculator() {
@@ -20,14 +21,6 @@ export default function ROICalculator() {
   const additionalWeeklyRevenue = additionalWeeklyHead * revenuePerHead;
   const additionalMonthlyRevenue = additionalWeeklyRevenue * 4.33;
   const additionalYearlyRevenue = additionalWeeklyRevenue * 52;
-
-  const formatNumber = (n: number) => {
-    return new Intl.NumberFormat('en-US').format(Math.round(n));
-  };
-
-  const formatCurrency = (n: number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
-  };
 
   return (
     <section className="py-20 bg-white scroll-mt-24" id="roi-calculator">
@@ -122,9 +115,9 @@ export default function ROICalculator() {
                   <h3 className="text-xl font-bold text-brand-green text-center mb-6">Your Estimated Farmshare Impact</h3>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                <div className="grid md:grid-cols-2 gap-6 mb-8 items-stretch">
                   {/* Time Saved */}
-                  <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-brand-green">
+                  <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-brand-green flex flex-col h-full">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="h-12 w-12 bg-brand-green/10 rounded-full flex items-center justify-center">
                         <Clock className="h-6 w-6 text-brand-green" />
@@ -134,24 +127,30 @@ export default function ROICalculator() {
                     <p className="text-sm text-stone-500 mb-4">
                       {minutesSavedPerHead} minutes saved per head on scheduling, cut sheet collection, and communication
                     </p>
-                    <div className="space-y-3">
+                    <div className="space-y-3 mt-auto">
                       <div className="flex justify-between items-baseline">
                         <span className="text-stone-600">Per week</span>
-                        <span className="text-2xl font-bold text-brand-green">{weeklyHoursSaved.toFixed(1)} hrs</span>
+                        <span className="text-2xl font-bold text-brand-green">
+                          <Odometer value={weeklyHoursSaved} format={{ minimumFractionDigits: 1, maximumFractionDigits: 1 }} suffix=" hrs" />
+                        </span>
                       </div>
                       <div className="flex justify-between items-baseline">
                         <span className="text-stone-600">Per month</span>
-                        <span className="text-2xl font-bold text-brand-green">{monthlyHoursSaved.toFixed(0)} hrs</span>
+                        <span className="text-2xl font-bold text-brand-green">
+                          <Odometer value={Math.round(monthlyHoursSaved)} suffix=" hrs" />
+                        </span>
                       </div>
                       <div className="flex justify-between items-baseline border-t border-stone-100 pt-3">
                         <span className="text-stone-600 font-medium">Per year</span>
-                        <span className="text-3xl font-bold text-brand-green">{formatNumber(yearlyHoursSaved)} hrs</span>
+                        <span className="text-3xl font-bold text-brand-green">
+                          <Odometer value={Math.round(yearlyHoursSaved)} suffix=" hrs" />
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   {/* Revenue Gained */}
-                  <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-brand-orange">
+                  <div className="bg-white rounded-xl p-6 shadow-md border-l-4 border-brand-orange flex flex-col h-full">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="h-12 w-12 bg-brand-orange/10 rounded-full flex items-center justify-center">
                         <TrendingUp className="h-6 w-6 text-brand-orange" />
@@ -161,18 +160,24 @@ export default function ROICalculator() {
                     <p className="text-sm text-stone-500 mb-4">
                       5% throughput lift from fewer no-shows, waitlist fills, better scheduling, and new customers found through Farmshare's public directory
                     </p>
-                    <div className="space-y-3">
+                    <div className="space-y-3 mt-auto">
                       <div className="flex justify-between items-baseline">
                         <span className="text-stone-600">Extra head / week</span>
-                        <span className="text-2xl font-bold text-brand-orange">+{additionalWeeklyHead}</span>
+                        <span className="text-2xl font-bold text-brand-orange">
+                          <Odometer value={additionalWeeklyHead} format={{ minimumFractionDigits: 1, maximumFractionDigits: 1, signDisplay: 'always' }} />
+                        </span>
                       </div>
                       <div className="flex justify-between items-baseline">
                         <span className="text-stone-600">Per month</span>
-                        <span className="text-2xl font-bold text-brand-orange">{formatCurrency(additionalMonthlyRevenue)}</span>
+                        <span className="text-2xl font-bold text-brand-orange">
+                          <Odometer value={Math.round(additionalMonthlyRevenue)} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
+                        </span>
                       </div>
                       <div className="flex justify-between items-baseline border-t border-stone-100 pt-3">
                         <span className="text-stone-600 font-medium">Per year</span>
-                        <span className="text-3xl font-bold text-brand-orange">{formatCurrency(additionalYearlyRevenue)}</span>
+                        <span className="text-3xl font-bold text-brand-orange">
+                          <Odometer value={Math.round(additionalYearlyRevenue)} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -181,7 +186,15 @@ export default function ROICalculator() {
                 {/* Bottom CTA */}
                 <div className="bg-brand-green rounded-xl p-6 text-center">
                   <p className="text-brand-cream/80 mb-2">
-                    That's <span className="text-white font-bold">{formatNumber(yearlyHoursSaved)} hours</span> and up to <span className="text-white font-bold">{formatCurrency(additionalYearlyRevenue)}</span> back in your pocket every year.
+                    That's{' '}
+                    <span className="text-white font-bold">
+                      <Odometer value={Math.round(yearlyHoursSaved)} suffix=" hours" />
+                    </span>{' '}
+                    and up to{' '}
+                    <span className="text-white font-bold">
+                      <Odometer value={Math.round(additionalYearlyRevenue)} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }} />
+                    </span>{' '}
+                    back in your pocket every year.
                   </p>
                   <p className="text-white text-lg font-bold mb-4">See it in action—most demos take 30 minutes.</p>
                   <a 

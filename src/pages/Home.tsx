@@ -247,7 +247,7 @@ export default function Home() {
                 disablePictureInPicture disableRemotePlayback
                 preload="none" poster=""
               >
-                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/digital-cut-sheets.mp4" type="video/mp4" />
+                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/New%20cut%20sheet%20flow.mp4" type="video/mp4" />
               </video>
             </div>
             <div className="order-1 md:order-2 fade-up">
@@ -278,7 +278,7 @@ export default function Home() {
                 disablePictureInPicture disableRemotePlayback
                 preload="none" poster=""
               >
-                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/notifications1.mp4" type="video/mp4" />
+                <source src="https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/new%20customer%20notifications.mp4" type="video/mp4" />
               </video>
             </div>
           </div>

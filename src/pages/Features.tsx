@@ -72,7 +72,7 @@ export default function Features() {
         'Custom Configuration: Tailor layout, categories, extras, and trim to match your workflow',
         'Print Anywhere: View and print cut sheets from the office or the cut room'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/digital-cut-sheets.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/New%20cut%20sheet%20flow.mp4'
     },
     notifications: {
       title: 'Automated Notifications',
@@ -84,7 +84,7 @@ export default function Features() {
         'Status Updates: Customers know when their animal is harvested, hanging, cut, and ready',
         'Custom Templates: Save time with reusable message formats for common touchpoints'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/notifications1.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/new%20customer%20notifications.mp4'
     },
     portal: {
       title: 'Customer Portal',
@@ -96,7 +96,7 @@ export default function Features() {
         'Order Status Tracking: Real-time visibility into where their animal is in the process',
         'No Cost to Customers: The portal is free for every producer when their processor is on Farmshare'
       ],
-      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/customer-portal.mp4'
+      video: 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content/New%20demo%20videos/new%20producer%20portal.mp4'
     },
     tracking: {
       title: 'Job Tracking',

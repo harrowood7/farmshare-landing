@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { MapPin, Search, Calendar, Filter, ChevronDown, ChevronRight, Map as MapIcon, List, Navigation, X, CheckCircle2, Send } from 'lucide-react';
 import { processors, stateNames, type Processor } from '../data/processors';
 import ProcessorMap from '../components/ProcessorMap';
@@ -35,11 +35,19 @@ function ProcessorLogo({ processor }: { processor: Processor }) {
   );
 }
 
+const SPECIES_URL_TO_DISPLAY: Record<string, string> = {
+  beef: 'Beef', hog: 'Hog', lamb: 'Lamb', goat: 'Goat', bison: 'Bison', veal: 'Veal',
+};
+
 export default function FindProcessor() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { species: speciesParam } = useParams<{ species?: string }>();
+  const initialSpecies = speciesParam && SPECIES_URL_TO_DISPLAY[speciesParam.toLowerCase()]
+    ? SPECIES_URL_TO_DISPLAY[speciesParam.toLowerCase()]
+    : 'All Species';
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedState, setSelectedState] = useState('All States');
-  const [selectedSpecies, setSelectedSpecies] = useState('All Species');
+  const [selectedSpecies, setSelectedSpecies] = useState(initialSpecies);
   const [onlineOnly, setOnlineOnly] = useState(searchParams.get('online') === 'true');
   const [showFilters, setShowFilters] = useState(false);
   const [view, setView] = useState<'list' | 'map'>('map');

@@ -43,6 +43,7 @@ function App() {
           <Route path="/processors" element={<Navigate to="/features" replace />} />
           <Route path="/buy-beef" element={<BuyBeef />} />
           <Route path="/find-a-processor" element={<FindProcessor />} />
+          <Route path="/find-a-processor/species/:species" element={<FindProcessor />} />
           <Route path="/find-a-processor/:stateSlug" element={<ProcessorOrStatePage />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />

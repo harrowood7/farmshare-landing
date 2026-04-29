@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { MapPin, Calendar, ArrowLeft, ExternalLink, Map as MapIcon, List, Navigation, X, CheckCircle2, Send, ChevronRight } from 'lucide-react';
 import { processors, stateNames, stateSlugToAbbr } from '../data/processors';
+import { stateAdjacency } from '../data/stateAdjacency';
 import ProcessorMap from '../components/ProcessorMap';
 import { useUserLocation, distanceMiles } from '../hooks/useUserLocation';
 
@@ -258,6 +259,37 @@ export default function StatePage() {
                   Click on any processor above to learn more and view available dates, or <Link to="/find-a-processor" className="text-brand-orange font-bold hover:underline">browse all processors</Link> across the country.
                 </p>
               </div>
+
+              {/* Nearby states cross-link block — for navigation + SEO */}
+              {stateAbbr && (() => {
+                const neighborsWithProcessors = (stateAdjacency[stateAbbr] || [])
+                  .map((abbr) => {
+                    const count = processors.filter((p) => p.state === abbr).length;
+                    if (count === 0) return null;
+                    const name = stateNames[abbr];
+                    const slug = name?.toLowerCase().replace(/\s+/g, '-');
+                    return slug ? { abbr, name, slug, count } : null;
+                  })
+                  .filter((x): x is { abbr: string; name: string; slug: string; count: number } => x !== null);
+                if (neighborsWithProcessors.length === 0) return null;
+                return (
+                  <div className="mt-12 pt-8 border-t border-stone-200">
+                    <h3 className="text-xl font-bold text-brand-green mb-4">Nearby states</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {neighborsWithProcessors.map((n) => (
+                        <Link
+                          key={n.abbr}
+                          to={`/find-a-processor/${n.slug}`}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-stone-200 rounded-full text-sm text-stone-700 hover:text-brand-green hover:border-brand-green transition-colors"
+                        >
+                          {n.name}
+                          <span className="text-xs text-stone-400">{n.count}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           </div>
         </div>

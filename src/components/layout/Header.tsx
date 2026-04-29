@@ -111,14 +111,7 @@ export default function Header() {
             >
               Mission
             </Link>
-            <Link 
-              to="/release-notes" 
-              className={`block ${getLinkClass('/release-notes')}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Release Notes
-            </Link>
-            <a 
+            <a
               href="https://meetings.hubspot.com/henry-arrowood/schedule-demo"
               target="_blank"
               rel="noopener noreferrer"

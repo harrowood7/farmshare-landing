@@ -32,9 +32,6 @@ export default function Footer() {
               <Link to="/mission" className="block hover:text-white transition-colors">
                 Mission
               </Link>
-              <Link to="/release-notes" className="block hover:text-white transition-colors">
-                Release Notes
-              </Link>
             </div>
           </div>
           <div>

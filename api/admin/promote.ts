@@ -1,8 +1,10 @@
 // Vercel serverless function: admin write actions for the processor directory.
 //
-// Supports two modes:
-//   - mode: 'promote'  → flip an existing prospect to customer, edit fields
-//   - mode: 'create'   → add a brand-new customer record
+// Supports four modes:
+//   - mode: 'promote'       → flip an existing prospect to customer, edit fields
+//   - mode: 'create'        → add a brand-new customer record
+//   - mode: 'search'        → query Google Places, return up to 3 candidates (read-only)
+//   - mode: 'add-prospect'  → add a new prospect from a selected Places result
 //
 // Optional logo file upload is committed alongside the JSON change in a single
 // commit via the GitHub Git Data API (refs/commits/trees/blobs).
@@ -13,7 +15,7 @@
 //   GITHUB_OWNER                e.g. "harrowood7"
 //   GITHUB_REPO                 e.g. "farmshare-landing"
 //   GITHUB_BRANCH               defaults to "main"
-//   GOOGLE_GEOCODING_API_KEY    Google Geocoding API key (only needed for 'create' mode)
+//   GOOGLE_GEOCODING_API_KEY    Google API key (also used for Places API — enable Places on same key)
 
 interface PartnerFacility {
   slug: string;
@@ -54,7 +56,43 @@ interface CreateBody {
   logo?: { dataUrl: string; filename: string } | null;
 }
 
-type Body = PromoteBody | CreateBody;
+interface SearchBody {
+  mode: 'search';
+  password: string;
+  query: string;     // raw text — name, "name city state", or a Google Maps URL
+}
+
+interface PlacesCandidate {
+  placeId: string;
+  name: string;
+  formattedAddress: string;
+  city?: string;
+  state?: string;        // 2-letter
+  zip?: string;
+  street?: string;
+  phone?: string;
+  website?: string;
+  lat?: number;
+  lng?: number;
+  googleMapsUri?: string;
+  rating?: number;
+  userRatingCount?: number;
+  hours?: string[];
+  editorialSummary?: string;
+  businessStatus?: string;
+  placeTypes?: string[];
+}
+
+interface AddProspectBody {
+  mode: 'add-prospect';
+  password: string;
+  candidate: PlacesCandidate;
+  species: Species[];
+  description?: string;
+  logo?: { dataUrl: string; filename: string } | null;
+}
+
+type Body = PromoteBody | CreateBody | SearchBody | AddProspectBody;
 
 interface VercelRequest {
   method?: string;
@@ -190,6 +228,123 @@ async function geocode(address: string, apiKey: string): Promise<{ lat: number; 
   return json.results[0].geometry.location;
 }
 
+interface PlacesRawAddressComponent {
+  longText?: string;
+  shortText?: string;
+  types?: string[];
+}
+
+interface PlacesRawPlace {
+  id?: string;
+  displayName?: { text?: string };
+  formattedAddress?: string;
+  addressComponents?: PlacesRawAddressComponent[];
+  location?: { latitude?: number; longitude?: number };
+  internationalPhoneNumber?: string;
+  nationalPhoneNumber?: string;
+  websiteUri?: string;
+  googleMapsUri?: string;
+  rating?: number;
+  userRatingCount?: number;
+  regularOpeningHours?: { weekdayDescriptions?: string[] };
+  editorialSummary?: { text?: string };
+  businessStatus?: string;
+  types?: string[];
+}
+
+const PLACES_FIELD_MASK = [
+  'places.id',
+  'places.displayName',
+  'places.formattedAddress',
+  'places.addressComponents',
+  'places.location',
+  'places.internationalPhoneNumber',
+  'places.nationalPhoneNumber',
+  'places.websiteUri',
+  'places.googleMapsUri',
+  'places.rating',
+  'places.userRatingCount',
+  'places.regularOpeningHours',
+  'places.editorialSummary',
+  'places.businessStatus',
+  'places.types',
+].join(',');
+
+/** Best-effort cleanup for raw query input. If it looks like a Google Maps URL,
+ *  pull the place name out of `/place/Foo+Bar/` so Text Search can match. */
+function normalizeQuery(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed) return '';
+  // https://www.google.com/maps/place/Bichelmeyer+Meats/@39.0989,-94.5796,17z/...
+  const m = trimmed.match(/\/maps\/place\/([^/@?]+)/);
+  if (m) {
+    return decodeURIComponent(m[1]).replace(/\+/g, ' ');
+  }
+  return trimmed;
+}
+
+async function placesTextSearch(query: string, apiKey: string): Promise<PlacesRawPlace[]> {
+  const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': apiKey,
+      'X-Goog-FieldMask': PLACES_FIELD_MASK,
+    },
+    body: JSON.stringify({ textQuery: query, regionCode: 'US', maxResultCount: 5 }),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Places API ${res.status}: ${text.slice(0, 200)}`);
+  }
+  const data = (await res.json()) as { places?: PlacesRawPlace[] };
+  return data.places ?? [];
+}
+
+function pickAddressPart(
+  components: PlacesRawAddressComponent[] | undefined,
+  ...types: string[]
+): string | undefined {
+  if (!components) return undefined;
+  for (const t of types) {
+    const c = components.find((c) => c.types?.includes(t));
+    if (c) return c.shortText || c.longText;
+  }
+  return undefined;
+}
+
+function placeToCandidate(place: PlacesRawPlace): PlacesCandidate | null {
+  if (!place.id || !place.displayName?.text) return null;
+  const components = place.addressComponents;
+  const streetNumber = pickAddressPart(components, 'street_number');
+  const route = pickAddressPart(components, 'route');
+  const street = [streetNumber, route].filter(Boolean).join(' ') || undefined;
+  const city = pickAddressPart(components, 'locality', 'postal_town', 'sublocality');
+  const state = pickAddressPart(components, 'administrative_area_level_1');
+  const zip = pickAddressPart(components, 'postal_code');
+  const phone = place.nationalPhoneNumber || place.internationalPhoneNumber;
+  return {
+    placeId: place.id,
+    name: place.displayName.text,
+    formattedAddress: place.formattedAddress ?? '',
+    street,
+    city,
+    state,
+    zip,
+    phone,
+    website: place.websiteUri,
+    lat: place.location?.latitude,
+    lng: place.location?.longitude,
+    googleMapsUri: place.googleMapsUri,
+    rating: place.rating,
+    userRatingCount: place.userRatingCount,
+    hours: place.regularOpeningHours?.weekdayDescriptions,
+    editorialSummary: place.editorialSummary?.text,
+    businessStatus: place.businessStatus,
+    placeTypes: place.types,
+  };
+}
+
 const STATE_NAMES: Record<string, string> = {
   AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California',
   CO: 'Colorado', CT: 'Connecticut', DE: 'Delaware', DC: 'District of Columbia',
@@ -243,12 +398,98 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } else if (body.mode === 'create') {
       const result = await handleCreate(body, { token: githubToken, owner, repo, branch });
       res.status(200).json({ success: true, ...result });
+    } else if (body.mode === 'search') {
+      const result = await handleSearch(body);
+      res.status(200).json({ success: true, ...result });
+    } else if (body.mode === 'add-prospect') {
+      const result = await handleAddProspect(body, { token: githubToken, owner, repo, branch });
+      res.status(200).json({ success: true, ...result });
     } else {
-      res.status(400).json({ error: 'Invalid mode (must be "promote" or "create")' });
+      res.status(400).json({ error: 'Invalid mode (must be "promote", "create", "search", or "add-prospect")' });
     }
   } catch (e) {
     res.status(502).json({ error: (e as Error).message });
   }
+}
+
+async function handleSearch(body: SearchBody): Promise<{ candidates: PlacesCandidate[] }> {
+  if (!body.query || !body.query.trim()) throw new Error('query is required');
+  const apiKey = process.env.GOOGLE_GEOCODING_API_KEY;
+  if (!apiKey) throw new Error('GOOGLE_GEOCODING_API_KEY not set on server.');
+  const places = await placesTextSearch(normalizeQuery(body.query), apiKey);
+  const candidates = places.map(placeToCandidate).filter((c): c is PlacesCandidate => c !== null);
+  return { candidates };
+}
+
+async function handleAddProspect(
+  body: AddProspectBody,
+  gh: { token: string; owner: string; repo: string; branch: string }
+) {
+  const c = body.candidate;
+  if (!c || !c.name) throw new Error('candidate is required');
+  if (!body.species || body.species.length === 0) throw new Error('At least one species is required');
+
+  const stateAbbr = c.state ? c.state.toUpperCase().trim() : '';
+  if (!stateAbbr || !STATE_NAMES[stateAbbr]) {
+    throw new Error('Could not determine a US state for this place. Try a different match.');
+  }
+
+  const records = await readProcessorsJson(gh);
+  const slug = slugify(c.name, c.city ?? '', stateAbbr);
+  if (records.some((r) => r.slug === slug)) {
+    throw new Error(`A record with slug "${slug}" already exists. Use Promote mode instead.`);
+  }
+
+  const newRecord: Record<string, unknown> = {
+    name: c.name.trim(),
+    location: `${(c.city ?? '').trim()}, ${stateAbbr}`,
+    state: stateAbbr,
+    species: body.species,
+    logo: null,
+    slug,
+    status: 'prospect',
+  };
+  if (c.street) newRecord.address = c.street;
+  if (c.zip) newRecord.zip = c.zip;
+  if (c.phone) newRecord.phone = c.phone;
+  if (c.website) newRecord.website = c.website;
+  if (c.lat != null) newRecord.lat = c.lat;
+  if (c.lng != null) newRecord.lng = c.lng;
+  if (c.googleMapsUri) newRecord.googleMapsUri = c.googleMapsUri;
+  if (c.rating != null) newRecord.rating = c.rating;
+  if (c.userRatingCount != null) newRecord.userRatingCount = c.userRatingCount;
+  if (c.hours && c.hours.length) newRecord.hours = c.hours;
+  if (c.editorialSummary) newRecord.editorialSummary = c.editorialSummary;
+  if (c.businessStatus) newRecord.businessStatus = c.businessStatus;
+  if (c.placeTypes && c.placeTypes.length) newRecord.placeTypes = c.placeTypes;
+  if (body.description && body.description.trim()) newRecord.description = body.description.trim();
+
+  const files: GhFileChange[] = [];
+  if (body.logo) {
+    const { buffer } = decodeDataUrl(body.logo.dataUrl);
+    const ext = extFromFilename(body.logo.filename);
+    newRecord.logo = `/logos/${slug}.${ext}`;
+    files.push({
+      path: `public/logos/${slug}.${ext}`,
+      encoding: 'base64',
+      contentBase64: buffer.toString('base64'),
+    });
+  }
+
+  records.push(newRecord);
+  files.push({
+    path: 'src/data/processors.json',
+    encoding: 'base64',
+    contentBase64: Buffer.from(JSON.stringify(records, null, 2) + '\n', 'utf-8').toString('base64'),
+  });
+
+  const commit = await commitMultiFile({
+    ...gh,
+    message: `Add new prospect ${slug} (admin)${body.logo ? ' (+ logo)' : ''}`,
+    files,
+  });
+
+  return { ...commit, slug };
 }
 
 async function handlePromote(

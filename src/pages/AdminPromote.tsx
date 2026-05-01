@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, CheckCircle2, ChevronDown, ChevronRight, Lock, MapPin, Plus, Trash2, Upload } from 'lucide-react';
+import { Calendar, CheckCircle2, ChevronDown, ChevronRight, Lock, MapPin, Plus, Search, Star, Trash2, Upload } from 'lucide-react';
 import { processors, stateNames, type Processor, type PartnerFacility } from '../data/processors';
 
 const PASSWORD_KEY = 'farmshare_admin_password';
@@ -23,7 +23,7 @@ export default function AdminPromote() {
   const [password, setPassword] = useState<string>(() => localStorage.getItem(PASSWORD_KEY) || '');
   const [authChecked, setAuthChecked] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
-  const [mode, setMode] = useState<'promote' | 'create'>('promote');
+  const [mode, setMode] = useState<'promote' | 'create' | 'add-prospect'>('promote');
 
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
@@ -81,7 +81,7 @@ export default function AdminPromote() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-roca text-brand-green">Directory admin</h1>
-            <p className="text-stone-600 mt-1">Promote a prospect, or add a brand-new customer.</p>
+            <p className="text-stone-600 mt-1">Promote a prospect, add a new customer, or add a new prospect from Google.</p>
           </div>
           <button onClick={handleSignOut} className="text-sm text-stone-500 hover:text-stone-700 underline">Sign out</button>
         </div>
@@ -100,6 +100,12 @@ export default function AdminPromote() {
           >
             Add new customer
           </button>
+          <button
+            onClick={() => { setMode('add-prospect'); setResult(null); setError(null); }}
+            className={`px-4 py-2 rounded-md text-sm font-bold transition-colors ${mode === 'add-prospect' ? 'bg-brand-green text-white' : 'text-stone-600 hover:text-brand-green'}`}
+          >
+            Add new prospect
+          </button>
         </div>
 
         {mode === 'promote' && (
@@ -114,6 +120,16 @@ export default function AdminPromote() {
         )}
         {mode === 'create' && (
           <CreateForm
+            password={password}
+            submitting={submitting}
+            setSubmitting={setSubmitting}
+            setResult={setResult}
+            setError={setError}
+            onWrongPassword={() => { setAuthChecked(false); localStorage.removeItem(PASSWORD_KEY); }}
+          />
+        )}
+        {mode === 'add-prospect' && (
+          <AddProspectForm
             password={password}
             submitting={submitting}
             setSubmitting={setSubmitting}
@@ -547,6 +563,270 @@ function CreateForm({
   );
 }
 
+// -------------------- ADD NEW PROSPECT (Google Places search) --------------------
+interface PlacesCandidate {
+  placeId: string;
+  name: string;
+  formattedAddress: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  phone?: string;
+  website?: string;
+  lat?: number;
+  lng?: number;
+  googleMapsUri?: string;
+  rating?: number;
+  userRatingCount?: number;
+  hours?: string[];
+  editorialSummary?: string;
+  businessStatus?: string;
+  placeTypes?: string[];
+}
+
+function AddProspectForm({
+  password,
+  submitting,
+  setSubmitting,
+  setResult,
+  setError,
+  onWrongPassword,
+}: {
+  password: string;
+  submitting: boolean;
+  setSubmitting: (b: boolean) => void;
+  setResult: (r: Result | null) => void;
+  setError: (s: string | null) => void;
+  onWrongPassword: () => void;
+}) {
+  const [query, setQuery] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [candidates, setCandidates] = useState<PlacesCandidate[]>([]);
+  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [species, setSpecies] = useState<SpeciesT[]>([]);
+  const [description, setDescription] = useState('');
+  const [logoState, setLogoState] = useState<LogoState>({ kind: 'unchanged' });
+
+  const selected = selectedIdx != null ? candidates[selectedIdx] : null;
+
+  const handleSearch = async () => {
+    if (!query.trim()) return;
+    setSearching(true);
+    setError(null);
+    setResult(null);
+    setCandidates([]);
+    setSelectedIdx(null);
+    try {
+      const res = await fetch('/api/admin/promote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'search', password, query: query.trim() }),
+      });
+      const data = (await res.json()) as { candidates?: PlacesCandidate[]; error?: string };
+      if (!res.ok) {
+        if (res.status === 401) {
+          setError('Wrong password.');
+          onWrongPassword();
+        } else {
+          setError(data.error || `Server error (${res.status})`);
+        }
+        return;
+      }
+      const list = data.candidates ?? [];
+      setCandidates(list);
+      if (list.length === 0) setError('No matches from Google. Try a different query.');
+      if (list.length === 1) setSelectedIdx(0);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!selected) return;
+    setSubmitting(true);
+    setError(null);
+    setResult(null);
+    try {
+      const payload: Record<string, unknown> = {
+        mode: 'add-prospect',
+        password,
+        candidate: selected,
+        species,
+        description: description.trim() || undefined,
+      };
+      if (logoState.kind === 'uploaded') {
+        payload.logo = { dataUrl: logoState.dataUrl, filename: logoState.filename };
+      }
+
+      const res = await fetch('/api/admin/promote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = (await res.json()) as Result & { error?: string };
+      if (!res.ok) {
+        if (res.status === 401) {
+          setError('Wrong password.');
+          onWrongPassword();
+        } else {
+          setError(data.error || `Server error (${res.status})`);
+        }
+        return;
+      }
+      setResult(data);
+      // Reset for next add
+      setQuery('');
+      setCandidates([]);
+      setSelectedIdx(null);
+      setSpecies([]);
+      setDescription('');
+      setLogoState({ kind: 'unchanged' });
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const canSubmit = !!selected && species.length > 0;
+
+  return (
+    <div className="grid lg:grid-cols-2 gap-8">
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        <h2 className="text-lg font-bold text-brand-green mb-4">1. Find them on Google</h2>
+        <p className="text-sm text-stone-600 mb-3">
+          Paste a Google Maps URL, or type the business name + city + state. We'll fetch their address, phone, website, hours, rating, and Google Maps link.
+        </p>
+        <div className="flex gap-2 mb-4">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSearch(); } }}
+            placeholder='e.g. "Bichelmeyer Meats Kansas City KS"'
+            className="flex-1 px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-brand-orange"
+          />
+          <button
+            type="button"
+            onClick={handleSearch}
+            disabled={searching || !query.trim()}
+            className="bg-brand-orange text-white px-4 py-2 rounded-lg font-bold hover:bg-brand-yellow transition-colors disabled:bg-stone-300 disabled:cursor-not-allowed inline-flex items-center gap-2"
+          >
+            <Search className="h-4 w-4" />
+            {searching ? 'Searching…' : 'Search'}
+          </button>
+        </div>
+
+        {candidates.length > 0 && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-bold text-stone-700 mb-2">
+              {candidates.length === 1 ? 'Match' : `${candidates.length} matches — pick the right one`}
+            </h3>
+            {candidates.map((c, i) => (
+              <button
+                key={c.placeId}
+                type="button"
+                onClick={() => setSelectedIdx(i)}
+                className={`w-full text-left px-4 py-3 rounded-lg border transition-colors ${
+                  i === selectedIdx
+                    ? 'bg-brand-cream border-brand-orange'
+                    : 'bg-white border-stone-200 hover:border-brand-orange'
+                }`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-brand-green">{c.name}</div>
+                    <div className="text-xs text-stone-500 mt-0.5">{c.formattedAddress}</div>
+                    {c.businessStatus && c.businessStatus !== 'OPERATIONAL' && (
+                      <div className="text-xs text-red-600 mt-1 font-medium">⚠ {c.businessStatus.replace(/_/g, ' ').toLowerCase()}</div>
+                    )}
+                  </div>
+                  {c.rating != null && (
+                    <div className="flex items-center gap-1 text-xs text-stone-600 flex-shrink-0">
+                      <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                      <span className="font-semibold">{c.rating.toFixed(1)}</span>
+                      {c.userRatingCount != null && <span className="text-stone-400">({c.userRatingCount})</span>}
+                    </div>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        {!selected && <p className="text-stone-500">Search and pick a match on the left to begin.</p>}
+        {selected && (
+          <>
+            <h2 className="text-lg font-bold text-brand-green mb-1">2. Confirm details</h2>
+            <p className="text-sm text-stone-600 mb-4">Everything below comes from Google. You only need to set species (Google doesn't know that).</p>
+
+            <div className="bg-brand-cream/40 rounded-lg p-3 mb-4 text-sm space-y-1">
+              <div className="font-bold text-brand-green">{selected.name}</div>
+              <div className="text-stone-700">{selected.formattedAddress}</div>
+              {selected.phone && <div className="text-stone-600">📞 {selected.phone}</div>}
+              {selected.website && (
+                <div className="text-stone-600 truncate">🌐 <a href={selected.website} target="_blank" rel="noopener noreferrer" className="underline">{selected.website}</a></div>
+              )}
+              {selected.googleMapsUri && (
+                <div className="text-stone-600 truncate">📍 <a href={selected.googleMapsUri} target="_blank" rel="noopener noreferrer" className="underline">View on Google Maps</a></div>
+              )}
+              {selected.placeTypes && selected.placeTypes.length > 0 && (
+                <div className="text-xs text-stone-500 pt-1">Place types: {selected.placeTypes.slice(0, 4).join(', ')}</div>
+              )}
+            </div>
+
+            <Field label="Species" required hint="Google doesn't tell us what species they process. Toggle the ones this plant does.">
+              <SpeciesPicker value={species} onChange={setSpecies} />
+            </Field>
+
+            <Field label="Description" hint="Optional one-liner. Leave blank if you'd rather use Google's editorial summary or website later.">
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={3}
+                placeholder={selected.editorialSummary ?? ''}
+                className="w-full px-3 py-2 rounded border border-stone-300 text-sm"
+              />
+            </Field>
+
+            <Field label="Logo" hint="Optional. Skip and add later if you don't have one handy.">
+              <LogoUploader state={logoState} setState={setLogoState} />
+            </Field>
+
+            <div className="mt-4 mb-4">
+              <h3 className="text-sm font-bold text-stone-700 mb-2">Preview</h3>
+              <CardPreview
+                name={selected.name}
+                location={`${selected.city ?? ''}${selected.city && selected.state ? ', ' : ''}${selected.state ?? ''}`}
+                species={species}
+                logoUrl={logoState.kind === 'uploaded' ? logoState.previewUrl : null}
+                isProspect
+              />
+            </div>
+
+            <button
+              onClick={handleSubmit}
+              disabled={submitting || !canSubmit}
+              className="w-full bg-brand-orange text-white py-3 rounded-lg font-bold hover:bg-brand-yellow transition-colors disabled:bg-stone-300 disabled:cursor-not-allowed"
+            >
+              {submitting ? 'Saving…' : 'Add prospect to directory'}
+            </button>
+
+            <p className="text-xs text-stone-500 mt-2">
+              Saves with <code>status: prospect</code>. Listing shows "Send a Scheduling Request" instead of "Book now."
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // -------------------- SHARED SUBCOMPONENTS --------------------
 function Field({ label, required, hint, children }: { label: string; required?: boolean; hint?: React.ReactNode; children: React.ReactNode }) {
   return (
@@ -702,7 +982,7 @@ function LogoUploader({ processor, state, setState }: { processor?: Processor; s
   );
 }
 
-function CardPreview({ name, location, species, logoUrl }: { name: string; location: string; species: string[]; logoUrl: string | null | undefined }) {
+function CardPreview({ name, location, species, logoUrl, isProspect }: { name: string; location: string; species: string[]; logoUrl: string | null | undefined; isProspect?: boolean }) {
   const initials = name.split(' ').map((w) => w[0]).filter((c) => c && c.match(/[A-Z0-9]/i)).slice(0, 2).join('').toUpperCase();
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full max-w-sm border border-stone-200">
@@ -723,10 +1003,12 @@ function CardPreview({ name, location, species, logoUrl }: { name: string; locat
               <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
               <span className="text-sm">{location}</span>
             </div>
-            <div className="flex items-center gap-1 text-xs font-semibold text-brand-green mt-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-              <span>Online scheduling</span>
-            </div>
+            {!isProspect && (
+              <div className="flex items-center gap-1 text-xs font-semibold text-brand-green mt-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                <span>Online scheduling</span>
+              </div>
+            )}
           </div>
         </div>
         {species.length > 0 && (
@@ -736,12 +1018,12 @@ function CardPreview({ name, location, species, logoUrl }: { name: string; locat
             ))}
           </div>
         )}
-        <div className="mt-auto flex items-center justify-between text-sm bg-brand-green rounded-lg px-3 py-2">
-          <div className="flex items-center font-semibold text-white">
+        <div className={`mt-auto flex items-center justify-between text-sm rounded-lg px-3 py-2 ${isProspect ? 'bg-stone-200 text-stone-700' : 'bg-brand-green text-white'}`}>
+          <div className="flex items-center font-semibold">
             <Calendar className="h-4 w-4 mr-2" />
-            <span>Book now — real-time availability</span>
+            <span>{isProspect ? 'Send a scheduling request' : 'Book now — real-time availability'}</span>
           </div>
-          <ChevronRight className="h-4 w-4 text-white" />
+          <ChevronRight className="h-4 w-4" />
         </div>
       </div>
     </div>

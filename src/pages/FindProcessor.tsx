@@ -54,6 +54,16 @@ export default function FindProcessor() {
   const PAGE_SIZE = 24;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const prevQueryRef = useRef(searchQuery);
+
+  // Auto-switch to list when the user starts a new search — pin clusters on a
+  // national map don't tell you anything; the list shows names, cities, species.
+  useEffect(() => {
+    const wasEmpty = prevQueryRef.current.trim() === '';
+    const isNonEmpty = searchQuery.trim() !== '';
+    if (wasEmpty && isNonEmpty) setView('list');
+    prevQueryRef.current = searchQuery;
+  }, [searchQuery]);
 
   // Keep URL in sync when user toggles the filter so the state is shareable.
   useEffect(() => {

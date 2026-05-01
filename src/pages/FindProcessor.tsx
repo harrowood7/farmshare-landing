@@ -114,14 +114,23 @@ export default function FindProcessor() {
 
   const allSpecies = ["All Species", ...Array.from(new Set(processors.flatMap(p => p.species))).sort()];
 
+  const queryTokens = searchQuery.toLowerCase().split(/\s+/).filter(Boolean);
   const filteredRaw = processors.filter(p => {
     if (p.businessStatus === 'CLOSED_PERMANENTLY') return false;
-    const q = searchQuery.toLowerCase();
-    const matchesSearch = searchQuery === '' ||
-      p.name.toLowerCase().includes(q) ||
-      p.location.toLowerCase().includes(q) ||
-      p.state.toLowerCase().includes(q) ||
-      (stateNames[p.state]?.toLowerCase().includes(q) ?? false);
+    let matchesSearch = true;
+    if (queryTokens.length > 0) {
+      const haystack = [
+        p.name,
+        p.location,
+        p.state,
+        stateNames[p.state] ?? '',
+        p.address ?? '',
+        p.zip ?? '',
+        p.species.join(' '),
+        (p.placeTypes ?? []).join(' ').replace(/_/g, ' '),
+      ].join(' ').toLowerCase();
+      matchesSearch = queryTokens.every(t => haystack.includes(t));
+    }
     const matchesState = selectedState === 'All States' || p.state === selectedState;
     const matchesSpecies = selectedSpecies === 'All Species' || p.species.includes(selectedSpecies);
     const matchesOnline = !onlineOnly || p.status === 'customer';

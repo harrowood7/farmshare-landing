@@ -62,6 +62,11 @@ interface SearchBody {
   query: string;     // raw text — name, "name city state", or a Google Maps URL
 }
 
+interface PlacesReview {
+  rating?: number;
+  text?: string;
+}
+
 interface PlacesCandidate {
   placeId: string;
   name: string;
@@ -81,6 +86,7 @@ interface PlacesCandidate {
   editorialSummary?: string;
   businessStatus?: string;
   placeTypes?: string[];
+  reviews?: PlacesReview[];
 }
 
 interface AddProspectBody {
@@ -245,6 +251,11 @@ interface PlacesRawAddressComponent {
   types?: string[];
 }
 
+interface PlacesRawReview {
+  rating?: number;
+  text?: { text?: string };
+}
+
 interface PlacesRawPlace {
   id?: string;
   displayName?: { text?: string };
@@ -261,6 +272,7 @@ interface PlacesRawPlace {
   editorialSummary?: { text?: string };
   businessStatus?: string;
   types?: string[];
+  reviews?: PlacesRawReview[];
 }
 
 const PLACES_FIELD_MASK = [
@@ -279,6 +291,7 @@ const PLACES_FIELD_MASK = [
   'places.editorialSummary',
   'places.businessStatus',
   'places.types',
+  'places.reviews',
 ].join(',');
 
 /** Best-effort cleanup for raw query input. If it looks like a Google Maps URL,
@@ -334,6 +347,10 @@ function placeToCandidate(place: PlacesRawPlace): PlacesCandidate | null {
   const state = pickAddressPart(components, 'administrative_area_level_1');
   const zip = pickAddressPart(components, 'postal_code');
   const phone = place.nationalPhoneNumber || place.internationalPhoneNumber;
+  const reviews: PlacesReview[] | undefined = place.reviews?.map((r) => ({
+    rating: r.rating,
+    text: r.text?.text,
+  })).filter((r) => r.text);
   return {
     placeId: place.id,
     name: place.displayName.text,
@@ -353,7 +370,71 @@ function placeToCandidate(place: PlacesRawPlace): PlacesCandidate | null {
     editorialSummary: place.editorialSummary?.text,
     businessStatus: place.businessStatus,
     placeTypes: place.types,
+    reviews,
   };
+}
+
+// ---- Review-driven description generator (port of enrich_from_reviews.py) ----
+
+const SERVICE_KEYWORDS: { label: string; patterns: RegExp[] }[] = [
+  { label: 'vacuum packing',       patterns: [/vacuum\s*pack/i, /vacuum\s*seal/i] },
+  { label: 'custom sausage',       patterns: [/\bsausages?\b/i, /\bbrats?\b/i, /\bbratwurst\b/i] },
+  { label: 'smoked meats',         patterns: [/\bsmoked?\b/i, /\bsmokehouse\b/i, /\bsmoking\b/i] },
+  { label: 'jerky',                patterns: [/\bjerky\b/i] },
+  { label: 'bacon',                patterns: [/\bbacon\b/i] },
+  { label: 'wild game processing', patterns: [/wild\s*game/i, /\bgame\s*processing/i, /\bdeer\s*processing/i] },
+  { label: 'taxidermy',            patterns: [/\btaxidermy\b/i] },
+  { label: 'custom cuts',          patterns: [/custom\s*cuts?/i, /cut\s*sheet/i, /custom\s*processing/i] },
+  { label: 'summer sausage',       patterns: [/summer\s*sausage/i] },
+  { label: 'snack sticks',         patterns: [/snack\s*sticks?/i] },
+  { label: 'on-farm slaughter',    patterns: [/\bmobile\s*slaughter/i, /on[-\s]*farm/i, /\bharvest\s+at\b/i] },
+];
+
+const QUALITY_KEYWORDS: { label: string; patterns: RegExp[] }[] = [
+  { label: 'friendly staff',         patterns: [/\bfriendly\b/i, /\bpolite\b/i, /\bkind\b/i, /\bnice\s+people\b/i] },
+  { label: 'quick turnaround',       patterns: [/\bquick\b/i, /\bfast\s+turn/i, /\bin\s+and\s+out\b/i, /\btimely\b/i] },
+  { label: 'knowledgeable staff',    patterns: [/\bknowledgeable\b/i, /\bexperts?\b/i, /\bknow\s+their\s+stuff\b/i] },
+  { label: 'professional service',   patterns: [/\bprofessional\b/i, /\bwell[-\s]run\b/i] },
+  { label: 'clean facility',         patterns: [/\bclean\b(?!\s+up)/i] },
+  { label: 'fair pricing',           patterns: [/\breasonable\s+price/i, /\bfair\s+price/i, /\baffordable\b/i, /\bgreat\s+value\b/i] },
+  { label: 'family-owned operation', patterns: [/family\s*owned/i, /family\s*run/i, /family\s*operated/i] },
+];
+
+function joinList(items: string[]): string {
+  if (items.length === 0) return '';
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return items.slice(0, -1).join(', ') + `, and ${items[items.length - 1]}`;
+}
+
+function matchAny(text: string, patterns: RegExp[]): boolean {
+  return patterns.some((p) => p.test(text));
+}
+
+function generateDescriptionFromReviews(
+  candidate: PlacesCandidate
+): string | null {
+  const reviews = candidate.reviews ?? [];
+  const positive = reviews.filter((r) => (r.rating ?? 0) >= 4 && r.text);
+  if (positive.length === 0) return null;
+  const joined = positive.map((r) => r.text!).join(' ');
+  const services = SERVICE_KEYWORDS.filter((g) => matchAny(joined, g.patterns)).map((g) => g.label).slice(0, 5);
+  const qualities = QUALITY_KEYWORDS.filter((g) => matchAny(joined, g.patterns)).map((g) => g.label).slice(0, 3);
+  if (services.length === 0 && qualities.length === 0) return null;
+
+  const parts: string[] = [];
+  const loc = candidate.city && candidate.state ? `${candidate.city}, ${candidate.state}` : candidate.state ?? '';
+  let lead = `${candidate.name} is a meat processor`;
+  if (loc) lead += ` in ${loc}`;
+  if (candidate.rating != null && candidate.userRatingCount) {
+    lead += `, rated ${candidate.rating} stars across ${candidate.userRatingCount} Google reviews.`;
+  } else {
+    lead += '.';
+  }
+  parts.push(lead);
+  if (qualities.length > 0) parts.push(`Customers highlight their ${joinList(qualities)}.`);
+  if (services.length > 0) parts.push(`Common review themes include ${joinList(services)}.`);
+  return parts.join(' ');
 }
 
 const STATE_NAMES: Record<string, string> = {
@@ -423,12 +504,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-async function handleSearch(body: SearchBody): Promise<{ candidates: PlacesCandidate[] }> {
+async function handleSearch(
+  body: SearchBody
+): Promise<{ candidates: (PlacesCandidate & { generatedDescription?: string })[] }> {
   if (!body.query || !body.query.trim()) throw new Error('query is required');
   const apiKey = process.env.GOOGLE_GEOCODING_API_KEY;
   if (!apiKey) throw new Error('GOOGLE_GEOCODING_API_KEY not set on server.');
   const places = await placesTextSearch(normalizeQuery(body.query), apiKey);
-  const candidates = places.map(placeToCandidate).filter((c): c is PlacesCandidate => c !== null);
+  const candidates = places
+    .map(placeToCandidate)
+    .filter((c): c is PlacesCandidate => c !== null)
+    .map((c) => ({ ...c, generatedDescription: generateDescriptionFromReviews(c) ?? undefined }));
   return { candidates };
 }
 
@@ -473,7 +559,13 @@ async function handleAddProspect(
   if (c.editorialSummary) newRecord.editorialSummary = c.editorialSummary;
   if (c.businessStatus) newRecord.businessStatus = c.businessStatus;
   if (c.placeTypes && c.placeTypes.length) newRecord.placeTypes = c.placeTypes;
-  if (body.description && body.description.trim()) newRecord.description = body.description.trim();
+  if (body.description && body.description.trim()) {
+    newRecord.description = body.description.trim();
+  } else {
+    // Generate from positive Google reviews when admin didn't supply one.
+    const generated = generateDescriptionFromReviews(c);
+    if (generated) newRecord.description = generated;
+  }
 
   const files: GhFileChange[] = [];
   if (body.logo) {

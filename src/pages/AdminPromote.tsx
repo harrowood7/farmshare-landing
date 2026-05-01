@@ -583,6 +583,8 @@ interface PlacesCandidate {
   editorialSummary?: string;
   businessStatus?: string;
   placeTypes?: string[];
+  reviews?: { rating?: number; text?: string }[];
+  generatedDescription?: string;
 }
 
 function AddProspectForm({
@@ -609,6 +611,13 @@ function AddProspectForm({
   const [logoState, setLogoState] = useState<LogoState>({ kind: 'unchanged' });
 
   const selected = selectedIdx != null ? candidates[selectedIdx] : null;
+
+  // When a candidate is picked, seed the description with whatever Google gave us
+  // (review-summary > editorial summary). Admin can edit before submitting.
+  useEffect(() => {
+    if (!selected) return;
+    setDescription(selected.generatedDescription ?? selected.editorialSummary ?? '');
+  }, [selected]);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -784,12 +793,11 @@ function AddProspectForm({
               <SpeciesPicker value={species} onChange={setSpecies} />
             </Field>
 
-            <Field label="Description" hint="Optional one-liner. Leave blank if you'd rather use Google's editorial summary or website later.">
+            <Field label="Description" hint={selected.generatedDescription ? 'Pre-filled from positive Google reviews. Edit freely.' : 'Optional. Pre-fills from Google’s editorial summary if available.'}>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                rows={3}
-                placeholder={selected.editorialSummary ?? ''}
+                rows={4}
                 className="w-full px-3 py-2 rounded border border-stone-300 text-sm"
               />
             </Field>

@@ -19,14 +19,12 @@ function HeroLogo({ processor }: { processor: Processor }) {
     );
   }
   return (
-    <div className="w-24 h-24 mx-auto mb-6 rounded-xl bg-white/10 flex items-center justify-center overflow-hidden p-2">
-      <img
-        src={processor.logo}
-        alt={processor.name}
-        className="max-w-full max-h-full object-contain"
-        onError={() => setFailed(true)}
-      />
-    </div>
+    <img
+      src={processor.logo}
+      alt={processor.name}
+      className="w-24 h-24 mx-auto mb-6 object-contain"
+      onError={() => setFailed(true)}
+    />
   );
 }
 

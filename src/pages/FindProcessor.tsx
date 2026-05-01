@@ -22,16 +22,14 @@ function ProcessorLogo({ processor }: { processor: Processor }) {
     );
   }
   return (
-    <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1">
-      <img
-        src={processor.logo}
-        alt={processor.name}
-        className="max-w-full max-h-full object-contain"
-        loading="lazy"
-        decoding="async"
-        onError={() => setFailed(true)}
-      />
-    </div>
+    <img
+      src={processor.logo}
+      alt={processor.name}
+      className="flex-shrink-0 w-16 h-16 rounded-lg object-contain"
+      loading="lazy"
+      decoding="async"
+      onError={() => setFailed(true)}
+    />
   );
 }
 

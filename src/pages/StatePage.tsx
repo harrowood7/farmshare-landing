@@ -175,14 +175,12 @@ export default function StatePage() {
                   <div className="p-6">
                     <div className="flex items-start gap-4 mb-4">
                       {processor.logo ? (
-                        <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1">
-                          <img
-                            src={processor.logo}
-                            alt={processor.name}
-                            className="max-w-full max-h-full object-contain"
-                            loading="lazy"
-                          />
-                        </div>
+                        <img
+                          src={processor.logo}
+                          alt={processor.name}
+                          className="flex-shrink-0 w-16 h-16 rounded-lg object-contain"
+                          loading="lazy"
+                        />
                       ) : (
                         <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-green flex items-center justify-center">
                           <span className="text-white font-bold text-xl">

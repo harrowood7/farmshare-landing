@@ -997,9 +997,7 @@ function CardPreview({ name, location, species, logoUrl, isProspect }: { name: s
       <div className="p-6 flex flex-col flex-1">
         <div className="flex items-start gap-4 mb-4">
           {logoUrl ? (
-            <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-cream flex items-center justify-center overflow-hidden p-1">
-              <img src={logoUrl} alt={name} className="max-w-full max-h-full object-contain" />
-            </div>
+            <img src={logoUrl} alt={name} className="flex-shrink-0 w-16 h-16 rounded-lg object-contain" />
           ) : (
             <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-brand-green flex items-center justify-center">
               <span className="text-white font-bold text-xl">{initials || '?'}</span>

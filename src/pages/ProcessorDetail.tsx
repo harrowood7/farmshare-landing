@@ -22,7 +22,7 @@ function HeroLogo({ processor }: { processor: Processor }) {
     <img
       src={processor.logo}
       alt={processor.name}
-      className="w-24 h-24 mx-auto mb-6 object-contain"
+      className="w-24 h-24 mx-auto mb-6 rounded-xl object-contain"
       onError={() => setFailed(true)}
     />
   );

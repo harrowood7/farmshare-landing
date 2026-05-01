@@ -35701,5 +35701,44 @@
       "establishment"
     ],
     "description": "Weaver Meat Processing is a meat processor in Hartselle, AL, rated 4.7 stars across 107 Google reviews. Customers highlight their quick turnaround."
+  },
+  {
+    "name": "Yorks Butcher Shop",
+    "location": "Barnesville, GA",
+    "state": "GA",
+    "species": [
+      "Beef",
+      "Lamb",
+      "Hog"
+    ],
+    "logo": "/logos/yorks-butcher-shop-barnesville-ga.jpg",
+    "slug": "yorks-butcher-shop-barnesville-ga",
+    "status": "prospect",
+    "address": "1006 GA-36",
+    "zip": "30204",
+    "phone": "(478) 960-2594",
+    "website": "https://www.fsis.usda.gov/inspection/fsis-inspected-establishments/yorks-butcher-shop",
+    "lat": 33.0046362,
+    "lng": -84.19151959999999,
+    "googleMapsUri": "https://maps.google.com/?cid=12678782560159214491&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.6,
+    "userRatingCount": 46,
+    "hours": [
+      "Monday: 7:00 AM – 8:00 PM",
+      "Tuesday: 7:00 AM – 8:00 PM",
+      "Wednesday: 7:00 AM – 8:00 PM",
+      "Thursday: 7:00 AM – 8:00 PM",
+      "Friday: 7:00 AM – 8:00 PM",
+      "Saturday: 7:00 AM – 8:00 PM",
+      "Sunday: 7:00 AM – 8:00 PM"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "food_store",
+      "food",
+      "store",
+      "point_of_interest",
+      "establishment"
+    ]
   }
 ]

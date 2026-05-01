@@ -129,15 +129,15 @@ export default function FindProcessor() {
     if (p.businessStatus === 'CLOSED_PERMANENTLY') return false;
     let matchesSearch = true;
     if (queryTokens.length > 0) {
+      // Stick to identity fields: name, city + state, street, ZIP. Don't include
+      // the full state name (would make "york" match every NY business) or
+      // place types (would make "butcher" match every butcher_shop).
       const haystack = [
         p.name,
         p.location,
         p.state,
-        stateNames[p.state] ?? '',
         p.address ?? '',
         p.zip ?? '',
-        p.species.join(' '),
-        (p.placeTypes ?? []).join(' ').replace(/_/g, ' '),
       ].join(' ').toLowerCase();
       matchesSearch = queryTokens.every(t => haystack.includes(t));
     }

@@ -212,11 +212,22 @@ async function readProcessorsJson(opts: {
   repo: string;
   branch: string;
 }): Promise<Record<string, unknown>[]> {
-  const file = (await ghFetch(
-    opts.token,
-    `/repos/${opts.owner}/${opts.repo}/contents/src/data/processors.json?ref=${opts.branch}`
-  )) as { content: string };
-  return JSON.parse(Buffer.from(file.content, 'base64').toString('utf-8'));
+  // Use the raw media type — Contents API JSON response has a 1MB cap and
+  // returns empty `content` for larger files. processors.json is ~1.2MB.
+  const url = `https://api.github.com/repos/${opts.owner}/${opts.repo}/contents/src/data/processors.json?ref=${opts.branch}`;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `token ${opts.token}`,
+      Accept: 'application/vnd.github.raw',
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`GitHub read processors.json → ${res.status}: ${text.slice(0, 200)}`);
+  }
+  const text = await res.text();
+  return JSON.parse(text);
 }
 
 async function geocode(address: string, apiKey: string): Promise<{ lat: number; lng: number } | null> {

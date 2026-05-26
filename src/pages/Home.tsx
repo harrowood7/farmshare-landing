@@ -24,6 +24,12 @@ const testimonials = [
     company: "Adams Farm",
     logo: "/logos/adams-farm.jpg",
   },
+  {
+    quote: "I opened up Farmshare and I had 10 reviews to do. In a matter of two days, we booked 35 head of cattle, and I didn't have to do a damn thing other than click accept. There's just those aha moments that happen all the time.",
+    author: "Spencer Wirt",
+    company: "6 in 1 Meats",
+    logo: "/logos/6-in-1-meats.jpg",
+  },
 ];
 
 export default function Home() {

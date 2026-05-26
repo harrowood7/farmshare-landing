@@ -25,7 +25,7 @@ const testimonials = [
     logo: "/logos/adams-farm.jpg",
   },
   {
-    quote: "I opened up Farmshare and I had 10 reviews to do. In a matter of two days, we booked 35 head of cattle, and I didn't have to do a damn thing other than click accept. There's just those aha moments that happen all the time.",
+    quote: "In a matter of two days, we booked 35 head of cattle, and I didn't have to do a damn thing other than click accept.",
     author: "Spencer Wirt",
     company: "6 in 1 Meats",
     logo: "/logos/6-in-1-meats.jpg",
@@ -307,11 +307,13 @@ export default function Home() {
       <LogoBanner />
 
       <section className="py-20 bg-brand-cream">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-roca text-brand-green text-center mb-12 fade-up">What Processors Are Saying</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {testimonials.map((t, index) => (
-              <div key={index} className="bg-white p-8 rounded-lg shadow-lg flex flex-col">
+        <div className="container mx-auto px-4 mb-12">
+          <h2 className="text-3xl md:text-4xl font-roca text-brand-green text-center fade-up">What Processors Are Saying</h2>
+        </div>
+        <div className="group relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+          <div className="flex w-max gap-8 animate-marquee group-hover:[animation-play-state:paused]">
+            {[...testimonials, ...testimonials].map((t, index) => (
+              <div key={index} className="bg-white p-8 rounded-lg shadow-lg flex flex-col w-[360px] md:w-[420px] flex-shrink-0">
                 <Quote className="h-8 w-8 text-brand-orange mb-4 flex-shrink-0" />
                 <p className="text-lg italic text-stone-700 mb-6 leading-relaxed flex-grow">
                   {t.quote}

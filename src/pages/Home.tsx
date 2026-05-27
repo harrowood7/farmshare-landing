@@ -30,6 +30,12 @@ const testimonials = [
     company: "6 in 1 Meats",
     logo: "/logos/6-in-1-meats.jpg",
   },
+  {
+    quote: "In our first week on Farmshare, we booked new customers from across Pennsylvania and surrounding states. Territory we hadn't reached on our own.",
+    author: "Wade Weimer",
+    company: "Weimer Meats",
+    logo: "/logos/weimer.jpg",
+  },
 ];
 
 export default function Home() {

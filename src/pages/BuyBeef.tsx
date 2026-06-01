@@ -1,10 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Send, CheckCircle } from 'lucide-react';
 
 const SPECIES_OPTIONS = ['Beef', 'Pork', 'Lamb', 'Goat', 'Other'];
 const CUT_OPTIONS = ['Whole', 'Half', 'Quarter', 'Not sure'];
 const TIMING_OPTIONS = ['Within 1 month', '1–3 months', '3–6 months', 'Just exploring'];
+
+const TURNSTILE_SITE_KEY = '0x4AAAAAADdG7-hGKeLF1sRA';
+
+type TurnstileWindow = Window & {
+  turnstile?: {
+    render: (
+      element: HTMLElement | string,
+      options: {
+        sitekey: string;
+        callback?: (token: string) => void;
+        'expired-callback'?: () => void;
+        'error-callback'?: () => void;
+      },
+    ) => string;
+    remove: (widgetId: string) => void;
+    reset: (widgetId?: string) => void;
+  };
+};
 
 export default function BuyBeef() {
   const [form, setForm] = useState({
@@ -19,6 +37,9 @@ export default function BuyBeef() {
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     document.title = 'Buy Local Beef, Pork & Lamb | Farmshare';
@@ -26,6 +47,41 @@ export default function BuyBeef() {
     if (meta) {
       meta.setAttribute('content', 'Find a local meat processor near you and buy a quarter, half, or whole animal direct from the farm. Farmshare connects you with independent processors across the country.');
     }
+  }, []);
+
+  // Render Cloudflare Turnstile widget once the script has loaded.
+  useEffect(() => {
+    const tryRender = () => {
+      const w = window as TurnstileWindow;
+      if (!w.turnstile || !turnstileContainerRef.current || turnstileWidgetIdRef.current) {
+        return false;
+      }
+      turnstileWidgetIdRef.current = w.turnstile.render(turnstileContainerRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(''),
+        'error-callback': () => setTurnstileToken(''),
+      });
+      return true;
+    };
+
+    if (tryRender()) return;
+
+    // Script may still be loading — poll briefly until window.turnstile is ready.
+    const interval = window.setInterval(() => {
+      if (tryRender()) window.clearInterval(interval);
+    }, 200);
+    const timeout = window.setTimeout(() => window.clearInterval(interval), 10000);
+
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(timeout);
+      const w = window as TurnstileWindow;
+      if (turnstileWidgetIdRef.current && w.turnstile) {
+        w.turnstile.remove(turnstileWidgetIdRef.current);
+        turnstileWidgetIdRef.current = null;
+      }
+    };
   }, []);
 
   const update = (field: string, value: string) => {
@@ -44,6 +100,12 @@ export default function BuyBeef() {
       !form.timing
     )
       return;
+
+    if (!turnstileToken) {
+      setErrorMsg('Please complete the security check before submitting.');
+      setStatus('error');
+      return;
+    }
 
     setStatus('submitting');
     setErrorMsg('');
@@ -65,6 +127,7 @@ export default function BuyBeef() {
           cut_type: form.cutType,
           timing: form.timing,
           notes: form.notes || 'None',
+          'cf-turnstile-response': turnstileToken,
         }),
       });
 
@@ -76,6 +139,12 @@ export default function BuyBeef() {
       console.error('Failed to submit:', err);
       setErrorMsg('Something went wrong. Please try again or call us at (301) 448-0543.');
       setStatus('error');
+      // Reset the captcha so the user can retry (tokens are single-use).
+      const w = window as TurnstileWindow;
+      if (turnstileWidgetIdRef.current && w.turnstile) {
+        w.turnstile.reset(turnstileWidgetIdRef.current);
+        setTurnstileToken('');
+      }
     }
   };
 
@@ -271,6 +340,9 @@ export default function BuyBeef() {
               />
             </div>
 
+            {/* Cloudflare Turnstile widget — renders explicitly via useEffect */}
+            <div ref={turnstileContainerRef} className="flex justify-center" />
+
             {errorMsg && (
               <div className="text-sm text-red-600 bg-red-50 rounded-lg p-3">
                 {errorMsg}
@@ -279,7 +351,17 @@ export default function BuyBeef() {
 
             <button
               type="submit"
-              disabled={status === 'submitting' || !form.name || !form.email || !form.species || !form.cutType}
+              disabled={
+                status === 'submitting' ||
+                !form.name ||
+                !form.email ||
+                !form.phone ||
+                !form.zip ||
+                !form.species ||
+                !form.cutType ||
+                !form.timing ||
+                !turnstileToken
+              }
               className="w-full bg-brand-green text-white py-3 rounded-lg font-bold text-lg hover:bg-brand-green/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {status === 'submitting' ? (

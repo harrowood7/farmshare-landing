@@ -132,12 +132,20 @@ export default function BuyBeef() {
       });
 
       const data = await res.json();
-      if (!data.success) throw new Error(data.message || 'Submission failed');
+      if (!data.success) {
+        console.error('Web3Forms rejected submission:', data);
+        throw new Error(data.message || 'Submission failed');
+      }
 
       setStatus('success');
     } catch (err) {
       console.error('Failed to submit:', err);
-      setErrorMsg('Something went wrong. Please try again or call us at (301) 448-0543.');
+      const detail = err instanceof Error ? err.message : '';
+      setErrorMsg(
+        detail
+          ? `Something went wrong (${detail}). Please try again or call us at (301) 448-0543.`
+          : 'Something went wrong. Please try again or call us at (301) 448-0543.',
+      );
       setStatus('error');
       // Reset the captcha so the user can retry (tokens are single-use).
       const w = window as TurnstileWindow;

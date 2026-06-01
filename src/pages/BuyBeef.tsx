@@ -47,7 +47,7 @@ export default function BuyBeef() {
           access_key: 'd9ea2243-5be0-499d-915e-be1be2b6fc88',
           subject: `🥩 New buyer lead: ${form.name} — ${form.species} ${form.cutType}`,
           from_name: 'Farmshare Buy Beef',
-          to: 'henry@farmshare.co',
+          to: 'henry@farmshare.co, wyatt@farmshare.co',
           name: form.name,
           email: form.email,
           phone: form.phone || 'Not provided',

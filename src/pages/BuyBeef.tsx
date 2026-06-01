@@ -34,7 +34,16 @@ export default function BuyBeef() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.species || !form.cutType) return;
+    if (
+      !form.name ||
+      !form.email ||
+      !form.phone ||
+      !form.zip ||
+      !form.species ||
+      !form.cutType ||
+      !form.timing
+    )
+      return;
 
     setStatus('submitting');
     setErrorMsg('');
@@ -50,11 +59,11 @@ export default function BuyBeef() {
           to: 'henry@farmshare.co, wyatt@farmshare.co',
           name: form.name,
           email: form.email,
-          phone: form.phone || 'Not provided',
-          zip: form.zip || 'Not provided',
+          phone: form.phone,
+          zip: form.zip,
           species: form.species,
           cut_type: form.cutType,
-          timing: form.timing || 'Not specified',
+          timing: form.timing,
           notes: form.notes || 'None',
         }),
       });
@@ -160,7 +169,7 @@ export default function BuyBeef() {
             {/* Timing */}
             <div className="space-y-2">
               <label className="block text-sm font-medium text-stone-700">
-                When do you need it?
+                When do you need it? <span className="text-red-500">*</span>
               </label>
               <div className="flex flex-wrap gap-2">
                 {TIMING_OPTIONS.map(t => (
@@ -184,13 +193,14 @@ export default function BuyBeef() {
             <div className="space-y-2">
               <label htmlFor="zip" className="block text-sm font-medium text-stone-700">
                 <MapPin className="w-4 h-4 inline mr-1" />
-                Your zip code
+                Your zip code <span className="text-red-500">*</span>
               </label>
               <input
                 id="zip"
                 type="text"
                 inputMode="numeric"
                 maxLength={5}
+                required
                 placeholder="e.g. 80216"
                 value={form.zip}
                 onChange={e => update('zip', e.target.value)}
@@ -232,11 +242,12 @@ export default function BuyBeef() {
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="phone" className="block text-sm font-medium text-stone-700">
-                    Phone
+                    Phone <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="phone"
                     type="tel"
+                    required
                     value={form.phone}
                     onChange={e => update('phone', e.target.value)}
                     className="w-full px-3 py-2 rounded-lg border border-stone-300 focus:ring-2 focus:ring-brand-green focus:border-brand-green outline-none"

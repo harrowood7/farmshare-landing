@@ -36,6 +36,12 @@ const testimonials = [
     company: "Weimer Meats",
     logo: "/logos/weimer.jpg",
   },
+  {
+    quote: "I can help more customers more efficiently. More at the same time even.",
+    author: "Michelle Rowe",
+    company: "Mountain View Custom Meats",
+    logo: "/logos/mountain-view.webp",
+  },
 ];
 
 export default function Home() {

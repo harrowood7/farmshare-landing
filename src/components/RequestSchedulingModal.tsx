@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { X, Send, CheckCircle2 } from 'lucide-react';
 
 interface Props {
@@ -9,6 +9,28 @@ interface Props {
 }
 
 const SPECIES_OPTIONS = ['Beef', 'Bison', 'Pork', 'Lamb', 'Goat', 'Other'];
+
+// Same Cloudflare Turnstile site key as the Buy Beef form. The Web3Forms form
+// this posts to has CAPTCHA spam protection enabled, so a token is required or
+// Web3Forms rejects the submission. The Turnstile script is loaded SPA-wide in
+// index.html with render=explicit.
+const TURNSTILE_SITE_KEY = '0x4AAAAAADdG7-hGKeLF1sRA';
+
+type TurnstileWindow = Window & {
+  turnstile?: {
+    render: (
+      element: HTMLElement | string,
+      options: {
+        sitekey: string;
+        callback?: (token: string) => void;
+        'expired-callback'?: () => void;
+        'error-callback'?: () => void;
+      },
+    ) => string;
+    remove: (widgetId: string) => void;
+    reset: (widgetId?: string) => void;
+  };
+};
 
 // Next 24 calendar months + "Flexible". Computed at module load.
 const TIMING_OPTIONS: string[] = (() => {
@@ -33,14 +55,70 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
+
+  // Render the Turnstile widget while the modal is open; tear it down on close.
+  useEffect(() => {
+    if (!open) return;
+
+    let interval: number | undefined;
+    let timeout: number | undefined;
+
+    const tryRender = () => {
+      const w = window as TurnstileWindow;
+      if (!w.turnstile || !turnstileContainerRef.current || turnstileWidgetIdRef.current) {
+        return false;
+      }
+      turnstileWidgetIdRef.current = w.turnstile.render(turnstileContainerRef.current, {
+        sitekey: TURNSTILE_SITE_KEY,
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(''),
+        'error-callback': () => setTurnstileToken(''),
+      });
+      return true;
+    };
+
+    if (!tryRender()) {
+      // Script may still be loading — poll briefly until window.turnstile is ready.
+      interval = window.setInterval(() => {
+        if (tryRender()) window.clearInterval(interval);
+      }, 200);
+      timeout = window.setTimeout(() => window.clearInterval(interval), 10000);
+    }
+
+    return () => {
+      if (interval) window.clearInterval(interval);
+      if (timeout) window.clearTimeout(timeout);
+      const w = window as TurnstileWindow;
+      if (turnstileWidgetIdRef.current && w.turnstile) {
+        w.turnstile.remove(turnstileWidgetIdRef.current);
+        turnstileWidgetIdRef.current = null;
+      }
+      setTurnstileToken('');
+    };
+  }, [open]);
 
   if (!open) return null;
 
-  const canSubmit = species && headCount && timing && name && email;
+  const canSubmit = species && headCount && timing && name && email && turnstileToken;
+
+  function resetTurnstile() {
+    const w = window as TurnstileWindow;
+    if (turnstileWidgetIdRef.current && w.turnstile) {
+      w.turnstile.reset(turnstileWidgetIdRef.current);
+    }
+    setTurnstileToken('');
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!canSubmit) return;
+    if (!species || !headCount || !timing || !name || !email) return;
+    if (!turnstileToken) {
+      setError('Please complete the security check before submitting.');
+      return;
+    }
     setSubmitting(true);
     setError(null);
 
@@ -62,14 +140,20 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
           email,
           phone: phone || 'Not provided',
           notes: notes || 'None',
+          'cf-turnstile-response': turnstileToken,
         }),
       });
       const data = await res.json();
-      if (!data.success) throw new Error(data.message || 'Submission failed');
+      if (!data.success) {
+        console.error('Web3Forms rejected submission:', data);
+        throw new Error(data.message || 'Submission failed');
+      }
       setSubmitted(true);
     } catch (err) {
       console.error('Failed to submit scheduling request:', err);
       setError('Something went wrong. Please try again or email henry@farmshare.co.');
+      // Turnstile tokens are single-use — reset so a retry gets a fresh token.
+      resetTurnstile();
     } finally {
       setSubmitting(false);
     }
@@ -85,6 +169,7 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
     setNotes('');
     setSubmitted(false);
     setError(null);
+    setTurnstileToken('');
     onClose();
   }
 
@@ -237,6 +322,9 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
                 className="w-full px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange resize-none"
               />
             </div>
+
+            {/* Cloudflare Turnstile widget — renders explicitly via useEffect */}
+            <div ref={turnstileContainerRef} className="flex justify-center" />
 
             {error && <p className="text-sm text-red-600">{error}</p>}
 

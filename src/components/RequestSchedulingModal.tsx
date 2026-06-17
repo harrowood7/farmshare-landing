@@ -102,7 +102,7 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
 
   if (!open) return null;
 
-  const canSubmit = species && headCount && timing && name && email && turnstileToken;
+  const canSubmit = species && headCount && timing && name && email && phone && turnstileToken;
 
   function resetTurnstile() {
     const w = window as TurnstileWindow;
@@ -114,7 +114,7 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!species || !headCount || !timing || !name || !email) return;
+    if (!species || !headCount || !timing || !name || !email || !phone) return;
     if (!turnstileToken) {
       setError('Please complete the security check before submitting.');
       return;
@@ -138,7 +138,7 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
           timing,
           name,
           email,
-          phone: phone || 'Not provided',
+          phone,
           notes: notes || 'None',
           'cf-turnstile-response': turnstileToken,
         }),
@@ -300,9 +300,12 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="block text-sm font-medium text-stone-700">Phone</label>
+                <label className="block text-sm font-medium text-stone-700">
+                  Phone <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="tel"
+                  required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="w-full px-3 py-2 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange"

@@ -127,10 +127,10 @@ export default function RequestSchedulingModal({ open, onClose, processorSlug, p
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          access_key: 'd9ea2243-5be0-499d-915e-be1be2b6fc88',
+          access_key: '58b18cea-2b1d-443b-80d9-1de172fde179',
           subject: `📆 ${processorName}: ${species} × ${headCount}, ${timing}`,
           from_name: 'Farmshare Directory',
-          to: 'henry@farmshare.co',
+          to: 'henry@farmshare.co, wyatt@farmshare.co',
           processor_slug: processorSlug,
           processor_name: processorName,
           species,

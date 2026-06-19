@@ -98,7 +98,13 @@ interface AddProspectBody {
   logo?: { dataUrl: string; filename: string } | null;
 }
 
-type Body = PromoteBody | CreateBody | SearchBody | AddProspectBody;
+interface RemoveBody {
+  mode: 'remove';
+  password: string;
+  slug: string;                          // existing record slug to remove
+}
+
+type Body = PromoteBody | CreateBody | SearchBody | AddProspectBody | RemoveBody;
 
 interface VercelRequest {
   method?: string;
@@ -234,6 +240,29 @@ async function readProcessorsJson(opts: {
   }
   const text = await res.text();
   return JSON.parse(text);
+}
+
+/** Read any repo text file at HEAD via the raw media type (no 1MB cap). */
+async function readRepoTextFile(opts: {
+  token: string;
+  owner: string;
+  repo: string;
+  branch: string;
+  path: string;
+}): Promise<string> {
+  const url = `https://api.github.com/repos/${opts.owner}/${opts.repo}/contents/${opts.path}?ref=${opts.branch}`;
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `token ${opts.token}`,
+      Accept: 'application/vnd.github.raw',
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`GitHub read ${opts.path} → ${res.status}: ${text.slice(0, 200)}`);
+  }
+  return res.text();
 }
 
 async function geocode(address: string, apiKey: string): Promise<{ lat: number; lng: number } | null> {
@@ -496,8 +525,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } else if (body.mode === 'add-prospect') {
       const result = await handleAddProspect(body, { token: githubToken, owner, repo, branch });
       res.status(200).json({ success: true, ...result });
+    } else if (body.mode === 'remove') {
+      const result = await handleRemove(body, { token: githubToken, owner, repo, branch });
+      res.status(200).json({ success: true, ...result });
     } else {
-      res.status(400).json({ error: 'Invalid mode (must be "promote", "create", "search", or "add-prospect")' });
+      res.status(400).json({ error: 'Invalid mode (must be "promote", "create", "search", "add-prospect", or "remove")' });
     }
   } catch (e) {
     res.status(502).json({ error: (e as Error).message });
@@ -659,6 +691,57 @@ async function handlePromote(
     message: `Promote ${body.slug} to customer (admin)${logoSummary}`,
     files,
   });
+}
+
+async function handleRemove(
+  body: RemoveBody,
+  gh: { token: string; owner: string; repo: string; branch: string }
+) {
+  if (!body.slug) throw new Error('slug is required');
+
+  const records = await readProcessorsJson(gh);
+  const idx = records.findIndex((r) => r.slug === body.slug);
+  if (idx === -1) throw new Error(`Slug not found: ${body.slug}`);
+  const removedName = (records[idx].name as string) || body.slug;
+  records.splice(idx, 1);
+
+  const files: GhFileChange[] = [
+    {
+      path: 'src/data/processors.json',
+      encoding: 'base64',
+      contentBase64: Buffer.from(JSON.stringify(records, null, 2) + '\n', 'utf-8').toString('base64'),
+    },
+  ];
+
+  // Also strip the slug's about-content entry (supplementary; only read when the
+  // record exists, so leaving it would be harmless — but we clean it up anyway).
+  try {
+    const aboutRaw = await readRepoTextFile({ ...gh, path: 'src/data/processorAboutContent.json' });
+    const about = JSON.parse(aboutRaw) as Record<string, unknown>;
+    if (body.slug in about) {
+      delete about[body.slug];
+      files.push({
+        path: 'src/data/processorAboutContent.json',
+        encoding: 'base64',
+        contentBase64: Buffer.from(JSON.stringify(about, null, 2) + '\n', 'utf-8').toString('base64'),
+      });
+    }
+  } catch {
+    // non-fatal: about content is supplementary
+  }
+
+  // Note: the sitemap + per-processor prerendered pages are regenerated from
+  // processors.json by scripts/seo-build.mjs on every build, so removing the
+  // record here is enough — Vercel's rebuild self-heals sitemap.xml and the
+  // detail route redirects to /find-a-processor once the record is gone.
+
+  const commit = await commitMultiFile({
+    ...gh,
+    message: `Remove ${body.slug} from directory (admin)`,
+    files,
+  });
+
+  return { ...commit, slug: body.slug, removed: true, removedName };
 }
 
 async function handleCreate(

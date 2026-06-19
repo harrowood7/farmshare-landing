@@ -34232,52 +34232,6 @@
     "description": "Reedy's Custom Meats is a meat processor in Elk, WA, rated 4.2 stars across 38 Google reviews. Customers highlight their clean facility. Common review themes include custom sausage and bacon."
   },
   {
-    "name": "Bob's Quality Meats",
-    "location": "Seattle, WA",
-    "state": "WA",
-    "species": [
-      "Beef",
-      "Hog",
-      "Lamb",
-      "Goat",
-      "Bison"
-    ],
-    "logo": "https://bobsqualitymeats.com/wp-content/uploads/2013/07/cropped-Bobs-Quality-Meats.jpg",
-    "slug": "bob-s-quality-meats-seattle-wa",
-    "status": "prospect",
-    "address": "4861 Rainier Ave S",
-    "zip": "98118",
-    "phone": "(206) 725-1221",
-    "website": "http://bobsqualitymeats.com/",
-    "lat": 47.558321299999996,
-    "lng": -122.2855858,
-    "googleMapsUri": "https://maps.google.com/?cid=3721805084361026093&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.7,
-    "userRatingCount": 225,
-    "hours": [
-      "Monday: 9:00 AM – 7:00 PM",
-      "Tuesday: 9:00 AM – 7:00 PM",
-      "Wednesday: 9:00 AM – 7:00 PM",
-      "Thursday: 9:00 AM – 7:00 PM",
-      "Friday: 9:00 AM – 7:00 PM",
-      "Saturday: 9:00 AM – 5:00 PM",
-      "Sunday: 9:00 AM – 5:00 PM"
-    ],
-    "editorialSummary": "Enduring butcher shop focusing on sustainable grass-fed, hormone-free animals.",
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "food_store",
-      "food",
-      "point_of_interest",
-      "store",
-      "service",
-      "manufacturer",
-      "establishment"
-    ],
-    "description": "Bob's Quality Meats is a meat processor in Seattle, WA, rated 4.7 stars across 225 Google reviews. Common review themes include custom sausage and smoked meats."
-  },
-  {
     "name": "Bryan's Meat Company",
     "location": "Pasco, WA",
     "state": "WA",

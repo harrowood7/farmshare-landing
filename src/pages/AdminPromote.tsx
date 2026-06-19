@@ -17,13 +17,15 @@ interface Result {
   commitSha: string;
   slug?: string;
   geocodeWarning?: string;
+  removed?: boolean;
+  removedName?: string;
 }
 
 export default function AdminPromote() {
   const [password, setPassword] = useState<string>(() => localStorage.getItem(PASSWORD_KEY) || '');
   const [authChecked, setAuthChecked] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
-  const [mode, setMode] = useState<'promote' | 'create' | 'add-prospect'>('promote');
+  const [mode, setMode] = useState<'promote' | 'create' | 'add-prospect' | 'remove'>('promote');
 
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
@@ -106,6 +108,12 @@ export default function AdminPromote() {
           >
             Add new prospect
           </button>
+          <button
+            onClick={() => { setMode('remove'); setResult(null); setError(null); }}
+            className={`px-4 py-2 rounded-md text-sm font-bold transition-colors ${mode === 'remove' ? 'bg-red-600 text-white' : 'text-stone-600 hover:text-red-600'}`}
+          >
+            Remove from directory
+          </button>
         </div>
 
         {mode === 'promote' && (
@@ -138,18 +146,29 @@ export default function AdminPromote() {
             onWrongPassword={() => { setAuthChecked(false); localStorage.removeItem(PASSWORD_KEY); }}
           />
         )}
+        {mode === 'remove' && (
+          <RemoveForm
+            password={password}
+            submitting={submitting}
+            setSubmitting={setSubmitting}
+            setResult={setResult}
+            setError={setError}
+            onWrongPassword={() => { setAuthChecked(false); localStorage.removeItem(PASSWORD_KEY); }}
+          />
+        )}
 
         {error && (
           <p className="mt-6 text-red-600 text-sm bg-red-50 border border-red-200 rounded p-3 whitespace-pre-wrap">{error}</p>
         )}
         {result && (
           <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-4 text-sm">
-            <p className="font-bold text-green-800 mb-1">Saved ✓</p>
+            <p className="font-bold text-green-800 mb-1">{result.removed ? 'Removed ✓' : 'Saved ✓'}</p>
             <p className="text-green-700">
+              {result.removed && result.removedName ? `${result.removedName} is no longer in the directory. ` : ''}
               Vercel will rebuild in 1–2 minutes.{' '}
               <a href={result.commitUrl} target="_blank" rel="noopener noreferrer" className="underline font-medium">View commit</a>
             </p>
-            {result.slug && (
+            {!result.removed && result.slug && (
               <p className="text-green-700 mt-2">
                 <Link to={`/find-a-processor/${result.slug}`} className="underline">
                   Open public listing →
@@ -828,6 +847,169 @@ function AddProspectForm({
             <p className="text-xs text-stone-500 mt-2">
               Saves with <code>status: prospect</code>. Listing shows "Send a Scheduling Request" instead of "Book now."
             </p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// -------------------- REMOVE FROM DIRECTORY --------------------
+function RemoveForm({
+  password,
+  submitting,
+  setSubmitting,
+  setResult,
+  setError,
+  onWrongPassword,
+}: {
+  password: string;
+  submitting: boolean;
+  setSubmitting: (b: boolean) => void;
+  setResult: (r: Result | null) => void;
+  setError: (s: string | null) => void;
+  onWrongPassword: () => void;
+}) {
+  const [search, setSearch] = useState('');
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [confirming, setConfirming] = useState(false);
+
+  const all = useMemo(
+    () => [...processors].sort((a, b) => a.name.localeCompare(b.name)),
+    []
+  );
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase();
+    if (!q) return all;
+    return all.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.location.toLowerCase().includes(q) ||
+        p.slug.toLowerCase().includes(q)
+    );
+  }, [search, all]);
+  const selected: Processor | undefined = useMemo(
+    () => processors.find((p) => p.slug === selectedSlug),
+    [selectedSlug]
+  );
+
+  useEffect(() => {
+    setConfirming(false);
+    setResult(null);
+    setError(null);
+  }, [selectedSlug, setResult, setError]);
+
+  const handleRemove = async () => {
+    if (!selected) return;
+    setSubmitting(true);
+    setError(null);
+    setResult(null);
+    try {
+      const res = await fetch('/api/admin/promote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'remove', password, slug: selected.slug }),
+      });
+      const data = (await res.json()) as Result & { error?: string };
+      if (!res.ok) {
+        if (res.status === 401) {
+          setError('Wrong password.');
+          onWrongPassword();
+        } else {
+          setError(data.error || `Server error (${res.status})`);
+        }
+        return;
+      }
+      setResult(data);
+      setSelectedSlug(null);
+      setSearch('');
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setSubmitting(false);
+      setConfirming(false);
+    }
+  };
+
+  return (
+    <div className="grid lg:grid-cols-2 gap-8">
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        <h2 className="text-lg font-bold text-brand-green mb-4">1. Pick a processor to remove</h2>
+        <input
+          type="text"
+          placeholder="Search by name, city, or slug…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-brand-orange mb-4"
+        />
+        <div className="max-h-96 overflow-y-auto divide-y divide-stone-100">
+          {filtered.slice(0, 100).map((p) => (
+            <button
+              key={p.slug}
+              type="button"
+              onClick={() => setSelectedSlug(p.slug)}
+              className={`w-full text-left px-3 py-2 text-sm hover:bg-brand-cream transition-colors ${p.slug === selectedSlug ? 'bg-brand-cream font-bold' : ''}`}
+            >
+              <div className="text-brand-green">{p.name}</div>
+              <div className="text-stone-500 text-xs">{p.location} · {p.slug} · {p.status}</div>
+            </button>
+          ))}
+          {filtered.length > 100 && (
+            <p className="text-xs text-stone-400 px-3 py-2">Showing first 100. Refine search to narrow.</p>
+          )}
+          {filtered.length === 0 && <p className="text-stone-500 text-sm px-3 py-4">No processors match.</p>}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        {!selected && <p className="text-stone-500">Select a processor on the left to remove it.</p>}
+        {selected && (
+          <>
+            <h2 className="text-lg font-bold text-brand-green mb-4">2. Remove {selected.name}?</h2>
+
+            <div className="bg-brand-cream/40 rounded-lg p-3 mb-4 text-sm space-y-1">
+              <div className="font-bold text-brand-green">{selected.name}</div>
+              <div className="text-stone-700">{selected.location}</div>
+              <div className="text-stone-500 text-xs">{selected.slug} · {selected.status}</div>
+              {selected.species && selected.species.length > 0 && (
+                <div className="text-stone-600 text-xs">{selected.species.join(', ')}</div>
+              )}
+            </div>
+
+            <div className="border border-red-200 bg-red-50 rounded-lg p-4">
+              <p className="text-sm text-red-700 mb-3">
+                This permanently removes <strong>{selected.name}</strong> from the live directory. It disappears from <code>/find-a-processor</code>, its detail page redirects away, and the sitemap updates on the next rebuild. This commits to <code>main</code> and rebuilds the site.
+              </p>
+              {!confirming ? (
+                <button
+                  type="button"
+                  onClick={() => setConfirming(true)}
+                  disabled={submitting}
+                  className="w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors disabled:bg-stone-300 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
+                >
+                  <Trash2 className="h-4 w-4" /> Remove from directory
+                </button>
+              ) : (
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setConfirming(false)}
+                    disabled={submitting}
+                    className="flex-1 bg-white text-stone-700 border border-stone-300 py-3 rounded-lg font-bold hover:bg-stone-50 transition-colors disabled:opacity-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleRemove}
+                    disabled={submitting}
+                    className="flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors disabled:bg-stone-300 disabled:cursor-not-allowed"
+                  >
+                    {submitting ? 'Removing…' : 'Yes, remove permanently'}
+                  </button>
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

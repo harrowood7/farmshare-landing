@@ -35779,5 +35779,48 @@
       "point_of_interest",
       "establishment"
     ]
+  },
+  {
+    "name": "Home Meat Service",
+    "location": "Shelton, WA",
+    "state": "WA",
+    "species": [
+      "Beef",
+      "Hog"
+    ],
+    "logo": null,
+    "slug": "home-meat-service-shelton-wa",
+    "status": "prospect",
+    "address": "341 SE Taylor Rd",
+    "zip": "98584",
+    "phone": "(360) 426-1643",
+    "website": "http://homemeatservice.net/",
+    "lat": 47.122447,
+    "lng": -123.088439,
+    "googleMapsUri": "https://maps.google.com/?cid=2438625029461519756&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.8,
+    "userRatingCount": 280,
+    "hours": [
+      "Monday: 8:00 AM – 6:00 PM",
+      "Tuesday: 8:00 AM – 6:00 PM",
+      "Wednesday: 8:00 AM – 6:00 PM",
+      "Thursday: 8:00 AM – 6:00 PM",
+      "Friday: 8:00 AM – 6:00 PM",
+      "Saturday: 8:00 AM – 2:00 PM",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "grocery_store",
+      "food_store",
+      "store",
+      "food",
+      "manufacturer",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "description": "Home Meat Service is a meat processor in Shelton, WA, rated 4.8 stars across 280 Google reviews. Customers highlight their knowledgeable staff. Common review themes include custom sausage and jerky."
   }
 ]

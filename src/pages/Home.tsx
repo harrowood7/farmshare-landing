@@ -42,6 +42,12 @@ const testimonials = [
     company: "Mountain View Custom Meats",
     logo: "/logos/mountain-view.webp",
   },
+  {
+    quote: "We are raising our prices 10 cents because Farmshare is a value-added service.",
+    author: "Ethan Jones",
+    company: "S&B Processing",
+    logo: "/logos/sb-processing.png",
+  },
 ];
 
 export default function Home() {

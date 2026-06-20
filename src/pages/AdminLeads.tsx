@@ -50,6 +50,8 @@ export default function AdminLeads() {
   const [geo, setGeo] = useState<GeoResult | null>(null);
   const [geoLoading, setGeoLoading] = useState(false);
   const [draft, setDraft] = useState('');
+  const [routeMsg, setRouteMsg] = useState('');
+  const [routing, setRouting] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -144,9 +146,43 @@ export default function AdminLeads() {
   const routedCount = leads.filter((l) => l.assignee).length;
 
   async function routeLead() {
-    if (!selected || !best) return;
+    if (!selected || !best || !leadObj) return;
+    setRouting(true);
+    setRouteMsg('');
     const assignee = nextAssignee(routedCount);
     const routed_at = new Date().toISOString();
+
+    // Phase 2: find/create the processor (company) + buyer (contact) in HubSpot
+    // and drop a round-robin follow-up task. Runtime needs HUBSPOT_PRIVATE_APP_TOKEN
+    // in the Vercel env; sending any outreach still stays a human click.
+    try {
+      const r = await fetch('/api/leads/route', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lead: { ...leadObj, lead_type: type },
+          processor: {
+            slug: best.slug,
+            name: best.name,
+            location: best.location,
+            phone: best.phone,
+            website: best.website,
+            status: best.status,
+          },
+          assignee,
+        }),
+      });
+      if (r.ok) {
+        const d = (await r.json()) as { taskId?: string };
+        setRouteMsg(`HubSpot task created for ${assignee}${d.taskId ? ` (#${d.taskId})` : ''}.`);
+      } else {
+        const e = (await r.json().catch(() => ({}))) as { error?: string };
+        setRouteMsg(`Routed locally — HubSpot task failed: ${e.error || r.status}`);
+      }
+    } catch (err) {
+      setRouteMsg(`Routed locally — HubSpot call errored: ${err instanceof Error ? err.message : String(err)}`);
+    }
+
     await supabase
       .from('buyer_leads')
       .update({ assignee, matched_slug: best.slug, status: 'matched', routed_at })
@@ -156,6 +192,7 @@ export default function AdminLeads() {
         l.id === selected.id ? { ...l, assignee, matched_slug: best.slug, status: 'matched', routed_at } : l,
       ),
     );
+    setRouting(false);
   }
 
   async function setLeadStatus(id: string, status: string) {
@@ -283,8 +320,8 @@ export default function AdminLeads() {
                 <Card title={`Drafted no-strings ${type} message`}>
                   <textarea value={draft} onChange={(e) => setDraft(e.target.value)} className="w-full h-52 text-xs font-mono border border-stone-300 rounded-md p-2 bg-white" />
                   <div className="flex items-center flex-wrap gap-2 mt-2">
-                    <button onClick={routeLead} disabled={!best} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md bg-emerald-700 text-white disabled:opacity-40">
-                      Route to #1 &amp; assign <ArrowRight className="w-4 h-4" />
+                    <button onClick={routeLead} disabled={!best || routing} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md bg-emerald-700 text-white disabled:opacity-40">
+                      {routing ? 'Routing…' : 'Route to #1 & assign'} <ArrowRight className="w-4 h-4" />
                     </button>
                     <button onClick={() => navigator.clipboard?.writeText(draft)} className="text-xs px-2.5 py-1.5 rounded-md border border-stone-300 bg-white hover:bg-stone-100">Copy message</button>
                     <span className="mx-1 text-stone-300">|</span>
@@ -293,6 +330,7 @@ export default function AdminLeads() {
                     ))}
                     <span className="text-xs text-stone-400">Next assignee: <strong>{nextAssignee(routedCount)}</strong>. Sending the message stays a human click.</span>
                   </div>
+                  {routeMsg && <p className="text-xs text-stone-600 mt-2">{routeMsg}</p>}
                 </Card>
               </>
             )}

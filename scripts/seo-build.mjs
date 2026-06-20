@@ -18,7 +18,7 @@ const distDir = path.resolve(root, 'dist');
 const publicDir = path.resolve(root, 'public');
 
 const SITE = 'https://farmshare.co';
-const DEFAULT_OG_IMAGE = 'https://vkxvwmvlkitrcfgzwvtl.supabase.co/storage/v1/object/public/content//cattle.webp';
+const DEFAULT_OG_IMAGE = 'https://farmshare.co/hero-processor.png';
 
 const STATE_NAMES = {
   AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California',

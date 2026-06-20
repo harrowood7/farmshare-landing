@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Send, CheckCircle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 const SPECIES_OPTIONS = ['Beef', 'Pork', 'Lamb', 'Goat', 'Other'];
 const CUT_OPTIONS = ['Whole', 'Half', 'Quarter', 'Not sure'];
@@ -138,6 +139,25 @@ export default function BuyBeef() {
       }
 
       setStatus('success');
+
+      // Non-blocking: also capture the lead in Supabase for the routing cockpit
+      // (/admin/leads). Failure here must never affect the user's submission.
+      void supabase
+        .from('buyer_leads')
+        .insert({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          zip: form.zip,
+          species: form.species,
+          cut_type: form.cutType,
+          timing: form.timing,
+          notes: form.notes || null,
+          lead_type: 'buyer',
+        })
+        .then(({ error }) => {
+          if (error) console.error('buyer_leads insert failed (non-blocking):', error);
+        });
     } catch (err) {
       console.error('Failed to submit:', err);
       const detail = err instanceof Error ? err.message : '';

@@ -5620,7 +5620,7 @@
     ],
     "logo": "https://huntercattle.com/wp-content/uploads/2021/01/cropped-HunterCattleLogo-270x270.jpg",
     "slug": "hunter-cattle-brooklet-ga",
-    "status": "prospect",
+    "status": "customer",
     "address": "934 Driggers Rd",
     "zip": "30415",
     "description": "Established in 2004, Hunter Cattle is a sustainable, award-winning family farm operated by three generations of the Ferguson Family just outside Savannah, GA. They raise 100% grass-fed beef, pasture-raised pork, and all-natural poultry, with a USDA-inspected on-farm processing facility.",
@@ -5651,7 +5651,8 @@
       "point_of_interest",
       "service",
       "establishment"
-    ]
+    ],
+    "partnerSlug": "hunter-cattle-brooklet-ga"
   },
   {
     "name": "Hwy 10 Processing",

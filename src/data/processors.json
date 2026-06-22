@@ -35732,5 +35732,49 @@
       "establishment"
     ],
     "description": "Home Meat Service is a meat processor in Shelton, WA, rated 4.8 stars across 280 Google reviews. Customers highlight their knowledgeable staff. Common review themes include custom sausage and jerky."
+  },
+  {
+    "name": "Integrity Meats",
+    "location": "Churubusco, IN",
+    "state": "IN",
+    "species": [
+      "Beef",
+      "Hog",
+      "Goat",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "integrity-meats-churubusco-in",
+    "status": "prospect",
+    "address": "3640 US-33",
+    "zip": "46723",
+    "phone": "(260) 693-0777",
+    "website": "http://www.myintegritymeats.com/",
+    "lat": 41.2177534,
+    "lng": -85.3144813,
+    "googleMapsUri": "https://maps.google.com/?cid=2422642069907295642&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.6,
+    "userRatingCount": 71,
+    "hours": [
+      "Monday: 8:00 AM – 5:00 PM",
+      "Tuesday: 8:00 AM – 5:00 PM",
+      "Wednesday: 8:00 AM – 5:00 PM",
+      "Thursday: 8:00 AM – 5:00 PM",
+      "Friday: 8:00 AM – 5:00 PM",
+      "Saturday: 8:00 AM – 12:00 PM",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "manufacturer",
+      "food_store",
+      "store",
+      "food",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "description": "Integrity Meats is a meat processor in Churubusco, IN, rated 4.6 stars across 71 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage, jerky, and bacon."
   }
 ]

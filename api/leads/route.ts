@@ -139,7 +139,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .filter(Boolean)
       .join('\n');
 
-    const due = Date.now() + 24 * 60 * 60 * 1000;
+    const due = Date.now(); // due today, so it lands in the assignee's "Today" task view
     const task = await hs<{ id: string }>(token, 'POST', '/crm/v3/objects/tasks', {
       properties: {
         hs_task_subject: subject,

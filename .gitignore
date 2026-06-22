@@ -45,3 +45,4 @@ data/enrichment/pre_bd_slugs.json
 # Ad-hoc geocoding audit CSVs written by scripts/validate-geocoding.mjs
 geocoding-review.csv
 geocoding-validation.csv
+.vercel

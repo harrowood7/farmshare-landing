@@ -5736,50 +5736,6 @@
     ]
   },
   {
-    "name": "Integrity Meats",
-    "location": "Churubusco, WI",
-    "state": "WI",
-    "species": [
-      "Beef",
-      "Goat",
-      "Hog",
-      "Lamb"
-    ],
-    "logo": "https://static.wixstatic.com/media/7ed9ff_634261e2e751406caf52f0fa1b90a503%7Emv2_d_1934_1934_s_2.jpg",
-    "slug": "integrity-meats-churubusco-wi",
-    "status": "prospect",
-    "address": "N3094 Miller Road",
-    "zip": "53929",
-    "phone": "(260) 693-0777",
-    "website": "myintegritymeats.com",
-    "description": "Locally grown retail meats, Custom Processing, Butcher Shop, Integrity Meats, Churubusco Indiana",
-    "lat": 43.75226259999999,
-    "lng": -90.26200419999999,
-    "googleMapsUri": "https://maps.google.com/?cid=2422642069907295642&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.6,
-    "userRatingCount": 68,
-    "hours": [
-      "Monday: 8:00 AM – 5:00 PM",
-      "Tuesday: 8:00 AM – 5:00 PM",
-      "Wednesday: 8:00 AM – 5:00 PM",
-      "Thursday: 8:00 AM – 5:00 PM",
-      "Friday: 8:00 AM – 5:00 PM",
-      "Saturday: 8:00 AM – 12:00 PM",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "food_store",
-      "manufacturer",
-      "service",
-      "food",
-      "point_of_interest",
-      "store",
-      "establishment"
-    ]
-  },
-  {
     "name": "Islamic Meat & Poultry Co",
     "location": "Stockton, CA",
     "state": "CA",

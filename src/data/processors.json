@@ -35020,46 +35020,6 @@
     "description": "Three Brothers Meat Co. is a meat processor in Montreal, MO, rated 4.8 stars across 149 Google reviews. Customers highlight their fair pricing. Common review themes include jerky."
   },
   {
-    "name": "Richmond Meat Packers",
-    "location": "Richmond, MI",
-    "state": "MI",
-    "species": [
-      "Beef",
-      "Hog",
-      "Lamb",
-      "Bison"
-    ],
-    "slug": "richmond-meat-packers-richmond-mi",
-    "status": "prospect",
-    "address": "68104 Main St",
-    "zip": "48062",
-    "phone": "(877) 727-1450",
-    "website": "http://richmondmeatpackers.com/",
-    "lat": 42.8029979,
-    "lng": -82.74965329999999,
-    "googleMapsUri": "https://maps.google.com/?cid=8315391771186736822&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.7,
-    "userRatingCount": 50,
-    "hours": [
-      "Monday: Closed",
-      "Tuesday: 8:00 AM – 5:00 PM",
-      "Wednesday: 8:00 AM – 5:00 PM",
-      "Thursday: 8:00 AM – 5:00 PM",
-      "Friday: 8:00 AM – 5:00 PM",
-      "Saturday: 8:00 AM – 3:00 PM",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "food_store",
-      "food",
-      "store",
-      "point_of_interest",
-      "establishment"
-    ],
-    "description": "Richmond Meat Packers is a meat processor in Richmond, MI, rated 4.7 stars across 50 Google reviews. Customers highlight their friendly staff and professional service. Common review themes include jerky."
-  },
-  {
     "name": "Boston Beef House",
     "location": "Ontario, OR",
     "state": "OR",

@@ -200,6 +200,17 @@ export default function AdminLeads() {
     setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)));
   }
 
+  async function deleteLead(id: string, name: string) {
+    if (!window.confirm(`Delete "${name}"? This permanently removes the lead and can't be undone.`)) return;
+    const { error } = await supabase.from('buyer_leads').delete().eq('id', id);
+    if (error) {
+      window.alert(`Could not delete: ${error.message}`);
+      return;
+    }
+    setLeads((ls) => ls.filter((l) => l.id !== id));
+    if (selectedId === id) setSelectedId(null);
+  }
+
   if (authLoading) return <div className="min-h-screen grid place-items-center text-stone-500">Loading…</div>;
 
   if (!authed) {
@@ -328,6 +339,7 @@ export default function AdminLeads() {
                     {['contacted', 'closed'].map((s) => (
                       <button key={s} onClick={() => setLeadStatus(selected.id, s)} className="text-xs px-2.5 py-1.5 rounded-md border border-stone-300 bg-white hover:bg-stone-100 capitalize">{s}</button>
                     ))}
+                    <button onClick={() => deleteLead(selected.id, selected.name)} className="text-xs px-2.5 py-1.5 rounded-md border border-red-200 text-red-700 bg-white hover:bg-red-50">Delete</button>
                     <span className="text-xs text-stone-400">Next assignee: <strong>{nextAssignee(routedCount)}</strong>. Sending the message stays a human click.</span>
                   </div>
                   {routeMsg && <p className="text-xs text-stone-600 mt-2">{routeMsg}</p>}

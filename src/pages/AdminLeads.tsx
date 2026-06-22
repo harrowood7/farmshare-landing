@@ -4,15 +4,15 @@ import {
   rankProcessors,
   buildRoutingDraft,
   inferLeadType,
-  nextAssignee,
   DEFAULT_WEIGHTS,
   FLAG_TEXT,
   type Lead,
   type RankResult,
+  type RankedProcessor,
 } from '../lib/leadRouter';
 import { geocodeZip, type GeoResult } from '../lib/geocode';
 import {
-  MapPin, AlertTriangle, Building2, Phone, Mail, ArrowRight, RefreshCw,
+  MapPin, AlertTriangle, Building2, Phone, Mail, ExternalLink, RefreshCw,
 } from 'lucide-react';
 
 interface BuyerLeadRow {
@@ -50,8 +50,6 @@ export default function AdminLeads() {
   const [geo, setGeo] = useState<GeoResult | null>(null);
   const [geoLoading, setGeoLoading] = useState(false);
   const [draft, setDraft] = useState('');
-  const [routeMsg, setRouteMsg] = useState('');
-  const [routing, setRouting] = useState(false);
   const [procIdx, setProcIdx] = useState(0);
   const [procEmail, setProcEmail] = useState<string | null>(null);
   const [procEmailLoading, setProcEmailLoading] = useState(false);
@@ -162,57 +160,23 @@ export default function AdminLeads() {
     return () => { cancelled = true; };
   }, [selectedId, procIdx]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const routedCount = leads.filter((l) => l.assignee).length;
   const visibleLeads = tab === 'all' ? leads : leads.filter((l) => (l.assignee || '') === tab);
 
-  async function routeLead() {
-    if (!selected || !chosen || !leadObj) return;
-    setRouting(true);
-    setRouteMsg('');
-    const assignee = selected.assignee || nextAssignee(routedCount);
-    const routed_at = new Date().toISOString();
-
-    // Phase 2: find/create the processor (company) + buyer (contact) in HubSpot
-    // and drop a round-robin follow-up task. Runtime needs HUBSPOT_PRIVATE_APP_TOKEN
-    // in the Vercel env; sending any outreach still stays a human click.
+  // Open a processor's record in HubSpot (find-or-creates the company there so cold
+  // directory processors become tracked prospects) and mark the lead as Working.
+  async function openInHubSpot(p: RankedProcessor, i: number) {
+    if (!p || !selected) return;
+    setProcIdx(i);
+    if (selected.status === 'new') setLeadStatus(selected.id, 'working');
     try {
-      const r = await fetch('/api/leads/route', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lead: { ...leadObj, lead_type: type },
-          processor: {
-            slug: chosen.slug,
-            name: chosen.name,
-            location: chosen.location,
-            phone: chosen.phone,
-            website: chosen.website,
-            status: chosen.status,
-          },
-          assignee,
-        }),
-      });
-      if (r.ok) {
-        const d = (await r.json()) as { taskId?: string };
-        setRouteMsg(`HubSpot task created for ${assignee}${d.taskId ? ` (#${d.taskId})` : ''}.`);
-      } else {
-        const e = (await r.json().catch(() => ({}))) as { error?: string };
-        setRouteMsg(`Routed locally — HubSpot task failed: ${e.error || r.status}`);
-      }
-    } catch (err) {
-      setRouteMsg(`Routed locally — HubSpot call errored: ${err instanceof Error ? err.message : String(err)}`);
+      const params = new URLSearchParams({ name: p.name, website: p.website || '', phone: p.phone || '', slug: p.slug });
+      const r = await fetch(`/api/leads/open-processor?${params.toString()}`);
+      const d = (await r.json()) as { url?: string };
+      if (d.url) window.open(d.url, '_blank', 'noopener');
+      else window.alert('Could not open this processor in HubSpot.');
+    } catch (e) {
+      window.alert(`HubSpot open failed: ${e instanceof Error ? e.message : String(e)}`);
     }
-
-    await supabase
-      .from('buyer_leads')
-      .update({ assignee, matched_slug: chosen.slug, status: 'matched', routed_at })
-      .eq('id', selected.id);
-    setLeads((ls) =>
-      ls.map((l) =>
-        l.id === selected.id ? { ...l, assignee, matched_slug: chosen.slug, status: 'matched', routed_at } : l,
-      ),
-    );
-    setRouting(false);
   }
 
   function emailProcessor() {
@@ -223,7 +187,17 @@ export default function AdminLeads() {
     if (m) { su = m[1].trim(); body = m[2]; }
     const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(procEmail)}&su=${encodeURIComponent(su)}&body=${encodeURIComponent(body)}`;
     window.open(url, '_blank', 'noopener');
-    if (selected.status === 'new') setLeadStatus(selected.id, 'contacted');
+    if (selected.status === 'new') setLeadStatus(selected.id, 'working');
+  }
+
+  // Connected = win (records which processor took it). Closed = couldn't place it.
+  async function markConnected() {
+    if (!selected || !chosen) return;
+    await supabase
+      .from('buyer_leads')
+      .update({ status: 'connected', matched_slug: chosen.slug, routed_at: new Date().toISOString() })
+      .eq('id', selected.id);
+    setLeads((ls) => ls.map((l) => (l.id === selected.id ? { ...l, status: 'connected', matched_slug: chosen.slug } : l)));
   }
 
   async function setLeadStatus(id: string, status: string) {
@@ -363,11 +337,14 @@ export default function AdminLeads() {
                           </div>
                           <span className="text-sm font-semibold">{Math.round(p.distanceMi)} mi</span>
                         </div>
-                        <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-stone-500 mt-1 pl-7">
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-stone-500 mt-1 pl-7">
                           <span>{p.location}</span>
                           {p.phone && <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{p.phone}</span>}
-                          {p.website && <a href={p.website} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-emerald-700 underline"><Mail className="w-3 h-3" />site</a>}
+                          {p.website && <a href={p.website} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="underline text-stone-500 hover:text-stone-700">site</a>}
                           <span>{p.species.join(', ')}</span>
+                          <button onClick={(e) => { e.stopPropagation(); openInHubSpot(p, i); }} className="flex items-center gap-1 font-medium text-emerald-700 underline hover:text-emerald-800">
+                            <ExternalLink className="w-3 h-3" />Open in HubSpot
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -378,9 +355,6 @@ export default function AdminLeads() {
                 <Card title={`Drafted message to ${chosen ? chosen.name : 'processor'}`}>
                   <textarea value={draft} onChange={(e) => setDraft(e.target.value)} className="w-full h-52 text-xs font-mono border border-stone-300 rounded-md p-2 bg-white" />
                   <div className="flex items-center flex-wrap gap-2 mt-2">
-                    <button onClick={routeLead} disabled={!chosen || routing} className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md bg-emerald-700 text-white disabled:opacity-40">
-                      {routing ? 'Routing…' : `Route to #${procIdx + 1} & assign`} <ArrowRight className="w-4 h-4" />
-                    </button>
                     <button
                       onClick={emailProcessor}
                       disabled={!procEmail || procEmailLoading}
@@ -392,13 +366,12 @@ export default function AdminLeads() {
                     </button>
                     <button onClick={() => navigator.clipboard?.writeText(draft)} className="text-xs px-2.5 py-1.5 rounded-md border border-stone-300 bg-white hover:bg-stone-100">Copy</button>
                     <span className="mx-1 text-stone-300">|</span>
-                    {['contacted', 'closed'].map((s) => (
-                      <button key={s} onClick={() => setLeadStatus(selected.id, s)} className="text-xs px-2.5 py-1.5 rounded-md border border-stone-300 bg-white hover:bg-stone-100 capitalize">{s}</button>
-                    ))}
+                    <button onClick={() => setLeadStatus(selected.id, 'working')} className="text-xs px-2.5 py-1.5 rounded-md border border-stone-300 bg-white hover:bg-stone-100">Working</button>
+                    <button onClick={markConnected} className="text-xs px-2.5 py-1.5 rounded-md border border-emerald-600 text-emerald-700 bg-white hover:bg-emerald-50">Connected</button>
+                    <button onClick={() => setLeadStatus(selected.id, 'closed')} className="text-xs px-2.5 py-1.5 rounded-md border border-stone-300 bg-white hover:bg-stone-100">Closed</button>
                     <button onClick={() => deleteLead(selected.id, selected.name)} className="text-xs px-2.5 py-1.5 rounded-md border border-red-200 text-red-700 bg-white hover:bg-red-50">Delete</button>
-                    <span className="text-xs text-stone-400">Assigned to: <strong>{selected.assignee || 'unassigned'}</strong>. Email opens in Gmail; sending stays your click.</span>
+                    <span className="text-xs text-stone-400">Assigned to: <strong>{selected.assignee || 'unassigned'}</strong>. Open the processor in HubSpot to call; email opens in Gmail. Mark <strong>Connected</strong> when placed, <strong>Closed</strong> if it falls through.</span>
                   </div>
-                  {routeMsg && <p className="text-xs text-stone-600 mt-2">{routeMsg}</p>}
                 </Card>
               </>
             )}
@@ -429,8 +402,8 @@ function Pill({ children, tone }: { children: React.ReactNode; tone: 'emerald' |
 function StatusBadge({ status }: { status: string }) {
   const tone =
     status === 'closed' ? 'bg-stone-200 text-stone-600'
-    : status === 'matched' ? 'bg-emerald-100 text-emerald-800'
-    : status === 'contacted' ? 'bg-sky-100 text-sky-800'
+    : status === 'connected' ? 'bg-emerald-100 text-emerald-800'
+    : status === 'working' || status === 'contacted' || status === 'matched' ? 'bg-sky-100 text-sky-800'
     : 'bg-amber-100 text-amber-800';
   return <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${tone}`}>{status}</span>;
 }

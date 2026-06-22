@@ -32305,47 +32305,6 @@
     "description": "Broken O Processing & Custom Meats is a meat processor in Comanche, TX, rated 4.5 stars across 17 Google reviews. Common review themes include custom sausage."
   },
   {
-    "name": "A & J White Stone Premium Meats",
-    "location": "Weatherford, TX",
-    "state": "TX",
-    "species": [
-      "Beef"
-    ],
-    "slug": "a-and-j-white-stone-premium-meats-weatherford-tx",
-    "status": "prospect",
-    "address": "1808 Santa Fe Dr Suite 106",
-    "zip": "76086",
-    "phone": "(817) 550-6365",
-    "lat": 32.739289299999996,
-    "lng": -97.77067459999999,
-    "googleMapsUri": "https://maps.google.com/?cid=5587774004484289754&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.9,
-    "userRatingCount": 104,
-    "hours": [
-      "Monday: 10:00 AM – 6:00 PM",
-      "Tuesday: 10:00 AM – 6:00 PM",
-      "Wednesday: 10:00 AM – 6:00 PM",
-      "Thursday: 10:00 AM – 6:00 PM",
-      "Friday: 10:00 AM – 6:00 PM",
-      "Saturday: 10:00 AM – 6:00 PM",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "grocery_store",
-      "food_store",
-      "manufacturer",
-      "service",
-      "food",
-      "wholesaler",
-      "store",
-      "point_of_interest",
-      "establishment"
-    ],
-    "description": "A & J White Stone Premium Meats is a meat processor in Weatherford, TX, rated 4.9 stars across 104 Google reviews. Customers highlight their friendly staff, knowledgeable staff, and clean facility. Common review themes include bacon and custom cuts."
-  },
-  {
     "name": "Carnes Packaging and Country Store",
     "location": "Troup, TX",
     "state": "TX",

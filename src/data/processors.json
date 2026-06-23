@@ -32432,46 +32432,6 @@
     "description": "Chubby's Packing Company LLC is a meat processor in Liberty, TX, rated 4.8 stars across 105 Google reviews. Customers highlight their clean facility and family-owned operation. Common review themes include custom sausage, smoked meats, jerky, and bacon."
   },
   {
-    "name": "Clower Meat Market",
-    "location": "Kilgore, TX",
-    "state": "TX",
-    "species": [
-      "Beef"
-    ],
-    "slug": "clower-meat-market-kilgore-tx",
-    "status": "prospect",
-    "address": "2705 TX-42",
-    "zip": "75662",
-    "phone": "(903) 984-3771",
-    "lat": 32.4048723,
-    "lng": -94.8695303,
-    "googleMapsUri": "https://maps.google.com/?cid=1266318971933932204&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.5,
-    "userRatingCount": 72,
-    "hours": [
-      "Monday: 9:00 AM – 5:00 PM",
-      "Tuesday: 9:00 AM – 5:00 PM",
-      "Wednesday: 9:00 AM – 5:00 PM",
-      "Thursday: 9:00 AM – 5:00 PM",
-      "Friday: 9:00 AM – 5:00 PM",
-      "Saturday: 9:00 AM – 12:00 PM",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "market",
-      "food_store",
-      "manufacturer",
-      "store",
-      "service",
-      "food",
-      "point_of_interest",
-      "establishment"
-    ],
-    "description": "Clower Meat Market is a meat processor in Kilgore, TX, rated 4.5 stars across 72 Google reviews. Common review themes include custom sausage and summer sausage."
-  },
-  {
     "name": "Bernhard Meat Processing",
     "location": "Kerrville, TX",
     "state": "TX",

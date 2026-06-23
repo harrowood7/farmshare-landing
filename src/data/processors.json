@@ -35700,5 +35700,52 @@
       "establishment"
     ],
     "description": "Integrity Meats is a meat processor in Churubusco, IN, rated 4.6 stars across 71 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage, jerky, and bacon."
+  },
+  {
+    "name": "E & L Farms Meat Processing Butcher Shop",
+    "location": "Grabill, IN",
+    "state": "IN",
+    "species": [
+      "Beef",
+      "Goat",
+      "Hog"
+    ],
+    "logo": null,
+    "slug": "e-l-farms-meat-processing-butcher-shop-grabill-in",
+    "status": "prospect",
+    "address": "15610 Grabill Rd",
+    "zip": "46741",
+    "phone": "(260) 409-9868",
+    "website": "https://www.eandlfamilymeats.com/",
+    "lat": 41.2096406,
+    "lng": -84.9444396,
+    "googleMapsUri": "https://maps.google.com/?cid=5042648390766756911&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.7,
+    "userRatingCount": 157,
+    "hours": [
+      "Monday: 8:00 AM – 5:00 PM",
+      "Tuesday: 8:00 AM – 5:00 PM",
+      "Wednesday: 8:00 AM – 5:00 PM",
+      "Thursday: 8:00 AM – 5:00 PM",
+      "Friday: 8:00 AM – 5:00 PM",
+      "Saturday: Closed",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "deli",
+      "sandwich_shop",
+      "manufacturer",
+      "grocery_store",
+      "food_store",
+      "store",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "description": "E & L Farms Meat Processing Butcher Shop is a meat processor in Grabill, IN, rated 4.7 stars across 157 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage and bacon."
   }
 ]

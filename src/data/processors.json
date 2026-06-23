@@ -35713,5 +35713,49 @@
       "establishment"
     ],
     "description": "E & L Farms Meat Processing Butcher Shop is a meat processor in Grabill, IN, rated 4.7 stars across 157 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage and bacon."
+  },
+  {
+    "name": "Mineola Packing Company, Inc.",
+    "location": "Mineola, TX",
+    "state": "TX",
+    "species": [
+      "Beef",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "mineola-packing-company-inc-mineola-tx",
+    "status": "prospect",
+    "address": "906 E Broad St",
+    "zip": "75773",
+    "phone": "(903) 569-5355",
+    "website": "http://www.mineolapacking.net/",
+    "lat": 32.6599441,
+    "lng": -95.4770049,
+    "googleMapsUri": "https://maps.google.com/?cid=12549483785334871273&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.3,
+    "userRatingCount": 69,
+    "hours": [
+      "Monday: 8:00 AM – 12:00 PM, 12:30 – 5:00 PM",
+      "Tuesday: 8:00 AM – 12:00 PM, 12:30 – 5:00 PM",
+      "Wednesday: 8:00 AM – 12:00 PM, 12:30 – 5:00 PM",
+      "Thursday: 8:00 AM – 12:00 PM, 12:30 – 5:00 PM",
+      "Friday: 8:00 AM – 12:00 PM, 12:30 – 3:30 PM",
+      "Saturday: Closed",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "food_store",
+      "manufacturer",
+      "wholesaler",
+      "food",
+      "point_of_interest",
+      "service",
+      "store",
+      "establishment"
+    ],
+    "description": "Mineola Packing Company, Inc. is a meat processor in Mineola, TX, rated 4.3 stars across 69 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage."
   }
 ]

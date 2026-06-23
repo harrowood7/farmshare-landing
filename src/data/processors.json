@@ -31843,46 +31843,6 @@
     "description": "Sklenarik's Smoked Meats is a meat processor in Miles, TX, rated 4.9 stars across 38 Google reviews. Common review themes include custom sausage."
   },
   {
-    "name": "B & K Deer Processing",
-    "location": "Bronte, TX",
-    "state": "TX",
-    "species": [
-      "Beef",
-      "Hog"
-    ],
-    "slug": "b-and-k-deer-processing-bronte-tx",
-    "status": "prospect",
-    "address": "114 N Washington St",
-    "zip": "76933",
-    "phone": "(325) 473-4015",
-    "lat": 31.8881018,
-    "lng": -100.2930763,
-    "googleMapsUri": "https://maps.google.com/?cid=10102941519124581248&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.5,
-    "userRatingCount": 50,
-    "hours": [
-      "Monday: Open 24 hours",
-      "Tuesday: Open 24 hours",
-      "Wednesday: Open 24 hours",
-      "Thursday: Open 24 hours",
-      "Friday: Open 24 hours",
-      "Saturday: Open 24 hours",
-      "Sunday: Open 24 hours"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "food_store",
-      "manufacturer",
-      "store",
-      "service",
-      "point_of_interest",
-      "food",
-      "establishment"
-    ],
-    "description": "B & K Deer Processing is a meat processor in Bronte, TX, rated 4.5 stars across 50 Google reviews. Customers highlight their friendly staff and quick turnaround. Common review themes include custom sausage, smoked meats, and bacon."
-  },
-  {
     "name": "Clint & Sons Processing and Retail Store",
     "location": "White Deer, TX",
     "state": "TX",

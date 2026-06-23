@@ -21388,10 +21388,15 @@
     "location": "Owosso, MI",
     "state": "MI",
     "species": [
-      "Beef"
+      "Beef",
+      "Hog",
+      "Bison",
+      "Goat",
+      "Lamb",
+      "Veal"
     ],
     "slug": "apex-custom-butchering-owosso-mi",
-    "status": "prospect",
+    "status": "customer",
     "address": "155 W Henderson Rd",
     "zip": "48867",
     "phone": "(989) 323-1187",
@@ -21420,7 +21425,8 @@
       "manufacturer",
       "establishment"
     ],
-    "description": "APEX CUSTOM BUTCHERING is a meat processor in Owosso, MI, rated 5 stars across 7 Google reviews. Customers highlight their friendly staff."
+    "description": "APEX CUSTOM BUTCHERING is a meat processor in Owosso, MI, rated 5 stars across 7 Google reviews. Customers highlight their friendly staff.",
+    "partnerSlug": "apex-custom-butchering-owosso-mi"
   },
   {
     "name": "Ben's Butcher Shop",

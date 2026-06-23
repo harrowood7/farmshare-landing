@@ -6914,11 +6914,15 @@
     "location": "ID",
     "state": "ID",
     "species": [
-      "Beef"
+      "Beef",
+      "Bison",
+      "Hog",
+      "Lamb",
+      "Goat"
     ],
     "logo": "http://static1.squarespace.com/static/5cbcd1e99d414937fecfce86/t/60968daf6695011739faaf1f/1620479408035/Logo+3.png?format=1500w",
     "slug": "mad-dog-ranch-id",
-    "status": "prospect",
+    "status": "customer",
     "description": "Mad Dog Ranch is a custom meat processor in ID, offering beef processing services.",
     "lat": 44.0682019,
     "lng": -114.7420408,
@@ -6942,7 +6946,8 @@
       "store",
       "point_of_interest",
       "establishment"
-    ]
+    ],
+    "partnerSlug": "mad-dog-ranch-id"
   },
   {
     "name": "Manley Meats",

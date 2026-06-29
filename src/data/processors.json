@@ -23050,52 +23050,6 @@
     "description": "Essner's Custom Butchering is a meat processor in Scott City, MO, rated 5 stars across 50 Google reviews. Customers highlight their friendly staff and clean facility. Common review themes include custom sausage and bacon."
   },
   {
-    "name": "Bolyard's Meat & Provisions",
-    "location": "Maplewood, MO",
-    "state": "MO",
-    "species": [
-      "Beef",
-      "Hog",
-      "Lamb",
-      "Goat"
-    ],
-    "logo": "https://static.showit.co/1200/qRUN9wgvSeSvi5LHm56OYQ/124708/bolyardsartboard_1socialshare.jpg",
-    "slug": "bolyard-s-meat-and-provisions-maplewood-mo",
-    "status": "prospect",
-    "address": "2733 Sutton Blvd",
-    "zip": "63143",
-    "phone": "(314) 647-2567",
-    "website": "http://www.bolyardsmeat.com/",
-    "lat": 38.6114609,
-    "lng": -90.3201402,
-    "googleMapsUri": "https://maps.google.com/?cid=18144396629959038478&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.8,
-    "userRatingCount": 355,
-    "hours": [
-      "Monday: Closed",
-      "Tuesday: 11:00 AM – 6:00 PM",
-      "Wednesday: 11:00 AM – 6:00 PM",
-      "Thursday: 11:00 AM – 6:00 PM",
-      "Friday: 11:00 AM – 6:00 PM",
-      "Saturday: 9:00 AM – 5:00 PM",
-      "Sunday: 9:00 AM – 2:00 PM"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "market",
-      "food_store",
-      "store",
-      "restaurant",
-      "point_of_interest",
-      "service",
-      "manufacturer",
-      "food",
-      "establishment"
-    ],
-    "description": "Bolyard's Meat & Provisions is a meat processor in Maplewood, MO, rated 4.8 stars across 355 Google reviews. Customers highlight their friendly staff."
-  },
-  {
     "name": "J & J Processing",
     "location": "Pierce City, MO",
     "state": "MO",

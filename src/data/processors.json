@@ -17708,46 +17708,6 @@
     "description": "Moweaqua Packing Plant is a meat processor in Moweaqua, IL, rated 4.9 stars across 96 Google reviews. Customers highlight their friendly staff. Common review themes include bacon and wild game processing."
   },
   {
-    "name": "B&D Meat Market",
-    "location": "Freeburg, IL",
-    "state": "IL",
-    "species": [
-      "Beef",
-      "Hog"
-    ],
-    "slug": "b-and-d-meat-market-freeburg-il",
-    "status": "prospect",
-    "address": "6106 Country School Ln",
-    "zip": "62243",
-    "phone": "(618) 972-4407",
-    "lat": 38.435015,
-    "lng": -89.9777625,
-    "googleMapsUri": "https://maps.google.com/?cid=16547398391567143440&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.6,
-    "userRatingCount": 39,
-    "hours": [
-      "Monday: Closed",
-      "Tuesday: Closed",
-      "Wednesday: 10:00 AM – 6:00 PM",
-      "Thursday: 10:00 AM – 6:00 PM",
-      "Friday: 10:00 AM – 6:00 PM",
-      "Saturday: 8:00 AM – 3:00 PM",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "food_store",
-      "store",
-      "food",
-      "service",
-      "point_of_interest",
-      "manufacturer",
-      "establishment"
-    ],
-    "description": "B&D Meat Market is a meat processor in Freeburg, IL, rated 4.6 stars across 39 Google reviews. Customers highlight their family-owned operation. Common review themes include vacuum packing and custom sausage."
-  },
-  {
     "name": "Country Home Processing, LLC",
     "location": "Albion, IL",
     "state": "IL",

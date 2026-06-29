@@ -34632,48 +34632,6 @@
     "description": "Eagle's Peak Processing is a meat processor in Mondovi, WI, rated 5 stars across 2 Google reviews. Customers highlight their professional service."
   },
   {
-    "name": "RLM Butchering and Meat Processing",
-    "location": "Harts, WV",
-    "state": "WV",
-    "species": [
-      "Beef",
-      "Hog"
-    ],
-    "logo": "http://static1.squarespace.com/static/5f4a6dedcd9fb50b2feb29d5/t/604a34c85199fb5ef4e8c05e/1615475914461/public.jpeg?format=1500w",
-    "slug": "rlm-butchering-and-meat-processing-harts-wv",
-    "status": "prospect",
-    "address": "1415 Henderson Branch Rd",
-    "zip": "25524",
-    "phone": "(304) 855-3526",
-    "website": "http://rlmbutchering.com/",
-    "lat": 37.9321748,
-    "lng": -82.15633059999999,
-    "googleMapsUri": "https://maps.google.com/?cid=6687511088693638368&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 5,
-    "userRatingCount": 14,
-    "hours": [
-      "Monday: 10:00 AM – 4:00 PM",
-      "Tuesday: 10:00 AM – 4:00 PM",
-      "Wednesday: 10:00 AM – 4:00 PM",
-      "Thursday: 10:00 AM – 4:00 PM",
-      "Friday: 10:00 AM – 4:00 PM",
-      "Saturday: 10:00 AM – 4:00 PM",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "manufacturer",
-      "service",
-      "food_store",
-      "store",
-      "food",
-      "point_of_interest",
-      "establishment"
-    ],
-    "description": "RLM Butchering and Meat Processing is a meat processor in Harts, WV, rated 5 stars across 14 Google reviews. Customers highlight their friendly staff and clean facility. Common review themes include custom sausage, bacon, and wild game processing."
-  },
-  {
     "name": "REO Processing",
     "location": "Parkersburg, WV",
     "state": "WV",

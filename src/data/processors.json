@@ -23384,48 +23384,6 @@
     "description": "Clark's Custom Meat Co is a meat processor in St Joseph, MO, rated 4.8 stars across 148 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage and jerky."
   },
   {
-    "name": "Baumann's Fine Meats",
-    "location": "St. Louis, MO",
-    "state": "MO",
-    "species": [
-      "Beef",
-      "Hog"
-    ],
-    "logo": "https://www.baumannsfinemeats.com/apple-touch-icon.png?v=YAKez4qlv0",
-    "slug": "baumann-s-fine-meats-st-louis-mo",
-    "status": "prospect",
-    "address": "8829 Manchester Rd",
-    "zip": "63144",
-    "phone": "(314) 968-3080",
-    "website": "http://www.baumannsfinemeats.com/",
-    "lat": 38.6126946,
-    "lng": -90.35034999999999,
-    "googleMapsUri": "https://maps.google.com/?cid=17246785896085541662&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.7,
-    "userRatingCount": 105,
-    "hours": [
-      "Monday: 10:00 AM – 2:00 PM",
-      "Tuesday: Closed",
-      "Wednesday: 10:00 AM – 6:00 PM",
-      "Thursday: 10:00 AM – 6:00 PM",
-      "Friday: 10:00 AM – 6:00 PM",
-      "Saturday: 9:00 AM – 5:00 PM",
-      "Sunday: 11:00 AM – 4:00 PM"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "manufacturer",
-      "food_store",
-      "store",
-      "food",
-      "point_of_interest",
-      "service",
-      "establishment"
-    ],
-    "description": "Baumann's Fine Meats is a meat processor in St. Louis, MO, rated 4.7 stars across 105 Google reviews. Customers highlight their knowledgeable staff."
-  },
-  {
     "name": "Brendle's Butcher Block LLC",
     "location": "Gower, MO",
     "state": "MO",

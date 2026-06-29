@@ -17073,47 +17073,6 @@
     "description": "Midstate Meat Co is a meat processor in Springfield, IL, rated 4.6 stars across 145 Google reviews. Customers highlight their friendly staff."
   },
   {
-    "name": "Cionko's Inc",
-    "location": "Granite City, IL",
-    "state": "IL",
-    "species": [
-      "Beef"
-    ],
-    "slug": "cionko-s-inc-granite-city-il",
-    "status": "prospect",
-    "address": "2901 Madison Ave",
-    "zip": "62040",
-    "phone": "(618) 451-5200",
-    "website": "https://www.cionkos.com/",
-    "lat": 38.7147392,
-    "lng": -90.1279399,
-    "googleMapsUri": "https://maps.google.com/?cid=1963269389610321481&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.9,
-    "userRatingCount": 431,
-    "hours": [
-      "Monday: 9:00 AM – 5:00 PM",
-      "Tuesday: 9:00 AM – 5:00 PM",
-      "Wednesday: 9:00 AM – 5:00 PM",
-      "Thursday: 9:00 AM – 5:00 PM",
-      "Friday: 8:00 AM – 5:00 PM",
-      "Saturday: 8:00 AM – 5:00 PM",
-      "Sunday: 10:00 AM – 5:00 PM"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "grocery_store",
-      "food_store",
-      "store",
-      "manufacturer",
-      "food",
-      "point_of_interest",
-      "service",
-      "establishment"
-    ],
-    "description": "Cionko's Inc is a meat processor in Granite City, IL, rated 4.9 stars across 431 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage."
-  },
-  {
     "name": "Arends Farm Meats & Butcher Shop",
     "location": "Ivesdale, IL",
     "state": "IL",

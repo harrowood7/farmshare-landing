@@ -16463,40 +16463,6 @@
     "description": "Eureka Locker Inc is a meat processor in Eureka, IL, rated 4.4 stars across 104 Google reviews. Customers highlight their friendly staff, professional service, and clean facility."
   },
   {
-    "name": "Butcher Engineering",
-    "location": "17579 Mockingbird Rd, IL",
-    "state": "IL",
-    "species": [
-      "Beef"
-    ],
-    "slug": "butcher-engineering-17579-mockingbird-rd-il",
-    "status": "prospect",
-    "address": "17385",
-    "zip": "62263",
-    "phone": "(618) 478-2267",
-    "lat": 38.3770751,
-    "lng": -89.3802566,
-    "googleMapsUri": "https://maps.google.com/?cid=15569393970198320577&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4,
-    "userRatingCount": 45,
-    "hours": [
-      "Monday: 7:00 AM – 2:30 PM",
-      "Tuesday: 7:00 AM – 2:30 PM",
-      "Wednesday: 7:00 AM – 2:30 PM",
-      "Thursday: 7:00 AM – 2:30 PM",
-      "Friday: 7:00 AM – 2:30 PM",
-      "Saturday: Closed",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "storage",
-      "point_of_interest",
-      "establishment"
-    ],
-    "description": "Butcher Engineering is a meat processor in 17579 Mockingbird Rd, IL, rated 4 stars across 45 Google reviews. Customers highlight their quick turnaround."
-  },
-  {
     "name": "Chenoa Locker, Inc.",
     "location": "Chenoa, IL",
     "state": "IL",

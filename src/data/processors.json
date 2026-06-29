@@ -22925,48 +22925,6 @@
     "logo": "http://5hcustommeats.com/images/5hlogo.png"
   },
   {
-    "name": "John's Butcher Shoppee",
-    "location": "Breckenridge Hills, MO",
-    "state": "MO",
-    "species": [
-      "Beef",
-      "Hog"
-    ],
-    "slug": "john-s-butcher-shoppee-breckenridge-hills-mo",
-    "status": "prospect",
-    "address": "2608 Walton Rd",
-    "zip": "63114",
-    "phone": "(314) 423-8066",
-    "website": "http://johnsbutchershoppee.com/",
-    "lat": 38.7035094,
-    "lng": -90.34443689999999,
-    "googleMapsUri": "https://maps.google.com/?cid=3081642519866518396&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.8,
-    "userRatingCount": 323,
-    "hours": [
-      "Monday: 9:00 AM – 6:00 PM",
-      "Tuesday: 9:00 AM – 6:00 PM",
-      "Wednesday: 9:00 AM – 6:00 PM",
-      "Thursday: 9:00 AM – 6:00 PM",
-      "Friday: 9:00 AM – 6:00 PM",
-      "Saturday: 9:00 AM – 5:00 PM",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "manufacturer",
-      "food_store",
-      "store",
-      "food",
-      "point_of_interest",
-      "service",
-      "establishment"
-    ],
-    "description": "John's Butcher Shoppee is a meat processor in Breckenridge Hills, MO, rated 4.8 stars across 323 Google reviews. Customers highlight their friendly staff and fair pricing.",
-    "logo": null
-  },
-  {
     "name": "Green Hills Fresh Meats",
     "location": "Brookfield, MO",
     "state": "MO",

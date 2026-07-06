@@ -4,6 +4,8 @@ import {
   rankProcessors,
   buildRoutingDraft,
   inferLeadType,
+  haversineMiles,
+  normSpecies,
   DEFAULT_WEIGHTS,
   FLAG_TEXT,
   type Lead,
@@ -54,6 +56,19 @@ export default function AdminLeads() {
   const [procEmail, setProcEmail] = useState<string | null>(null);
   const [procEmailLoading, setProcEmailLoading] = useState(false);
   const [tab, setTab] = useState<'all' | 'Henry' | 'Wyatt'>('all');
+
+  // Booth mode: type a processor's zip -> nearest buyer leads (the reverse of the
+  // normal lead -> processors flow). Built for AAMP: show a plant the live demand near them.
+  const [mode, setMode] = useState<'lead' | 'booth'>('lead');
+  const [boothZip, setBoothZip] = useState('');
+  const [boothOrigin, setBoothOrigin] = useState<GeoResult | null>(null);
+  const [boothGeoLoading, setBoothGeoLoading] = useState(false);
+  const [boothErr, setBoothErr] = useState('');
+  const [boothSpecies, setBoothSpecies] = useState('all');
+  const [boothRadius, setBoothRadius] = useState(150);
+  const [prepping, setPrepping] = useState(false);
+  const [prepDone, setPrepDone] = useState(0);
+  const [prepTotal, setPrepTotal] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -141,6 +156,17 @@ export default function AdminLeads() {
   );
   const chosen = top[procIdx] || top[0];
 
+  // Booth results: every lead with coords, ranked by distance from the typed zip.
+  const boothResults = useMemo(() => {
+    if (!boothOrigin) return [];
+    return leads
+      .filter((l) => l.lat != null && l.lng != null)
+      .filter((l) => boothSpecies === 'all' || normSpecies(l.species) === boothSpecies)
+      .map((l) => ({ ...l, distanceMi: haversineMiles(boothOrigin.lat, boothOrigin.lng, l.lat!, l.lng!) }))
+      .filter((l) => l.distanceMi <= boothRadius)
+      .sort((a, b) => a.distanceMi - b.distanceMi);
+  }, [boothOrigin, leads, boothSpecies, boothRadius]);
+
   useEffect(() => {
     setDraft(leadObj && chosen ? buildRoutingDraft(leadObj, chosen, type) : '');
   }, [selectedId, procIdx, chosen, type]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -216,6 +242,45 @@ export default function AdminLeads() {
     if (selectedId === id) setSelectedId(null);
   }
 
+  // Geocode + persist coords for any lead missing them, so booth searches are instant.
+  async function ensureAllCoords() {
+    const missing = leads.filter((l) => (l.lat == null || l.lng == null) && l.zip);
+    if (missing.length === 0) return;
+    setPrepping(true);
+    setPrepTotal(missing.length);
+    setPrepDone(0);
+    for (const l of missing) {
+      const g = await geocodeZip(l.zip);
+      if (g) {
+        await supabase.from('buyer_leads').update({ lat: g.lat, lng: g.lng }).eq('id', l.id);
+        setLeads((ls) => ls.map((x) => (x.id === l.id ? { ...x, lat: g.lat, lng: g.lng } : x)));
+      }
+      setPrepDone((d) => d + 1);
+    }
+    setPrepping(false);
+  }
+
+  function enterBooth() {
+    setMode('booth');
+    ensureAllCoords();
+  }
+
+  async function boothSearch(e: React.FormEvent) {
+    e.preventDefault();
+    setBoothErr('');
+    const z = boothZip.trim();
+    if (!z) return;
+    setBoothGeoLoading(true);
+    const g = await geocodeZip(z);
+    setBoothGeoLoading(false);
+    if (!g) {
+      setBoothErr('Could not find that zip.');
+      setBoothOrigin(null);
+      return;
+    }
+    setBoothOrigin(g);
+  }
+
   if (authLoading) return <div className="min-h-screen grid place-items-center text-stone-500">Loading…</div>;
 
   if (!authed) {
@@ -238,11 +303,83 @@ export default function AdminLeads() {
         <div className="flex items-center gap-2 mb-4">
           <MapPin className="w-5 h-5 text-emerald-700" />
           <h1 className="text-xl font-semibold tracking-tight">Farmshare Lead Router</h1>
+          <div className="ml-4 flex items-center gap-1 bg-white rounded-lg border border-stone-200 p-1">
+            {([['lead', 'Lead router'], ['booth', 'Booth mode']] as const).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => (key === 'booth' ? enterBooth() : setMode('lead'))}
+                className={`text-xs px-2.5 py-1.5 rounded-md ${mode === key ? 'bg-emerald-700 text-white' : 'text-stone-600 hover:bg-stone-100'}`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
           <button onClick={loadLeads} className="ml-auto flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-md border border-stone-300 bg-white hover:bg-stone-100">
             <RefreshCw className="w-3.5 h-3.5" /> Refresh
           </button>
         </div>
 
+        {mode === 'booth' && (
+          <div className="max-w-3xl">
+            <form onSubmit={boothSearch} className="bg-white rounded-lg border border-stone-200 p-4 flex flex-wrap items-end gap-4">
+              <div>
+                <label className="block text-xs text-stone-500 mb-1">Processor zip</label>
+                <input
+                  value={boothZip}
+                  onChange={(e) => setBoothZip(e.target.value)}
+                  inputMode="numeric"
+                  placeholder="e.g. 68701"
+                  className="border border-stone-300 rounded-md px-3 py-2 text-lg w-36"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-stone-500 mb-1">Species</label>
+                <select value={boothSpecies} onChange={(e) => setBoothSpecies(e.target.value)} className="border border-stone-300 rounded-md px-3 py-2 text-sm">
+                  <option value="all">All</option>
+                  <option value="beef">Beef</option>
+                  <option value="pork">Pork</option>
+                  <option value="lamb">Lamb</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-stone-500 mb-1">Within {boothRadius} mi</label>
+                <input type="range" min={25} max={500} step={25} value={boothRadius} onChange={(e) => setBoothRadius(Number(e.target.value))} className="w-40 align-middle" />
+              </div>
+              <button className="bg-emerald-700 text-white rounded-md px-4 py-2 text-sm font-medium">{boothGeoLoading ? 'Searching…' : 'Find buyers'}</button>
+            </form>
+
+            {prepping && <p className="text-xs text-stone-500 mt-2">Prepping lead locations… {prepDone}/{prepTotal}</p>}
+            {boothErr && <p className="text-xs text-red-600 mt-2">{boothErr}</p>}
+
+            {boothOrigin && (
+              <div className="mt-4">
+                <p className="text-sm text-stone-600 mb-2">
+                  <strong className="text-emerald-700 text-base">{boothResults.length}</strong> buyer{boothResults.length === 1 ? '' : 's'} within {boothRadius} mi of {boothZip}
+                </p>
+                <div className="bg-white rounded-lg border border-stone-200 divide-y divide-stone-100 max-h-[68vh] overflow-y-auto">
+                  {boothResults.map((l, i) => (
+                    <div key={l.id} className="flex items-center justify-between p-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-mono text-stone-400 w-6 text-right">#{i + 1}</span>
+                        <div>
+                          <div className="font-medium text-sm">{l.name}</div>
+                          <div className="text-xs text-stone-500">
+                            {l.species} {l.cut_type}
+                            {l.timing ? ` · ${l.timing}` : ''} · {l.zip}
+                          </div>
+                        </div>
+                      </div>
+                      <span className="text-base font-semibold text-emerald-700">{Math.round(l.distanceMi)} mi</span>
+                    </div>
+                  ))}
+                  {boothResults.length === 0 && <p className="text-xs text-stone-400 p-4">No buyers in range — widen the radius.</p>}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {mode === 'lead' && (
         <div className="grid md:grid-cols-[340px_1fr] gap-4">
           {/* LEFT: queue */}
           <div className="flex flex-col gap-2">
@@ -377,6 +514,7 @@ export default function AdminLeads() {
             )}
           </div>
         </div>
+        )}
       </div>
     </div>
   );

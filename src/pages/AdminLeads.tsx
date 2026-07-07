@@ -66,6 +66,7 @@ export default function AdminLeads() {
   const [boothErr, setBoothErr] = useState('');
   const [boothSpecies, setBoothSpecies] = useState('all');
   const [boothRadius, setBoothRadius] = useState(150);
+  const [boothEmailTo, setBoothEmailTo] = useState('');
   const [prepping, setPrepping] = useState(false);
   const [prepDone, setPrepDone] = useState(0);
   const [prepTotal, setPrepTotal] = useState(0);
@@ -281,6 +282,25 @@ export default function AdminLeads() {
     setBoothOrigin(g);
   }
 
+  // Email the visible booth list to a processor — names + what/when/where + distance,
+  // NO buyer contact info. They reply to Farmshare to get connected (we stay in the middle).
+  function emailBoothList() {
+    if (!boothResults.length) return;
+    const lines = boothResults
+      .map((l, i) => {
+        const bits = [`${l.species} ${l.cut_type}`.trim()];
+        if (l.timing) bits.push(l.timing);
+        if (l.zip) bits.push(l.zip);
+        bits.push(`~${Math.round(l.distanceMi)} mi away`);
+        return `${i + 1}. ${l.name} — ${bits.join(' · ')}`;
+      })
+      .join('\n');
+    const su = 'Farmshare — buyers looking for beef near you';
+    const body = `Hi,\n\nHere are the buyers we're currently seeing near you (within ${boothRadius} miles of ${boothZip}). We haven't shared their contact details — but if you'd like us to connect you with any of them, just reply and we'll make the introduction.\n\n${lines}\n\nBest,\nHenry\nFarmshare`;
+    const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(boothEmailTo)}&su=${encodeURIComponent(su)}&body=${encodeURIComponent(body)}`;
+    window.open(url, '_blank', 'noopener');
+  }
+
   if (authLoading) return <div className="min-h-screen grid place-items-center text-stone-500">Loading…</div>;
 
   if (!authed) {
@@ -356,6 +376,24 @@ export default function AdminLeads() {
                 <p className="text-sm text-stone-600 mb-2">
                   <strong className="text-emerald-700 text-base">{boothResults.length}</strong> buyer{boothResults.length === 1 ? '' : 's'} within {boothRadius} mi of {boothZip}
                 </p>
+                {boothResults.length > 0 && (
+                  <div className="flex items-center gap-2 mb-3">
+                    <input
+                      value={boothEmailTo}
+                      onChange={(e) => setBoothEmailTo(e.target.value)}
+                      type="email"
+                      placeholder="processor@email.com"
+                      className="border border-stone-300 rounded-md px-2.5 py-1.5 text-sm w-56"
+                    />
+                    <button
+                      onClick={emailBoothList}
+                      title="Opens a Gmail draft with this list (names + what they want, no contact info)"
+                      className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md border border-emerald-600 text-emerald-700 bg-white hover:bg-emerald-50"
+                    >
+                      <Mail className="w-4 h-4" /> Email these leads
+                    </button>
+                  </div>
+                )}
                 <div className="bg-white rounded-lg border border-stone-200 divide-y divide-stone-100 max-h-[68vh] overflow-y-auto">
                   {boothResults.map((l, i) => (
                     <div key={l.id} className="flex items-center justify-between p-3">

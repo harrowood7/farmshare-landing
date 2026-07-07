@@ -296,7 +296,7 @@ export default function AdminLeads() {
       })
       .join('\n');
     const su = 'Farmshare — buyers looking for beef near you';
-    const body = `Hi,\n\nHere are the buyers we're currently seeing near you (within ${boothRadius} miles of ${boothZip}). If you'd like to connect with them, let us know and we'll make the introduction.\n\n${lines}\n\nWant to see how Farmshare works? Grab a time with me here: https://meetings.hubspot.com/henry-arrowood/schedule-demo\n\nBest,\nHen\nFarmshare`;
+    const body = `Hi,\n\nHere are the buyers we're currently seeing near you (within ${boothRadius} miles of ${boothZip}). If you'd like to connect with them, let us know and we'll make the introduction.\n\n${lines}\n\nWant to see how Farmshare works? Grab a time with me here: https://meetings.hubspot.com/henry-arrowood/schedule-demo\n\nBest,\nFarmshare`;
     const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(boothEmailTo)}&su=${encodeURIComponent(su)}&body=${encodeURIComponent(body)}`;
     window.open(url, '_blank', 'noopener');
   }

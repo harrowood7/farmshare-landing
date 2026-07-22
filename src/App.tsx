@@ -17,6 +17,7 @@ import {
   Admin,
   BuyBeef
 } from './pages';
+import AdminHome from './pages/AdminHome';
 import AdminPromote from './pages/AdminPromote';
 import AdminLeads from './pages/AdminLeads';
 import { stateSlugToAbbr } from './data/processors';
@@ -51,9 +52,10 @@ function App() {
           <Route path="/service-agreement" element={<ServiceAgreement />} />
           <Route path="/release-notes" element={<ReleaseNotes />} />
           <Route path="/release-notes/:slug" element={<ReleaseNoteDetail />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin" element={<AdminHome />} />
           <Route path="/admin/promote" element={<AdminPromote />} />
           <Route path="/admin/leads" element={<AdminLeads />} />
+          <Route path="/admin/release-notes" element={<Admin />} />
           {/* Redirects for removed pages */}
           <Route path="/producers" element={<Navigate to="/" replace />} />
           <Route path="/buyers" element={<Navigate to="/" replace />} />

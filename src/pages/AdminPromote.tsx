@@ -82,7 +82,8 @@ export default function AdminPromote() {
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-roca text-brand-green">Directory admin</h1>
+            <Link to="/admin" className="text-sm text-stone-500 hover:text-brand-green">← All tools</Link>
+            <h1 className="text-3xl font-roca text-brand-green mt-1">Directory admin</h1>
             <p className="text-stone-600 mt-1">Promote a prospect, add a new customer, or add a new prospect from Google.</p>
           </div>
           <button onClick={handleSignOut} className="text-sm text-stone-500 hover:text-stone-700 underline">Sign out</button>

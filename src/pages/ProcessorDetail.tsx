@@ -28,6 +28,69 @@ function HeroLogo({ processor }: { processor: Processor }) {
   );
 }
 
+interface ReviewItem { author: string; rating: number | null; text: string; relativeTime: string | null; }
+
+function StarRow({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-0.5 flex-shrink-0">
+      {[1, 2, 3, 4, 5].map((n) => (
+        <Star key={n} className={`h-3.5 w-3.5 ${n <= Math.round(rating) ? 'fill-amber-400 text-amber-400' : 'text-stone-300'}`} />
+      ))}
+    </div>
+  );
+}
+
+/** Live Google reviews for a listing, fetched from /api/reviews (edge-cached).
+ *  Renders nothing until reviews load, and nothing if there are none. */
+function GoogleReviews({ slug, rating, count }: { slug: string; rating?: number; count?: number }) {
+  const [reviews, setReviews] = useState<ReviewItem[] | null>(null);
+  const [apiRating, setApiRating] = useState<number | null>(rating ?? null);
+  const [apiCount, setApiCount] = useState<number | null>(count ?? null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/reviews?slug=${encodeURIComponent(slug)}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((data: { rating: number | null; userRatingCount: number | null; reviews: ReviewItem[] }) => {
+        if (cancelled) return;
+        setReviews(data.reviews || []);
+        if (data.rating != null) setApiRating(data.rating);
+        if (data.userRatingCount != null) setApiCount(data.userRatingCount);
+      })
+      .catch(() => { if (!cancelled) setReviews([]); });
+    return () => { cancelled = true; };
+  }, [slug]);
+
+  if (!reviews || reviews.length === 0) return null;
+
+  return (
+    <div className="mb-6">
+      <div className="flex items-center gap-2 text-brand-green font-bold mb-3">
+        <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+        Google reviews
+        {apiRating != null && (
+          <span className="text-sm font-normal text-stone-600">
+            {apiRating.toFixed(1)}{apiCount != null ? ` · ${apiCount} reviews` : ''}
+          </span>
+        )}
+      </div>
+      <div className="space-y-3">
+        {reviews.slice(0, 5).map((r, i) => (
+          <div key={i} className="bg-brand-cream rounded-lg p-4">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <span className="font-semibold text-stone-800 text-sm">{r.author}</span>
+              {r.rating != null && <StarRow rating={r.rating} />}
+            </div>
+            {r.relativeTime && <div className="text-xs text-stone-400 mb-1">{r.relativeTime}</div>}
+            <p className="text-sm text-stone-700 whitespace-pre-line">{r.text}</p>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-stone-400 mt-2">Reviews from Google.</p>
+    </div>
+  );
+}
+
 export default function ProcessorDetail() {
   const { stateSlug: slug } = useParams<{ stateSlug: string }>();
   const processor = processors.find(p => p.slug === slug);
@@ -312,6 +375,9 @@ export default function ProcessorDetail() {
                   </ul>
                 </div>
               )}
+
+              {/* Google reviews (live, edge-cached) */}
+              <GoogleReviews slug={processor.slug} rating={processor.rating} count={processor.userRatingCount} />
 
               {isCustomer ? (
                 <>

@@ -25,7 +25,7 @@ export default function AdminPromote() {
   const [password, setPassword] = useState<string>(() => localStorage.getItem(PASSWORD_KEY) || '');
   const [authChecked, setAuthChecked] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
-  const [mode, setMode] = useState<'promote' | 'create' | 'add-prospect' | 'remove'>('promote');
+  const [mode, setMode] = useState<'promote' | 'create' | 'add-prospect' | 'edit' | 'remove'>('promote');
 
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
@@ -109,6 +109,12 @@ export default function AdminPromote() {
             Add new prospect
           </button>
           <button
+            onClick={() => { setMode('edit'); setResult(null); setError(null); }}
+            className={`px-4 py-2 rounded-md text-sm font-bold transition-colors ${mode === 'edit' ? 'bg-brand-green text-white' : 'text-stone-600 hover:text-brand-green'}`}
+          >
+            Edit a listing
+          </button>
+          <button
             onClick={() => { setMode('remove'); setResult(null); setError(null); }}
             className={`px-4 py-2 rounded-md text-sm font-bold transition-colors ${mode === 'remove' ? 'bg-red-600 text-white' : 'text-stone-600 hover:text-red-600'}`}
           >
@@ -138,6 +144,16 @@ export default function AdminPromote() {
         )}
         {mode === 'add-prospect' && (
           <AddProspectForm
+            password={password}
+            submitting={submitting}
+            setSubmitting={setSubmitting}
+            setResult={setResult}
+            setError={setError}
+            onWrongPassword={() => { setAuthChecked(false); localStorage.removeItem(PASSWORD_KEY); }}
+          />
+        )}
+        {mode === 'edit' && (
+          <EditForm
             password={password}
             submitting={submitting}
             setSubmitting={setSubmitting}
@@ -1010,6 +1026,180 @@ function RemoveForm({
                 </div>
               )}
             </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// -------------------- EDIT A LISTING --------------------
+function EditForm({
+  password,
+  submitting,
+  setSubmitting,
+  setResult,
+  setError,
+  onWrongPassword,
+}: {
+  password: string;
+  submitting: boolean;
+  setSubmitting: (b: boolean) => void;
+  setResult: (r: Result | null) => void;
+  setError: (s: string | null) => void;
+  onWrongPassword: () => void;
+}) {
+  const [search, setSearch] = useState('');
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const [species, setSpecies] = useState<SpeciesT[]>([]);
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [zip, setZip] = useState('');
+  const [website, setWebsite] = useState('');
+  const [description, setDescription] = useState('');
+  const [hours, setHours] = useState('');
+
+  const all = useMemo(() => [...processors].sort((a, b) => a.name.localeCompare(b.name)), []);
+  const filtered = useMemo(() => {
+    const q = search.toLowerCase();
+    if (!q) return all;
+    return all.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.location.toLowerCase().includes(q) ||
+        p.slug.toLowerCase().includes(q)
+    );
+  }, [search, all]);
+  const selected: Processor | undefined = useMemo(
+    () => processors.find((p) => p.slug === selectedSlug),
+    [selectedSlug]
+  );
+
+  useEffect(() => {
+    if (!selected) return;
+    setName(selected.name);
+    setSpecies(selected.species as SpeciesT[]);
+    setPhone(selected.phone ?? '');
+    setAddress(selected.address ?? '');
+    setZip(selected.zip ?? '');
+    setWebsite(selected.website ?? '');
+    setDescription(selected.description ?? '');
+    setHours((selected.hours ?? []).join('\n'));
+    setResult(null);
+    setError(null);
+  }, [selected, setResult, setError]);
+
+  const handleSubmit = async () => {
+    if (!selected) return;
+    setSubmitting(true);
+    setError(null);
+    setResult(null);
+    try {
+      const hoursArr = hours.split('\n').map((h) => h.trim()).filter(Boolean);
+      const payload = {
+        mode: 'edit',
+        password,
+        slug: selected.slug,
+        name: name.trim(),
+        species,
+        phone: phone.trim() || null,
+        address: address.trim() || null,
+        zip: zip.trim() || null,
+        website: website.trim() || null,
+        description: description.trim() || null,
+        hours: hoursArr,
+      };
+      const res = await fetch('/api/admin/promote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = (await res.json()) as Result & { error?: string };
+      if (!res.ok) {
+        if (res.status === 401) {
+          setError('Wrong password.');
+          onWrongPassword();
+        } else {
+          setError(data.error || `Server error (${res.status})`);
+        }
+        return;
+      }
+      setResult({ ...data, slug: data.slug ?? selected.slug });
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="grid lg:grid-cols-2 gap-8">
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        <h2 className="text-lg font-bold text-brand-green mb-4">1. Pick a listing to edit</h2>
+        <input
+          type="text"
+          placeholder="Search by name, city, or slug…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full px-4 py-2 rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-brand-orange mb-4"
+        />
+        <div className="max-h-96 overflow-y-auto divide-y divide-stone-100">
+          {filtered.slice(0, 100).map((p) => (
+            <button
+              key={p.slug}
+              type="button"
+              onClick={() => setSelectedSlug(p.slug)}
+              className={`w-full text-left px-3 py-2 text-sm hover:bg-brand-cream transition-colors ${p.slug === selectedSlug ? 'bg-brand-cream font-bold' : ''}`}
+            >
+              <div className="text-brand-green">{p.name}</div>
+              <div className="text-stone-500 text-xs">{p.location} · {p.slug} · {p.status}</div>
+            </button>
+          ))}
+          {filtered.length > 100 && (
+            <p className="text-xs text-stone-400 px-3 py-2">Showing first 100. Refine search to narrow.</p>
+          )}
+          {filtered.length === 0 && <p className="text-stone-500 text-sm px-3 py-4">No listings match.</p>}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        {!selected && <p className="text-stone-500">Select a listing on the left to edit it.</p>}
+        {selected && (
+          <>
+            <h2 className="text-lg font-bold text-brand-green mb-1">2. Edit {selected.name}</h2>
+            <p className="text-sm text-stone-600 mb-4">
+              Corrects the public directory listing. Status stays <strong>{selected.status}</strong>. Scheduling/partner settings are unchanged — use Promote for those.
+            </p>
+
+            <Field label="Display name"><input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-3 py-2 rounded border border-stone-300" /></Field>
+
+            <Field label="Species"><SpeciesPicker value={species} onChange={setSpecies} /></Field>
+
+            <Field label="Address"><input type="text" value={address} onChange={(e) => setAddress(e.target.value)} className="w-full px-3 py-2 rounded border border-stone-300" /></Field>
+
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="ZIP"><input type="text" value={zip} onChange={(e) => setZip(e.target.value)} className="w-full px-3 py-2 rounded border border-stone-300" /></Field>
+              <Field label="Phone"><input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2 rounded border border-stone-300" /></Field>
+            </div>
+
+            <Field label="Website"><input type="url" value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://…" className="w-full px-3 py-2 rounded border border-stone-300" /></Field>
+
+            <Field label="Hours" hint="One line per day, e.g. “Monday: 7:00 AM – 4:00 PM” or “Saturday: Closed”. Leave blank to show no hours.">
+              <textarea value={hours} onChange={(e) => setHours(e.target.value)} rows={7} className="w-full px-3 py-2 rounded border border-stone-300 text-sm font-mono" />
+            </Field>
+
+            <Field label="About / description" hint="Also used for the inspection line (USDA vs state). Kept in sync with the About content.">
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={4} className="w-full px-3 py-2 rounded border border-stone-300 text-sm" />
+            </Field>
+
+            <button
+              onClick={handleSubmit}
+              disabled={submitting || !name.trim() || species.length === 0}
+              className="w-full bg-brand-orange text-white py-3 rounded-lg font-bold hover:bg-brand-yellow transition-colors disabled:bg-stone-300 disabled:cursor-not-allowed"
+            >
+              {submitting ? 'Committing…' : 'Save changes'}
+            </button>
           </>
         )}
       </div>

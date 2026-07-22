@@ -104,7 +104,24 @@ interface RemoveBody {
   slug: string;                          // existing record slug to remove
 }
 
-type Body = PromoteBody | CreateBody | SearchBody | AddProspectBody | RemoveBody;
+interface EditBody {
+  mode: 'edit';
+  password: string;
+  slug: string;                          // existing record slug to edit (unchanged)
+  // Any field below that is `undefined` is left untouched. For the clearable
+  // string fields, passing an empty string removes the field.
+  name?: string;
+  species?: Species[];
+  address?: string | null;
+  zip?: string | null;
+  phone?: string | null;
+  website?: string | null;
+  description?: string | null;           // also synced into processorAboutContent.json
+  hours?: string[] | null;               // full weekday list; null/[] clears
+  placeId?: string;                       // optional: store Google place id for reviews
+}
+
+type Body = PromoteBody | CreateBody | SearchBody | AddProspectBody | RemoveBody | EditBody;
 
 interface VercelRequest {
   method?: string;
@@ -528,8 +545,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } else if (body.mode === 'remove') {
       const result = await handleRemove(body, { token: githubToken, owner, repo, branch });
       res.status(200).json({ success: true, ...result });
+    } else if (body.mode === 'edit') {
+      const result = await handleEdit(body, { token: githubToken, owner, repo, branch });
+      res.status(200).json({ success: true, ...result });
     } else {
-      res.status(400).json({ error: 'Invalid mode (must be "promote", "create", "search", "add-prospect", or "remove")' });
+      res.status(400).json({ error: 'Invalid mode (must be "promote", "create", "search", "add-prospect", "remove", or "edit")' });
     }
   } catch (e) {
     res.status(502).json({ error: (e as Error).message });
@@ -742,6 +762,78 @@ async function handleRemove(
   });
 
   return { ...commit, slug: body.slug, removed: true, removedName };
+}
+
+async function handleEdit(
+  body: EditBody,
+  gh: { token: string; owner: string; repo: string; branch: string }
+) {
+  if (!body.slug) throw new Error('slug is required');
+
+  const records = await readProcessorsJson(gh);
+  const target = records.find((r) => r.slug === body.slug) as Record<string, unknown> | undefined;
+  if (!target) throw new Error(`Slug not found: ${body.slug}`);
+
+  // Patch semantics: undefined = leave alone; '' on a clearable field = remove.
+  const setOrClear = (key: string, val: string | null | undefined) => {
+    if (val === undefined) return;
+    const trimmed = val ? String(val).trim() : '';
+    if (trimmed) target[key] = trimmed;
+    else delete target[key];
+  };
+
+  if (body.name && body.name.trim()) target.name = body.name.trim();
+  if (body.species && body.species.length) target.species = body.species;
+  setOrClear('address', body.address);
+  setOrClear('zip', body.zip);
+  setOrClear('phone', body.phone);
+  setOrClear('website', body.website);
+  setOrClear('description', body.description);
+  if (body.placeId && body.placeId.trim()) target.placeId = body.placeId.trim();
+
+  if (body.hours !== undefined) {
+    const cleaned = (body.hours ?? []).map((h) => h.trim()).filter(Boolean);
+    if (cleaned.length) target.hours = cleaned;
+    else delete target.hours;
+  }
+
+  const files: GhFileChange[] = [
+    {
+      path: 'src/data/processors.json',
+      encoding: 'base64',
+      contentBase64: Buffer.from(JSON.stringify(records, null, 2) + '\n', 'utf-8').toString('base64'),
+    },
+  ];
+
+  // Keep the About content in sync so the inspection/description prose (which
+  // lives in both files) can never drift. Only when a non-empty description is
+  // supplied.
+  if (body.description && body.description.trim()) {
+    try {
+      const aboutRaw = await readRepoTextFile({ ...gh, path: 'src/data/processorAboutContent.json' });
+      const about = JSON.parse(aboutRaw) as Record<string, { about?: string; website?: string }>;
+      const existing = about[body.slug] || {};
+      about[body.slug] = { ...existing, about: body.description.trim() };
+      if (!about[body.slug].website && typeof target.website === 'string') {
+        about[body.slug].website = target.website as string;
+      }
+      files.push({
+        path: 'src/data/processorAboutContent.json',
+        encoding: 'base64',
+        contentBase64: Buffer.from(JSON.stringify(about, null, 2) + '\n', 'utf-8').toString('base64'),
+      });
+    } catch {
+      // non-fatal: about content is supplementary
+    }
+  }
+
+  const commit = await commitMultiFile({
+    ...gh,
+    message: `Edit ${body.slug} (admin)`,
+    files,
+  });
+
+  return { ...commit, slug: body.slug, name: (target.name as string) || body.slug };
 }
 
 async function handleCreate(

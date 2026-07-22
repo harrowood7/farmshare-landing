@@ -10086,7 +10086,7 @@
     "zip": "59645",
     "phone": "(406) 547-6328",
     "website": "http://rawhidemeats.net",
-    "description": "Rawhide Meats is a custom meat processing facility located in the heart of Meagher County, Montana. We are a state inspected facility and offer processing services to over 75 local ranches. We also offer custom meat processing and retail beef and pork.",
+    "description": "Rawhide Meats is a custom meat processing facility located in the heart of Meagher County, Montana. We are a USDA inspected facility and offer processing services to over 75 local ranches. We also offer custom meat processing and retail beef and pork.",
     "lat": 46.548277,
     "lng": -110.9021561,
     "partnerSlug": "rawhide-meats-white-sulphur-springs-mt",
@@ -10094,13 +10094,13 @@
     "rating": 4.9,
     "userRatingCount": 40,
     "hours": [
-      "Monday: 10:00 AM – 5:00 PM",
-      "Tuesday: 10:00 AM – 5:00 PM",
-      "Wednesday: 10:00 AM – 5:00 PM",
-      "Thursday: 10:00 AM – 5:00 PM",
-      "Friday: 10:00 AM – 5:00 PM",
-      "Saturday: 10:00 AM – 5:00 PM",
-      "Sunday: 10:00 AM – 3:00 PM"
+      "Monday: 7:00 AM – 4:00 PM",
+      "Tuesday: 7:00 AM – 4:00 PM",
+      "Wednesday: 7:00 AM – 4:00 PM",
+      "Thursday: 7:00 AM – 4:00 PM",
+      "Friday: 7:00 AM – 4:00 PM",
+      "Saturday: Closed",
+      "Sunday: Closed"
     ],
     "businessStatus": "OPERATIONAL",
     "placeTypes": [

@@ -1,32 +1,19 @@
 // Vercel serverless function: public read-only Google reviews for a directory
-// listing. The processor detail page calls GET /api/reviews?slug=<slug>.
-//
-// Abuse guard: the slug must match a real record in processors.json, so this
-// can't be used as an open proxy for arbitrary Google Places queries on our key.
+// listing. The processor detail page calls
+//   GET /api/reviews?name=<name>&location=<location>[&placeId=<id>]
 //
 // Reviews are fetched live from Google (not stored) to stay within the Places
 // API terms, and the response is edge-cached briefly to control cost.
 //
+// Abuse guard: requests must come from a farmshare.co page (Referer check). The
+// endpoint is read-only and returns only public Google review text.
+//
 // Required env: GOOGLE_GEOCODING_API_KEY (Places API enabled on the same key).
-
-import processorsData from '../src/data/processors.json';
-
-interface ProcessorRecord {
-  slug: string;
-  name: string;
-  location?: string;
-  state?: string;
-  address?: string;
-  zip?: string;
-  placeId?: string;
-}
-
-const PROCESSORS = processorsData as unknown as ProcessorRecord[];
-const BY_SLUG = new Map(PROCESSORS.map((p) => [p.slug, p]));
 
 interface VercelRequest {
   method?: string;
   query?: Record<string, string | string[] | undefined>;
+  headers?: Record<string, string | string[] | undefined>;
 }
 interface VercelResponse {
   status: (code: number) => VercelResponse;
@@ -56,6 +43,20 @@ interface OutReview {
 }
 
 const REVIEW_FIELD_MASK = 'id,rating,userRatingCount,reviews';
+
+function first(v: string | string[] | undefined): string | undefined {
+  return Array.isArray(v) ? v[0] : v;
+}
+
+function allowedReferer(headers: VercelRequest['headers']): boolean {
+  const ref = first(headers?.referer) || first(headers?.origin);
+  if (!ref) return true; // some privacy settings strip Referer — don't hard-block real users
+  try {
+    return new URL(ref).hostname.endsWith('farmshare.co');
+  } catch {
+    return false;
+  }
+}
 
 async function placeDetails(placeId: string, apiKey: string): Promise<RawPlace | null> {
   const res = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`, {
@@ -96,17 +97,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
-
-  const slugRaw = req.query?.slug;
-  const slug = Array.isArray(slugRaw) ? slugRaw[0] : slugRaw;
-  if (!slug) {
-    res.status(400).json({ error: 'slug is required' });
+  if (!allowedReferer(req.headers)) {
+    res.status(403).json({ error: 'Forbidden' });
     return;
   }
 
-  const record = BY_SLUG.get(slug);
-  if (!record) {
-    res.status(404).json({ error: 'Unknown listing' });
+  const name = first(req.query?.name)?.trim();
+  const location = first(req.query?.location)?.trim();
+  const placeId = first(req.query?.placeId)?.trim();
+  if (!name && !placeId) {
+    res.status(400).json({ error: 'name or placeId is required' });
     return;
   }
 
@@ -118,16 +118,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     let place: RawPlace | null = null;
-    if (record.placeId) {
-      place = await placeDetails(record.placeId, apiKey);
+    if (placeId) {
+      place = await placeDetails(placeId, apiKey);
     }
     if (!place) {
-      const query = [record.name, record.location || record.state].filter(Boolean).join(' ');
+      const query = [name, location].filter(Boolean).join(' ');
       place = await placeSearch(query, apiKey);
     }
 
     const reviews = place ? toOutReviews(place) : [];
-    // Edge-cache the live result briefly to control API cost.
+    // Edge-cache the live result to control API cost.
     res.setHeader('Cache-Control', 's-maxage=21600, stale-while-revalidate=86400');
     res.status(200).json({
       rating: place?.rating ?? null,

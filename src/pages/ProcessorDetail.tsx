@@ -42,14 +42,15 @@ function StarRow({ rating }: { rating: number }) {
 
 /** Live Google reviews for a listing, fetched from /api/reviews (edge-cached).
  *  Renders nothing until reviews load, and nothing if there are none. */
-function GoogleReviews({ slug, rating, count }: { slug: string; rating?: number; count?: number }) {
+function GoogleReviews({ name, location, rating, count }: { name: string; location: string; rating?: number; count?: number }) {
   const [reviews, setReviews] = useState<ReviewItem[] | null>(null);
   const [apiRating, setApiRating] = useState<number | null>(rating ?? null);
   const [apiCount, setApiCount] = useState<number | null>(count ?? null);
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/api/reviews?slug=${encodeURIComponent(slug)}`)
+    const qs = `name=${encodeURIComponent(name)}&location=${encodeURIComponent(location)}`;
+    fetch(`/api/reviews?${qs}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((data: { rating: number | null; userRatingCount: number | null; reviews: ReviewItem[] }) => {
         if (cancelled) return;
@@ -59,7 +60,7 @@ function GoogleReviews({ slug, rating, count }: { slug: string; rating?: number;
       })
       .catch(() => { if (!cancelled) setReviews([]); });
     return () => { cancelled = true; };
-  }, [slug]);
+  }, [name, location]);
 
   if (!reviews || reviews.length === 0) return null;
 
@@ -377,7 +378,7 @@ export default function ProcessorDetail() {
               )}
 
               {/* Google reviews (live, edge-cached) */}
-              <GoogleReviews slug={processor.slug} rating={processor.rating} count={processor.userRatingCount} />
+              <GoogleReviews name={processor.name} location={processor.location} rating={processor.rating} count={processor.userRatingCount} />
 
               {isCustomer ? (
                 <>

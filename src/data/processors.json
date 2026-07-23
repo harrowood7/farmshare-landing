@@ -35430,5 +35430,37 @@
       "establishment"
     ],
     "description": "Mineola Packing Company, Inc. is a meat processor in Mineola, TX, rated 4.3 stars across 69 Google reviews. Customers highlight their friendly staff. Common review themes include custom sausage."
+  },
+  {
+    "name": "Ranchita Meat Company",
+    "location": "San Miguel, CA",
+    "state": "CA",
+    "species": [
+      "Beef"
+    ],
+    "logo": null,
+    "slug": "ranchita-meat-company-san-miguel-ca",
+    "status": "prospect",
+    "address": "77908 Cross Country Rd",
+    "zip": "93451",
+    "phone": "(805) 872-6536",
+    "website": "https://www.ranchitameatcompany.com/",
+    "lat": 35.793952,
+    "lng": -120.5896891,
+    "googleMapsUri": "https://maps.google.com/?cid=14698307532197259564&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 5,
+    "userRatingCount": 4,
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "manufacturer",
+      "food_store",
+      "store",
+      "food",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "description": "Ranchita Meat Company is a meat processor in San Miguel, CA, rated 5 stars across 4 Google reviews. Customers highlight their clean facility. Common review themes include custom sausage."
   }
 ]

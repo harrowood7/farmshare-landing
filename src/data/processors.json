@@ -25482,46 +25482,6 @@
     "description": "Winesburg Meats Inc is a meat processor in Winesburg, OH, rated 4.7 stars across 204 Google reviews. Customers highlight their clean facility. Common review themes include custom sausage and smoked meats."
   },
   {
-    "name": "Fairview Custom Meats LLC",
-    "location": "Belle Center, OH",
-    "state": "OH",
-    "species": [
-      "Beef",
-      "Hog"
-    ],
-    "slug": "fairview-custom-meats-llc-belle-center-oh",
-    "status": "prospect",
-    "address": "1810 Township Rd 51 W",
-    "zip": "43310",
-    "phone": "(937) 464-2421",
-    "lat": 40.490957699999996,
-    "lng": -83.73428539999999,
-    "googleMapsUri": "https://maps.google.com/?cid=5759022364495327304&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 4.4,
-    "userRatingCount": 14,
-    "hours": [
-      "Monday: 8:00 AM – 5:00 PM",
-      "Tuesday: 8:00 AM – 5:00 PM",
-      "Wednesday: 8:00 AM – 5:00 PM",
-      "Thursday: 8:00 AM – 5:00 PM",
-      "Friday: 8:00 AM – 5:00 PM",
-      "Saturday: Closed",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "manufacturer",
-      "service",
-      "food_store",
-      "store",
-      "food",
-      "point_of_interest",
-      "establishment"
-    ],
-    "description": "Fairview Custom Meats LLC is a meat processor in Belle Center, OH, rated 4.4 stars across 14 Google reviews. Customers highlight their clean facility. Common review themes include custom sausage, smoked meats, jerky, bacon, and wild game processing."
-  },
-  {
     "name": "North Baltimore Custom Cuts",
     "location": "North Baltimore, OH",
     "state": "OH",

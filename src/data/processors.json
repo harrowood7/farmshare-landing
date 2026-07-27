@@ -35462,5 +35462,46 @@
       "establishment"
     ],
     "description": "Chico Locker & Sausage Co Inc is a meat processor in Chico, CA, rated 4.8 stars across 488 Google reviews. Customers highlight their friendly staff. Common review themes include smoked meats and bacon."
+  },
+  {
+    "name": "Farmhouse Butcher Shop",
+    "location": "Etna, CA",
+    "state": "CA",
+    "species": [
+      "Beef",
+      "Goat",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "farmhouse-butcher-shop-etna-ca",
+    "status": "prospect",
+    "address": "449 Main St",
+    "zip": "96027",
+    "phone": "(530) 467-3006",
+    "website": "https://www.farmhousebutchershop.org/",
+    "lat": 41.45633410000001,
+    "lng": -122.89419729999999,
+    "googleMapsUri": "https://maps.google.com/?cid=5002589556075923710&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.7,
+    "userRatingCount": 9,
+    "hours": [
+      "Monday: 10:00 AM – 6:00 PM",
+      "Tuesday: 10:00 AM – 6:00 PM",
+      "Wednesday: 10:00 AM – 6:00 PM",
+      "Thursday: 10:00 AM – 6:00 PM",
+      "Friday: 10:00 AM – 6:00 PM",
+      "Saturday: 10:00 AM – 6:00 PM",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "food_store",
+      "store",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "description": "Farmhouse Butcher Shop is a meat processor in Etna, CA, rated 4.7 stars across 9 Google reviews. Customers highlight their friendly staff and quick turnaround."
   }
 ]

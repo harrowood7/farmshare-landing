@@ -35503,5 +35503,48 @@
       "establishment"
     ],
     "description": "Farmhouse Butcher Shop is a meat processor in Etna, CA, rated 4.7 stars across 9 Google reviews. Customers highlight their friendly staff and quick turnaround."
+  },
+  {
+    "name": "Bowman Meat Co",
+    "location": "Cottonwood, CA",
+    "state": "CA",
+    "species": [
+      "Beef",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "bowman-meat-co-cottonwood-ca",
+    "status": "prospect",
+    "address": "19605 Bowman Rd",
+    "zip": "96022",
+    "phone": "(530) 347-4463",
+    "website": "https://www.facebook.com/profile.php?id=100054249380576",
+    "lat": 40.359777,
+    "lng": -122.30828699999999,
+    "googleMapsUri": "https://maps.google.com/?cid=16542175130786484392&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 5,
+    "userRatingCount": 22,
+    "hours": [
+      "Monday: 8:00 AM – 5:00 PM",
+      "Tuesday: 8:00 AM – 5:00 PM",
+      "Wednesday: 8:00 AM – 4:00 PM",
+      "Thursday: 8:00 AM – 5:00 PM",
+      "Friday: 8:00 AM – 5:00 PM",
+      "Saturday: 8:00 AM – 12:00 PM",
+      "Sunday: 9:00 – 11:00 AM"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "manufacturer",
+      "food_store",
+      "food",
+      "point_of_interest",
+      "store",
+      "service",
+      "establishment"
+    ],
+    "description": "Bowman Meat Co is a meat processor in Cottonwood, CA, rated 5 stars across 22 Google reviews. Customers highlight their quick turnaround and clean facility. Common review themes include smoked meats and jerky. Mobile Slaughter."
   }
 ]

@@ -35546,5 +35546,52 @@
       "establishment"
     ],
     "description": "Bowman Meat Co is a meat processor in Cottonwood, CA, rated 5 stars across 22 Google reviews. Customers highlight their quick turnaround and clean facility. Common review themes include smoked meats and jerky. Mobile Slaughter."
+  },
+  {
+    "name": "A & R Custom Butchering Retail Meats and Deli",
+    "location": "Red Bluff, CA",
+    "state": "CA",
+    "species": [
+      "Beef",
+      "Goat",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "a-r-custom-butchering-retail-meats-and-deli-red-bluff-ca",
+    "status": "prospect",
+    "address": "1055 Main St",
+    "zip": "96080",
+    "phone": "(530) 527-6483",
+    "website": "http://arcustombutchering.com/",
+    "lat": 40.1807425,
+    "lng": -122.23804050000001,
+    "googleMapsUri": "https://maps.google.com/?cid=15898508445726587908&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.7,
+    "userRatingCount": 304,
+    "hours": [
+      "Monday: 9:00 AM – 6:00 PM",
+      "Tuesday: 9:00 AM – 6:00 PM",
+      "Wednesday: 9:00 AM – 6:00 PM",
+      "Thursday: 9:00 AM – 6:00 PM",
+      "Friday: 9:00 AM – 6:00 PM",
+      "Saturday: 9:00 AM – 6:00 PM",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "deli",
+      "grocery_store",
+      "food_store",
+      "manufacturer",
+      "store",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "description": "Mobile Slaughter Capable"
   }
 ]

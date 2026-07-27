@@ -35423,5 +35423,44 @@
       "establishment"
     ],
     "description": "Ranchita Meat Company is a meat processor in San Miguel, CA, rated 5 stars across 4 Google reviews. Customers highlight their clean facility. Common review themes include custom sausage."
+  },
+  {
+    "name": "Chico Locker & Sausage Co Inc",
+    "location": "Chico, CA",
+    "state": "CA",
+    "species": [
+      "Beef",
+      "Hog"
+    ],
+    "logo": "/logos/chico-locker-sausage-co-inc-chico-ca.png",
+    "slug": "chico-locker-sausage-co-inc-chico-ca",
+    "status": "prospect",
+    "address": "196 E 14th St",
+    "zip": "95928",
+    "phone": "(530) 343-7370",
+    "website": "http://chicolockersausage.com/",
+    "lat": 39.7232941,
+    "lng": -121.82894569999999,
+    "googleMapsUri": "https://maps.google.com/?cid=17636779580474707709&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.8,
+    "userRatingCount": 488,
+    "hours": [
+      "Monday: 9:00 AM – 5:30 PM",
+      "Tuesday: 9:00 AM – 5:30 PM",
+      "Wednesday: 9:00 AM – 5:30 PM",
+      "Thursday: 9:00 AM – 5:30 PM",
+      "Friday: 9:00 AM – 5:30 PM",
+      "Saturday: 9:00 AM – 4:00 PM",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "food_store",
+      "store",
+      "point_of_interest",
+      "food",
+      "establishment"
+    ],
+    "description": "Chico Locker & Sausage Co Inc is a meat processor in Chico, CA, rated 4.8 stars across 488 Google reviews. Customers highlight their friendly staff. Common review themes include smoked meats and bacon."
   }
 ]

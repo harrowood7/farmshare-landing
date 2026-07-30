@@ -10140,11 +10140,13 @@
     "state": "WV",
     "species": [
       "Beef",
-      "Hog"
+      "Hog",
+      "Goat",
+      "Lamb"
     ],
     "logo": "https://renickvalley.com/wp-content/uploads/2025/03/Logo-original-renick.png",
     "slug": "renick-valley-meats-renick-wv",
-    "status": "prospect",
+    "status": "customer",
     "address": "1340 Old Renick Valley Rd",
     "zip": "24966",
     "website": "countrysidemeatwv.com",
@@ -10174,7 +10176,8 @@
       "point_of_interest",
       "service",
       "establishment"
-    ]
+    ],
+    "partnerSlug": "renick-valley-meats-renick-wv"
   },
   {
     "name": "Resaca Meat Processing",

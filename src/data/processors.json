@@ -11243,7 +11243,7 @@
     ],
     "logo": "https://sorgsmeats.com/wp-content/uploads/2024/06/cropped-favicon-180x180.png",
     "slug": "sorgs-darien-wi",
-    "status": "prospect",
+    "status": "customer",
     "address": "N4290 US-14",
     "zip": "53114",
     "phone": "(262) 724-5554",
@@ -11276,7 +11276,8 @@
       "food",
       "point_of_interest",
       "establishment"
-    ]
+    ],
+    "partnerSlug": "sorgs-darien-wi"
   },
   {
     "name": "South Canadian Meats, LLC",

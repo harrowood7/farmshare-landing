@@ -35679,5 +35679,46 @@
       "establishment"
     ],
     "description": "Farm Country Butchery is a meat processor in Conrath, WI, rated 4.7 stars across 19 Google reviews. Customers highlight their friendly staff."
+  },
+  {
+    "name": "Contentnea Farms",
+    "location": "Walstonburg, NC",
+    "state": "NC",
+    "species": [
+      "Beef",
+      "Goat",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "contentnea-farms-walstonburg-nc",
+    "status": "prospect",
+    "address": "737 Beaman Farm Rd",
+    "zip": "27888",
+    "phone": "(252) 606-4638",
+    "website": "https://contentneafarms.com/",
+    "lat": 35.5624135,
+    "lng": -77.7195697,
+    "googleMapsUri": "https://maps.google.com/?cid=13249113446034412949&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 5,
+    "userRatingCount": 49,
+    "hours": [
+      "Monday: 7:00 AM – 5:00 PM",
+      "Tuesday: 7:00 AM – 5:00 PM",
+      "Wednesday: 7:00 AM – 5:00 PM",
+      "Thursday: 7:00 AM – 5:00 PM",
+      "Friday: 7:00 AM – 5:00 PM",
+      "Saturday: 9:00 AM – 5:00 PM",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "food_store",
+      "store",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "description": "Contentnea Farms is a meat processor in Walstonburg, NC, rated 5 stars across 49 Google reviews. Customers highlight their friendly staff, knowledgeable staff, and clean facility. Common review themes include smoked meats, bacon, and custom cuts."
   }
 ]

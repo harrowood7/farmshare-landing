@@ -35593,5 +35593,49 @@
       "establishment"
     ],
     "description": "Mobile Slaughter Capable"
+  },
+  {
+    "name": "Mema's meats LLC.",
+    "location": "Berthold, ND",
+    "state": "ND",
+    "species": [
+      "Beef",
+      "Bison",
+      "Hog",
+      "Lamb",
+      "Goat"
+    ],
+    "logo": null,
+    "slug": "mema-s-meats-llc-berthold-nd",
+    "status": "prospect",
+    "address": "28525 86th Ave NW",
+    "zip": "58718",
+    "phone": "(701) 453-3401",
+    "lat": 48.325859,
+    "lng": -101.73240659999999,
+    "googleMapsUri": "https://maps.google.com/?cid=2481507815936744546&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.8,
+    "userRatingCount": 41,
+    "hours": [
+      "Monday: 8:00 AM – 6:00 PM",
+      "Tuesday: 8:00 AM – 6:00 PM",
+      "Wednesday: 8:00 AM – 6:00 PM",
+      "Thursday: 8:00 AM – 6:00 PM",
+      "Friday: 8:00 AM – 4:00 PM",
+      "Saturday: 9:00 AM – 1:00 PM",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "manufacturer",
+      "food_store",
+      "store",
+      "food",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "description": "Mema's meats LLC. is a meat processor in Berthold, ND, rated 4.8 stars across 41 Google reviews. Customers highlight their friendly staff and clean facility. Common review themes include custom sausage, jerky, and bacon."
   }
 ]

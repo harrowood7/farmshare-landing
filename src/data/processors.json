@@ -35723,5 +35723,48 @@
       "establishment"
     ],
     "description": "Contentnea Farms is a meat processor in Walstonburg, NC, rated 5 stars across 49 Google reviews. Customers highlight their friendly staff, knowledgeable staff, and clean facility. Common review themes include smoked meats, bacon, and custom cuts."
+  },
+  {
+    "name": "Pete's Custom Meats LLC",
+    "location": "Salmon, ID",
+    "state": "ID",
+    "species": [
+      "Beef",
+      "Goat",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "pete-s-custom-meats-llc-salmon-id",
+    "status": "prospect",
+    "address": "107 S Vasil St",
+    "zip": "83467",
+    "phone": "(208) 756-3746",
+    "lat": 45.1699102,
+    "lng": -113.88103939999999,
+    "googleMapsUri": "https://maps.google.com/?cid=16435634551021490608&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.7,
+    "userRatingCount": 30,
+    "hours": [
+      "Monday: 8:00 AM – 4:00 PM",
+      "Tuesday: 8:00 AM – 4:00 PM",
+      "Wednesday: 8:00 AM – 4:00 PM",
+      "Thursday: 8:00 AM – 4:00 PM",
+      "Friday: 8:00 AM – 4:00 PM",
+      "Saturday: Closed",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "food_store",
+      "store",
+      "manufacturer",
+      "service",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "description": "Pete's Custom Meats LLC is a meat processor in Salmon, ID, rated 4.7 stars across 30 Google reviews. Customers highlight their friendly staff, quick turnaround, and professional service. Common review themes include custom sausage and jerky."
   }
 ]

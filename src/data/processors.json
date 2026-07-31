@@ -10859,7 +10859,7 @@
     ],
     "logo": "https://shalespringmeats.com/wp-content/uploads/2025/04/ShaleSpringMeatsLogoFinal-e1744056915864.png",
     "slug": "shale-spring-meats-ex-caver-meats-clyde-ny",
-    "status": "prospect",
+    "status": "customer",
     "address": "10647 Kelsey Road West",
     "zip": "14433",
     "phone": "(315) 923-2040",
@@ -10886,7 +10886,8 @@
       "point_of_interest",
       "store",
       "establishment"
-    ]
+    ],
+    "partnerSlug": "shale-spring-meats-ex-caver-meats-clyde-ny"
   },
   {
     "name": "Sharp Custom Cutting Inc",

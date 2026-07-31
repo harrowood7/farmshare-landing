@@ -35810,5 +35810,37 @@
       "establishment"
     ],
     "description": "MD Meats is a meat processor in Bliss, ID, rated 5 stars across 17 Google reviews. Customers highlight their quick turnaround and family-owned operation. Common review themes include wild game processing."
+  },
+  {
+    "name": "Vermont Livestock Slaughter",
+    "location": "Ferrisburgh, VT",
+    "state": "VT",
+    "species": [
+      "Beef",
+      "Goat",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": "/logos/vermont-livestock-slaughter-ferrisburgh-vt.jpg",
+    "slug": "vermont-livestock-slaughter-ferrisburgh-vt",
+    "status": "prospect",
+    "address": "76 Depot Rd",
+    "zip": "05456",
+    "phone": "(802) 877-3421",
+    "website": "http://www.vermontmeat.com/",
+    "lat": 44.2059451,
+    "lng": -73.2521931,
+    "googleMapsUri": "https://maps.google.com/?cid=8110188365103015365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.7,
+    "userRatingCount": 12,
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "food_store",
+      "store",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "description": "Vermont Livestock Slaughter & Processing is a family-owned business whose goal is to provide our customers with the best quality and service possible. Our USDA-inspected facility is equipped to butcher and process beef, lamb and pork according to your specifications.\n\nWhether you are a private individual with a few head each year or a commercial producer who requires multiple animals processed on a regular basis, our professional and experienced staff are dedicated to giving each of you the personal attention you deserve. And we are conveniently located just off of Route 7 in Ferrisburgh.\n\nPrivate labeling is now available as part of Vermont Livestock S & P services, so let us help you bring your federally inspected meat directly to market with your own custom label for resale."
   }
 ]

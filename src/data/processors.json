@@ -2496,7 +2496,7 @@
     ],
     "logo": "https://countrymeatid.com/wp-content/uploads/2024/08/Group-1.svg",
     "slug": "country-meats-cataldo-id",
-    "status": "prospect",
+    "status": "customer",
     "address": "18500 S Old Lane Rd  Cataldo",
     "zip": "83810",
     "website": "countrymeatsid.com",
@@ -2526,7 +2526,8 @@
       "point_of_interest",
       "service",
       "establishment"
-    ]
+    ],
+    "partnerSlug": "country-meats-cataldo-id"
   },
   {
     "name": "Country Village Meats",

@@ -1673,7 +1673,7 @@
     ],
     "logo": "https://scontent-den2-1.xx.fbcdn.net/v/t39.30808-1/649078599_1488706726591449_7993675599304778428_n.jpg?stp=dst-jpg_tt6&cstp=mx960x960&ctp=s720x720&_nc_cat=103&ccb=1-7&_nc_sid=3ab345&_nc_ohc=KUuAUd8BaacQ7kNvwGXckTA&_nc_oc=Adp3VSSWDoP8jvkYZ9wkLI_yhi1delN36Ye4GHCfjzCmhUG9dL_wnajTziZBd3fGgso&_nc_zt=24&_nc_ht=scontent-den2-1.xx&_nc_gid=4q3s7JhjxS2dlXvq2W_6zA&oh=00_Af16YJYi-LC-x9VMeraN9qM2GeshYG_mTZTbastXaZ1XVg&oe=69F0CB42",
     "slug": "cj-meats-minerva-oh",
-    "status": "prospect",
+    "status": "customer",
     "address": "25670 Mountz Rd",
     "zip": "44657",
     "phone": "(330) 525-7702",
@@ -1703,7 +1703,8 @@
       "service",
       "point_of_interest",
       "establishment"
-    ]
+    ],
+    "partnerSlug": "cj-meats-minerva-oh"
   },
   {
     "name": "Southern Cuts Processing & Meat Market",

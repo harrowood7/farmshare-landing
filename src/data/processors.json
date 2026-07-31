@@ -35653,7 +35653,7 @@
     ],
     "logo": null,
     "slug": "contentnea-farms-walstonburg-nc",
-    "status": "prospect",
+    "status": "customer",
     "address": "737 Beaman Farm Rd",
     "zip": "27888",
     "phone": "(252) 606-4638",
@@ -35680,7 +35680,8 @@
       "point_of_interest",
       "establishment"
     ],
-    "description": "Contentnea Farms is a meat processor in Walstonburg, NC, rated 5 stars across 49 Google reviews. Customers highlight their friendly staff, knowledgeable staff, and clean facility. Common review themes include smoked meats, bacon, and custom cuts."
+    "description": "Contentnea Farms is a meat processor in Walstonburg, NC, rated 5 stars across 49 Google reviews. Customers highlight their friendly staff, knowledgeable staff, and clean facility. Common review themes include smoked meats, bacon, and custom cuts.",
+    "partnerSlug": "contentnea-farms-walstonburg-nc"
   },
   {
     "name": "Pete's Custom Meats LLC",

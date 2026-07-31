@@ -11291,7 +11291,7 @@
     ],
     "logo": "https://du9m0k402rjmo.cloudfront.net/images/P_15236/032e84dc-a7e3-4ae0-b54b-5dc0cdf3f594.jpg",
     "slug": "southside-meats-avon-sd",
-    "status": "prospect",
+    "status": "customer",
     "address": "104 N Main St",
     "zip": "57315",
     "phone": "+16052863427",
@@ -11323,7 +11323,8 @@
       "point_of_interest",
       "service",
       "establishment"
-    ]
+    ],
+    "partnerSlug": "southside-meats-avon-sd"
   },
   {
     "name": "Spruce Hill Meats LLC",

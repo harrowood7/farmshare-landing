@@ -13956,7 +13956,10 @@
     "location": "Winslow, AR",
     "state": "AR",
     "species": [
-      "Beef"
+      "Beef",
+      "Goat",
+      "Hog",
+      "Lamb"
     ],
     "slug": "b-and-r-meat-processing-winslow-ar",
     "status": "customer",

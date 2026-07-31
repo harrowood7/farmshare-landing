@@ -35724,5 +35724,49 @@
       "establishment"
     ],
     "description": "Pete's Custom Meats LLC is a meat processor in Salmon, ID, rated 4.7 stars across 30 Google reviews. Customers highlight their friendly staff, quick turnaround, and professional service. Common review themes include custom sausage and jerky."
+  },
+  {
+    "name": "Smokey Ridge Meats",
+    "location": "Chewelah, WA",
+    "state": "WA",
+    "species": [
+      "Beef",
+      "Goat",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "smokey-ridge-meats-chewelah-wa",
+    "status": "prospect",
+    "address": "2450 Heine Rd",
+    "zip": "99109",
+    "phone": "(509) 935-6213",
+    "website": "http://www.smokeyridgewa.com/",
+    "lat": 48.247469099999996,
+    "lng": -117.73811349999998,
+    "googleMapsUri": "https://maps.google.com/?cid=3208016491155698389&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.2,
+    "userRatingCount": 39,
+    "hours": [
+      "Monday: 10:00 AM – 4:00 PM",
+      "Tuesday: 10:00 AM – 4:00 PM",
+      "Wednesday: 10:00 AM – 4:00 PM",
+      "Thursday: 10:00 AM – 4:00 PM",
+      "Friday: 10:00 AM – 2:00 PM",
+      "Saturday: Closed",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "food_store",
+      "store",
+      "manufacturer",
+      "service",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "description": "Smokey Ridge Meats is a meat processor in Chewelah, WA, rated 4.2 stars across 39 Google reviews. Common review themes include bacon."
   }
 ]

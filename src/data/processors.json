@@ -35617,9 +35617,9 @@
       "Hog",
       "Lamb"
     ],
-    "logo": null,
+    "logo": "/logos/farm-country-butchery-conrath-wi.webp",
     "slug": "farm-country-butchery-conrath-wi",
-    "status": "prospect",
+    "status": "customer",
     "address": "N2559 Market Rd",
     "zip": "54731",
     "phone": "(715) 532-5063",
@@ -35646,7 +35646,8 @@
       "point_of_interest",
       "establishment"
     ],
-    "description": "Farm Country Butchery is a meat processor in Conrath, WI, rated 4.7 stars across 19 Google reviews. Customers highlight their friendly staff."
+    "description": "Farm Country Butchery is a meat processor in Conrath, WI, rated 4.7 stars across 19 Google reviews. Customers highlight their friendly staff.",
+    "partnerSlug": "farm-country-butchery-conrath-wi"
   },
   {
     "name": "Contentnea Farms",

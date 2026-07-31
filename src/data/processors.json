@@ -10482,51 +10482,6 @@
     ]
   },
   {
-    "name": "Royal Butcher",
-    "location": "Braintree, VT",
-    "state": "VT",
-    "species": [
-      "Beef",
-      "Goat",
-      "Hog",
-      "Lamb"
-    ],
-    "logo": "/logos/royal-butcher.png",
-    "slug": "royal-butcher-braintree-vt",
-    "status": "customer",
-    "address": "882 VT Route 12A",
-    "zip": "5060",
-    "phone": "(802) 728-9901",
-    "website": "http://www.royalbutcher.com",
-    "description": "USDA-inspected and Animal Welfare Approved slaughterhouse and meat processor established in 2003, serving approximately 300 Vermont and New Hampshire farms.",
-    "lat": 43.9316401,
-    "lng": -72.6886167,
-    "partnerSlug": "royal-butcher-braintree-vt",
-    "googleMapsUri": "https://maps.google.com/?cid=6691039891730499408&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-    "rating": 5,
-    "userRatingCount": 7,
-    "hours": [
-      "Monday: 7:30 AM – 4:00 PM",
-      "Tuesday: 7:30 AM – 4:00 PM",
-      "Wednesday: 7:30 AM – 4:00 PM",
-      "Thursday: 7:30 AM – 4:00 PM",
-      "Friday: 7:30 AM – 4:00 PM",
-      "Saturday: Closed",
-      "Sunday: Closed"
-    ],
-    "businessStatus": "OPERATIONAL",
-    "placeTypes": [
-      "butcher_shop",
-      "food_store",
-      "manufacturer",
-      "store",
-      "service",
-      "food",
-      "point_of_interest",
-      "establishment"
-    ]
-  },
-  {
     "name": "Russell's Custom Meats",
     "location": "Canyon City, OR",
     "state": "OR",

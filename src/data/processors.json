@@ -35789,7 +35789,7 @@
     ],
     "logo": "/logos/md-meats-bliss-id.jpg",
     "slug": "md-meats-bliss-id",
-    "status": "prospect",
+    "status": "customer",
     "address": "812 US-26",
     "zip": "83314",
     "phone": "(208) 358-5109",
@@ -35809,7 +35809,8 @@
       "point_of_interest",
       "establishment"
     ],
-    "description": "MD Meats is a meat processor in Bliss, ID, rated 5 stars across 17 Google reviews. Customers highlight their quick turnaround and family-owned operation. Common review themes include wild game processing."
+    "description": "MD Meats is a meat processor in Bliss, ID, rated 5 stars across 17 Google reviews. Customers highlight their quick turnaround and family-owned operation. Common review themes include wild game processing.",
+    "partnerSlug": "md-meats-bliss-id"
   },
   {
     "name": "Vermont Livestock Slaughter",

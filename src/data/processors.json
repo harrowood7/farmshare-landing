@@ -35775,5 +35775,37 @@
     ],
     "description": "Smokey Ridge Meats is a meat processor in Chewelah, WA, rated 4.2 stars across 39 Google reviews. Common review themes include bacon.",
     "partnerSlug": "smokey-ridge-meats-chewelah-wa"
+  },
+  {
+    "name": "MD Meats",
+    "location": "Bliss, ID",
+    "state": "ID",
+    "species": [
+      "Beef",
+      "Hog"
+    ],
+    "logo": "/logos/md-meats-bliss-id.jpg",
+    "slug": "md-meats-bliss-id",
+    "status": "prospect",
+    "address": "812 US-26",
+    "zip": "83314",
+    "phone": "(208) 358-5109",
+    "lat": 42.92442,
+    "lng": -114.92923250000001,
+    "googleMapsUri": "https://maps.google.com/?cid=9218642207002572387&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 5,
+    "userRatingCount": 17,
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "food_store",
+      "store",
+      "manufacturer",
+      "service",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "description": "MD Meats is a meat processor in Bliss, ID, rated 5 stars across 17 Google reviews. Customers highlight their quick turnaround and family-owned operation. Common review themes include wild game processing."
   }
 ]

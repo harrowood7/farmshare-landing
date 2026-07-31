@@ -35738,7 +35738,7 @@
     ],
     "logo": null,
     "slug": "smokey-ridge-meats-chewelah-wa",
-    "status": "prospect",
+    "status": "customer",
     "address": "2450 Heine Rd",
     "zip": "99109",
     "phone": "(509) 935-6213",
@@ -35768,6 +35768,7 @@
       "point_of_interest",
       "establishment"
     ],
-    "description": "Smokey Ridge Meats is a meat processor in Chewelah, WA, rated 4.2 stars across 39 Google reviews. Common review themes include bacon."
+    "description": "Smokey Ridge Meats is a meat processor in Chewelah, WA, rated 4.2 stars across 39 Google reviews. Common review themes include bacon.",
+    "partnerSlug": "smokey-ridge-meats-chewelah-wa"
   }
 ]

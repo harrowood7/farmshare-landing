@@ -35843,5 +35843,50 @@
       "establishment"
     ],
     "description": "Vermont Livestock Slaughter & Processing is a family-owned business whose goal is to provide our customers with the best quality and service possible. Our USDA-inspected facility is equipped to butcher and process beef, lamb and pork according to your specifications.\n\nWhether you are a private individual with a few head each year or a commercial producer who requires multiple animals processed on a regular basis, our professional and experienced staff are dedicated to giving each of you the personal attention you deserve. And we are conveniently located just off of Route 7 in Ferrisburgh.\n\nPrivate labeling is now available as part of Vermont Livestock S & P services, so let us help you bring your federally inspected meat directly to market with your own custom label for resale."
+  },
+  {
+    "name": "Lone Crow Ranch",
+    "location": "Loon Lake, WA",
+    "state": "WA",
+    "species": [
+      "Beef",
+      "Goat",
+      "Hog",
+      "Lamb"
+    ],
+    "logo": null,
+    "slug": "lone-crow-ranch-loon-lake-wa",
+    "status": "prospect",
+    "address": "3940 Gardenspot Rd",
+    "zip": "99148",
+    "phone": "(509) 710-0374",
+    "website": "http://www.lonecrowranch.com/",
+    "lat": 48.06009280000001,
+    "lng": -117.6193646,
+    "googleMapsUri": "https://maps.google.com/?cid=5039779280815525996&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+    "rating": 4.9,
+    "userRatingCount": 76,
+    "hours": [
+      "Monday: Closed",
+      "Tuesday: 12:00 – 5:00 PM",
+      "Wednesday: Closed",
+      "Thursday: 12:00 – 5:00 PM",
+      "Friday: 12:00 – 5:00 PM",
+      "Saturday: 10:00 AM – 4:00 PM",
+      "Sunday: Closed"
+    ],
+    "businessStatus": "OPERATIONAL",
+    "placeTypes": [
+      "butcher_shop",
+      "manufacturer",
+      "food_store",
+      "service",
+      "wholesaler",
+      "store",
+      "point_of_interest",
+      "food",
+      "establishment"
+    ],
+    "description": "Lone Crow Ranch is a meat processor in Loon Lake, WA, rated 4.9 stars across 76 Google reviews. Customers highlight their friendly staff and professional service."
   }
 ]
